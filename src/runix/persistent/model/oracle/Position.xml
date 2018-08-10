@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Position">
+	<typeAlias alias="position" type="runix.persistent.model.Position"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="position" class="position"> 
+		<result property="positionId" column="POSITION_ID"/>
+		<result property="postname" column="POSTNAME"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="screen" column="SCREEN"/>
+		<result property="rolerank" column="ROLERANK"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 获取所有的部门 -->
+	<select id="getAllPositions" resultMap="position">
+		select * from position
+	</select>
+	<select id="queryPositions" parameterClass="map"  resultMap="position">
+		select * from position
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="positionId">
+					POSITION_ID like #positionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="postname">
+					POSTNAME like #postname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="category">
+					CATEGORY like #category#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="description">
+					DESCRIPTION like #description#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="screen">
+					SCREEN like #screen#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="rolerank">
+					ROLERANK like #rolerank#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<select id="queryCountPositions" parameterClass="map"  resultClass="int">
+		select count(*) from position
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="positionId">
+					POSITION_ID like #positionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="postname">
+					POSTNAME like #postname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="category">
+					CATEGORY like #category#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="description">
+					DESCRIPTION like #description#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="screen">
+					SCREEN like #screen#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="rolerank">
+					ROLERANK like #rolerank#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryPositionById" parameterClass="string"  resultMap="position">
+		select * from position where POSITION_ID = #value#
+	</select>
+	
+	<!-- 重名验证 -->
+	<select id="queryPositionByName" parameterClass="string"  resultMap="position">
+		select * from position where POSTNAME = #value#
+	</select>
+	
+	<delete id="execDeletePositionById" parameterClass="string">
+		 delete from position where POSITION_ID = #positionId#
+	</delete>
+
+	<insert id="execInsertPosition" parameterClass="position">
+		<selectKey resultClass="string" keyProperty="positionId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into position(
+			POSITION_ID,POSTNAME,
+			CATEGORY,DESCRIPTION,
+			SCREEN,ROLERANK,
+			FLAG
+		) values(
+			#positionId#,#postname#,
+			#category#,#description#,
+			#screen#,#rolerank#,
+			#flag#
+		)
+	</insert>
+
+	<update id="execUpdatePosition" parameterClass="position">
+		update position set
+			POSTNAME=#postname#,
+			CATEGORY=#category#,
+			DESCRIPTION=#description#,
+			SCREEN=#screen#,
+			ROLERANK=#rolerank#,
+			FLAG=#flag#
+		where POSITION_ID = #positionId#
+	</update>
+	
+	<!-- ycr 2013-11-27 查询所有职位 -->
+	<select id="queryAllPositions" resultMap="position">
+		select * from position 
+	</select>
+	
+	<!-- 修改重名验证 -->     
+	<select id="queryPositionCheckName" parameterClass="position"  resultMap="position">
+		select * from position where POSTNAME=#postname# and POSITION_ID &lt;&gt; #positionId#
+	</select>
+</sqlMap>

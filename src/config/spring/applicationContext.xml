@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+           
+  <!-- 指定配置文件 -->
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="locations">
+	  <list>	
+		<value>classpath:config/datasource.properties</value>
+	  </list>
+	</property>
+  </bean>
+  <!-- JNDI数据源 Weblogic -->
+  <!--    
+  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName">
+      <value>basedb</value>
+    </property>
+    <property name="resourceRef"> 
+	  <value>false</value> 
+	</property>
+    <property name="jndiEnvironment"> 
+      <props> 
+		<prop key="java.naming.provider.url">t3://localhost:7001</prop> 
+		<prop key="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory</prop> 
+	  </props> 
+	</property> 
+  </bean>
+  -->
+  <!-- JDBC数据源 -->
+  <!--  
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName">
+      <value>org.logicalcobwebs.proxool.ProxoolDriver</value>
+    </property>
+    <property name="url">
+      <value>proxool.basedb</value>
+    </property>
+  </bean>
+  -->
+  <!-- c3p0连接池 
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+  	<property name="driverClass" value="${jdbc.driver}"/>
+    <property name="jdbcUrl" value="${jdbc.url}"/>
+    <property name="properties">
+	  <props>
+		<prop key="c3p0.acquire_increment">2</prop>
+		<prop key="c3p0.idle_test_period">200</prop>
+		<prop key="c3p0.timeout">1000</prop>
+		<prop key="c3p0.max_size">100</prop>
+		<prop key="hibernate.c3p0.max_statements">100</prop>
+		<prop key="hibernate.c3p0.min_size">20</prop>
+		<prop key="user">${jdbc.user}</prop> 
+		<prop key="password">${jdbc.password}</prop>
+	  </props>
+	</property>
+  </bean>
+  -->
+  <!-- proxool连接池 -->
+    
+  <bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource" destroy-method="close">
+  	<property name="driver" value="${jdbc.driver}"/>
+    <property name="driverUrl" value="${jdbc.url}"/>
+    <property name="user" value="${jdbc.user}" />
+    <property name="password" value="${jdbc.password}" />
+    <property name="alias" value="basedb" />
+    <property name="maximumActiveTime" value="300000"/>  
+    <property name="prototypeCount" value="2"/> 
+    <property name="maximumConnectionCount" value="100"/>  
+    <property name="minimumConnectionCount" value="10"/>  
+    <property name="simultaneousBuildThrottle" value="50"/>  
+ <!--   <property name="houseKeepingTestSql" value="select CURRENT_DATE"/>   -->
+  </bean>
+  
+ 
+  <!-- 事务管理器 -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource"><ref local="dataSource"/></property>
+  </bean>
+  <!-- 事务是针对service层的方法的,例如在serivce层中有方法对数据库进行了两次插入操作，第一次应该是可以插入数据库的，第二次是有错误的，那么如果在service设置的事务，此二次插入都是不成功的，这就是spring管理了事务 -->
+  <bean id="txProxyTemplate" abstract="true"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+	<property name="transactionManager" ref="transactionManager"/>
+    <property name="transactionAttributes">
+      <props>    	
+    	<prop key="save*">PROPAGATION_REQUIRED</prop>
+    	<prop key="insert*">PROPAGATION_REQUIRED</prop>
+    	<prop key="update*">PROPAGATION_REQUIRED</prop>
+    	<prop key="modify*">PROPAGATION_REQUIRED</prop>
+    	<prop key="delete*">PROPAGATION_REQUIRED</prop>	
+    	<prop key="remove*">PROPAGATION_REQUIRED</prop>
+        <prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <!-- ibatis使用 -->
+  <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+	<property name="dataSource">
+	  <ref bean="dataSource" />
+	</property>
+	<property name="configLocations">
+	  <list>
+	  	<value>classpath:config/ibatis/ibatis-runix.xml</value>
+	  </list>
+	</property>
+	<!-- 自动加载sql-mapping文件 -->
+	<!--  
+    <property name="mappingLocations"> 
+      <list> 
+      	<value>classpath:/base/persistent/model/oracle/**/*.xml</value>
+      	<value>classpath:/agent/persistent/model/**/*.xml</value>
+      </list>
+    </property>
+    -->
+  </bean>
+  <!-- 为了ibatis实现物理分页，自定义的sql执行器，需要实现不同数据库的方言 -->
+  <bean id="sqlExecutor" class="kdf.persistent.ibatis.LimitSqlExecutor">  
+  	<property name="dialect">  
+      <!-- <bean class="kdf.persistent.ibatis.dialect.MySQLDialect" /> -->  
+      <bean class="kdf.persistent.ibatis.dialect.Oracle9iDialect" /> 
+    </property>  
+  </bean>
+  <!-- DAO基类，为了实现物理分页，在初始化方法里注入sqlExecutor -->
+  <bean id="baseDAO" abstract="true" class="kdf.persistent.dao.BaseDAO" init-method="initialize">  
+    <property name="sqlMapClient">  
+      <ref bean="sqlMapClient" />  
+    </property>  
+    <property name="sqlExecutor">  
+      <ref bean="sqlExecutor" />  
+    </property>    
+  </bean>
+  
+  <!-- 公共数据库操作类 -->
+  <bean id="commonDAO" class="kdf.persistent.impl.CommonDAOImpl"/>
+  <bean id="commonDAOSpring" class="kdf.persistent.impl.CommonDAOSpring">
+    <property name="dataSource">
+      <ref bean="dataSource"/>
+    </property>
+  </bean>
+  
+  <!-- 公共业务操作类 -->  
+  <bean id="commonService" parent="txProxyTemplate">
+	<property name="target">
+      <bean class="kdf.service.impl.CommonServiceImpl" autowire="byName">
+        <property name="commonDAOSpring" ref="commonDAOSpring"/>
+        <property name="commonDAO" ref="commonDAO"/>
+      </bean>
+    </property>
+  </bean>
+</beans>

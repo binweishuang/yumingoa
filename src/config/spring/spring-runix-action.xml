@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns ="http://www.springframework.org/schema/beans"  
+	xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance"  
+	xsi:schemaLocation ="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id ="answerAction" class="runix.web.actions.AnswerAction" autowire="byName" scope="prototype">
+		<property name="answerService" ref="answerService"/>
+	</bean>
+	<!-- 值班信息 -->
+	<bean id ="dutyMessageAction" class="runix.web.actions.DutyMessageAction" autowire="byName" scope="prototype">
+		<property name="dutyMessageService" ref="dutyMessageService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+
+	<bean id ="matterAction" class="runix.web.actions.MatterAction" autowire="byName" scope="prototype">
+		<property name="matterService" ref="matterService"/>
+	<property name="attendanceService" ref="attendanceService"/>
+		<property name="usingEquipService" ref="usingEquipService"/>
+		<property name="applyService" ref="applyService"/>
+		<property name="usingcarService" ref="usingcarService"/>
+		<property name="officialDocumentService" ref="officialDocumentService"/>
+		<property name="personnelService" ref="personnelService"/>
+		<property name="recruitmentService" ref="recruitmentService"/>
+		<property name="reimbursementService" ref="reimbursementService"/> 
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="reimbursementItemService" ref="reimbursementItemService"/>
+	</bean>
+	<!-- 会议室 -->
+	<bean id ="meetingRoomAction" class="runix.web.actions.MeetingRoomAction" autowire="byName" scope="prototype">
+		<property name="meetingRoomService" ref="meetingRoomService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<!-- 便签 -->
+	<bean id ="memoAction" class="runix.web.actions.MemoAction" autowire="byName" scope="prototype">
+		<property name="memoService" ref="memoService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<bean id ="messageCenterAction" class="runix.web.actions.MessageCenterAction" autowire="byName" scope="prototype">
+		<property name="messageCenterService" ref="messageCenterService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+		<property name="deptService" ref="deptService"/>
+	</bean>
+	<!-- 硬盘 -->
+	<bean id ="netdiskAction" class="runix.web.actions.NetdiskAction" autowire="byName" scope="prototype">
+		<property name="netdiskService" ref="netdiskService"/>
+		<property name="folderService" ref="folderService"/>
+	</bean>
+	<bean id ="archiveAction" class="runix.web.actions.ArchiveAction" autowire="byName" scope="prototype">
+		<property name="archiveService" ref="archiveService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="dossierService" ref="dossierService"/>
+	</bean>
+	<!-- 网络会议 -->
+	<bean id ="netmeetingAction" class="runix.web.actions.NetmeetingAction" autowire="byName" scope="prototype">
+		<property name="netmeetingService" ref="netmeetingService"/>
+		<property name="meetingRoomService" ref="meetingRoomService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+
+	<bean id ="officialDocumentAction" class="runix.web.actions.OfficialDocumentAction" autowire="byName" scope="prototype">
+		<property name="officialDocumentService" ref="officialDocumentService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	   <property name="reimbursementService" ref="reimbursementService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+	</bean>
+	<!-- 权限 -->
+	<bean id ="permissionAction" class="runix.web.actions.PermissionAction" autowire="byName" scope="prototype">
+		<property name="permissionService" ref="permissionService"/>
+		<property name="positionService" ref="positionService"/>
+	</bean>
+	<bean id ="personnelAction" class="runix.web.actions.PersonnelAction" autowire="byName" scope="prototype">
+		<property name="personnelService" ref="personnelService"/>
+		<property name="positionService" ref="positionService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="deptService" ref="deptService"/>
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+		
+	</bean>
+	<!-- 职位 -->
+	<bean id ="positionAction" class="runix.web.actions.PositionAction" autowire="byName" scope="prototype">
+		<property name="positionService" ref="positionService"/>
+	</bean>
+	<!-- 招聘 -->
+	<bean id ="recruitmentAction" class="runix.web.actions.RecruitmentAction" autowire="byName" scope="prototype">
+		<property name="recruitmentService" ref="recruitmentService"/>
+		<property name="positionService" ref="positionService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="deptService" ref="deptService"/>
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="resumeService" ref="resumeService"/>
+	</bean>
+
+	<bean id ="reimbursementItemAction" class="runix.web.actions.ReimbursementItemAction" autowire="byName" scope="prototype">
+		<property name="reimbursementItemService" ref="reimbursementItemService"/>
+	</bean>
+	<!-- 简历 -->
+	<bean id ="resumeAction" class="runix.web.actions.ResumeAction" autowire="byName" scope="prototype">
+		<property name="resumeService" ref="resumeService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="deptService" ref="deptService"/>
+		<property name="positionService" ref="positionService"/>
+		<property name="recruitmentService" ref="recruitmentService"/>
+	</bean>
+	<bean id ="scheduleAction" class="runix.web.actions.ScheduleAction" autowire="byName" scope="prototype">
+		<property name="scheduleService" ref="scheduleService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+	</bean>
+	<!-- 考情 -->
+	<bean id ="attendanceAction" class="runix.web.actions.AttendanceAction" autowire="byName" scope="prototype">
+		<property name="attendanceService" ref="attendanceService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+		<property name="setAttendService" ref="setAttendService"/>
+	</bean>
+	<bean id ="suggestionAction" class="runix.web.actions.SuggestionAction" autowire="byName" scope="prototype">
+		<property name="suggestionService" ref="suggestionService"/>
+	</bean>
+	<!-- 投票管理 -->
+	<bean id ="surveyAction" class="runix.web.actions.SurveyAction" autowire="byName" scope="prototype">
+		<property name="surveyService" ref="surveyService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="answerService" ref="answerService"/>
+	</bean>
+	<!-- 任务 -->
+	<bean id ="taskAction" class="runix.web.actions.TaskAction" autowire="byName" scope="prototype">
+		<property name="taskService" ref="taskService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+	</bean>
+	<bean id ="usingcarAction" class="runix.web.actions.UsingcarAction" autowire="byName" scope="prototype">
+		<property name="usingcarService" ref="usingcarService"/>
+		<property name="deptService" ref="deptService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="carService" ref="carService"/>
+	</bean>
+	<!-- 领用 -->
+	<bean id ="usingEquipAction" class="runix.web.actions.UsingEquipAction" autowire="byName" scope="prototype">
+		<property name="usingEquipService" ref="usingEquipService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="equipmentService" ref="equipmentService"/>
+	</bean>
+	<bean id ="workflowAction" class="runix.web.actions.WorkflowAction" autowire="byName" scope="prototype">
+		<property name="workflowService" ref="workflowService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<bean id ="workingConditionAction" class="runix.web.actions.WorkingConditionAction" autowire="byName" scope="prototype">
+		<property name="workingConditionService" ref="workingConditionService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+		<property name="deptService" ref="deptService"/>
+	</bean>
+	<!-- 通讯录 -->
+	<bean id ="addressbookAction" class="runix.web.actions.AddressbookAction" autowire="byName" scope="prototype">
+		<property name="addressbookService" ref="addressbookService"/>
+		<property name="baseDataService" ref="baseDataService" />
+	</bean>
+	<bean id ="baseDataAction" class="runix.web.actions.BaseDataAction" autowire="byName" scope="prototype">
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<bean id ="baseUserAction" class="runix.web.actions.BaseUserAction" autowire="byName" scope="prototype">
+		<property name="baseUserService" ref="baseUserService"/>
+	</bean>
+	<bean id ="carAction" class="runix.web.actions.CarAction" autowire="byName" scope="prototype">
+		<property name="carService" ref="carService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<!-- 合同 -->
+	<bean id ="contractAction" class="runix.web.actions.ContractAction" autowire="byName" scope="prototype">
+		<property name="contractService" ref="contractService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="deptService" ref="deptService"/>
+	</bean>
+	<bean id ="deptAction" class="runix.web.actions.DeptAction" autowire="byName" scope="prototype">
+		<property name="deptService" ref="deptService"/>
+	</bean>
+	<bean id ="dossierAction" class="runix.web.actions.DossierAction" autowire="byName" scope="prototype">
+		<property name="dossierService" ref="dossierService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<bean id ="setAttendAction" class="runix.web.actions.SetAttendAction" autowire="byName" scope="prototype">
+		<property name="setAttendService" ref="setAttendService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<!-- 请示管理 -->
+	<bean id ="applyAction" class="runix.web.actions.ApplyAction" autowire="byName" scope="prototype">
+		<property name="applyService" ref="applyService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+	</bean>
+	<bean id ="selectPeopleAction" class="runix.web.actions.SelectPeopleAction" autowire="byName" scope="prototype">
+		<property name="baseUserService" ref="baseUserService"/>
+		<property name="deptService" ref="deptService"/>
+		<property name="positionService" ref="positionService"/>
+		
+	</bean>
+
+	<bean id ="emailAction" class="runix.web.actions.EmailAction" autowire="byName" scope="prototype">
+		<property name="emailService" ref="emailService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<!-- 设备 -->
+	<bean id ="equipmentAction" class="runix.web.actions.EquipmentAction" autowire="byName" scope="prototype">
+		<property name="equipmentService" ref="equipmentService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+
+	</bean>
+	<bean id ="flowNodeAction" class="runix.web.actions.FlowNodeAction" autowire="byName" scope="prototype">
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<!-- 文件夹 -->
+	<bean id ="folderAction" class="runix.web.actions.FolderAction" autowire="byName" scope="prototype">
+		<property name="folderService" ref="folderService"/>
+		<property name="netdiskService" ref="netdiskService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<!-- 报销 -->
+	<bean id ="reimbursementAction" class="runix.web.actions.ReimbursementAction" autowire="byName" scope="prototype">
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+		<property name="baseUserService" ref="baseUserService"/>
+		<property name="flowNodeService" ref="flowNodeService"/>
+		<property name="matterService" ref="matterService"/>
+		<property name="reimbursementItemService" ref="reimbursementItemService"/>
+	</bean>
+
+	<bean id ="countReimbursementAction" class="runix.web.actions.CountReimbursementAction" autowire="byName" scope="prototype">
+		<property name="deptService" ref="deptService"/>
+		<property name="reimbursementService" ref="reimbursementService"/>
+		<property name="baseDataService" ref="baseDataService"/>
+	</bean>
+	<bean id ="countRecruitmentAction" class="runix.web.actions.CountRecruitmentAction" autowire="byName" scope="prototype">
+		<property name="deptService" ref="deptService"/>
+		<property name="positionService" ref="positionService"/>
+		<property name="recruitmentService" ref="recruitmentService"/>
+	</bean>
+	<bean id ="mainFrameAction" class="runix.web.actions.MainFrameAction" autowire="byName" scope="prototype">
+		<property name="baseUserService" ref="baseUserService"/>
+	</bean>
+</beans>

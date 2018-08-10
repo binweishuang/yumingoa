@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="MessageCenter">
+	<typeAlias alias="messageCenter" type="runix.persistent.model.MessageCenter" />
+	<typeAlias alias="userMessage" type="runix.persistent.model.UserMessage" />
+	<typeAlias alias="list" type="java.util.List" />
+	<typeAlias alias="string" type="java.lang.String" />
+	<typeAlias alias="map" type="java.util.Map" />
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+
+	<resultMap id="message_center" class="messageCenter">
+		<result property="messageId" column="MESSAGE_ID" />
+		<result property="messagesort" column="MESSAGESORT" />
+		<result property="title" column="TITLE" />
+		<result property="publishtime" column="PUBLISHTIME" />
+		<result property="type" column="TYPE" />
+		<result property="starttime" column="STARTTIME" />
+		<result property="endtime" column="ENDTIME" />
+		<result property="scope" column="SCOPE" />
+		<result property="publisher" column="PUBLISHER" />
+		<result property="dept" column="DEPT" />
+		<result property="keywords" column="KEYWORDS" />
+		<result property="content" column="CONTENT" />
+		<result property="status" column="STATUS" />
+		<result property="flag" column="FLAG" />
+	</resultMap>
+	<resultMap id="user_message" class="userMessage">
+		<result property="messageId" column="MESSAGE_ID" />
+		<result property="umId" column="UM_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="readstatus" column="READSTATUS" />
+	</resultMap>
+		<!-- 获取所有的信息纪录 -->
+	<select id="queryCountMessageCenter" parameterClass="map"
+		resultClass="int">
+		select count(*) from (
+		      select t.message_id,
+               t.title,
+               t.publishtime,
+               (select DATANAME from BASE_DATA where DATA_ID = t.TYPE) TYPENAME,
+               (select DATATYPE from BASE_DATA where DATA_ID = t.TYPE) TYPE,
+               (select DEPTNAME from dept where DEPT_ID = t.DEPT) DEPT,
+               u.readstatus,u.um_id
+          from message_center t
+          left join user_message u
+            on t.message_id = u.message_id
+		where t.status = '1'
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="starttime">
+				<![CDATA[ STARTTIME >= #starttime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endtime">
+				<![CDATA[ ENDTIME <= #endtime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				u.user_id  = #userId#
+			</isNotEmpty>
+		) tu
+	</select>
+	<!-- 获取信息列表信息 -->
+	<select id="queryMessageCenter" parameterClass="map"
+		resultClass="hashmap">
+       select t.message_id,
+               t.title,
+               t.publishtime,
+               (select DATANAME from BASE_DATA where DATA_ID = t.TYPE) TYPENAME,
+               (select DATATYPE from BASE_DATA where DATA_ID = t.TYPE) TYPE,
+               (select DEPTNAME from dept where DEPT_ID = t.DEPT) DEPT,
+               u.readstatus,u.um_id
+          from message_center t
+          left join user_message u
+            on t.message_id = u.message_id
+		where t.status = '1'
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="starttime">
+				<![CDATA[ STARTTIME >= #starttime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endtime">
+				<![CDATA[ ENDTIME <= #endtime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				u.user_id  = #userId#
+			</isNotEmpty>
+		order by to_number(MESSAGE_ID) desc
+	</select>
+	<!-- 获取新闻列表信息 -->
+	<select id="queryMessageByNews" parameterClass="map"
+		resultClass="hashmap">
+		select MESSAGE_ID, TITLE, PUBLISHTIME,(select DATANAME from BASE_DATA where
+		DATA_ID=m.TYPE)
+		TYPE, (select DEPTNAME from dept where DEPT_ID=m.DEPT)
+		DEPT,STATUS from
+		message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='NEWS')
+			</isNotEmpty>
+		</dynamic>
+		order by to_number(MESSAGE_ID) desc
+	</select>
+	
+	<select id="queryMessageByNews2" parameterClass="map"
+		resultMap="message_center">
+		select * from (select * from
+		message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='NEWS')
+			</isNotEmpty>
+		</dynamic>
+		order by to_number(MESSAGE_ID) desc) t where rownum <![CDATA[  <=  ]]> 6
+	</select>
+	<!-- 获取通知列表信息 -->
+	<select id="queryMessageByNotice" parameterClass="map"
+		resultClass="hashmap">
+		select PUBLISHER, MESSAGE_ID, TITLE, PUBLISHTIME, STARTTIME,
+		ENDTIME,STATUS ,(select DATANAME from BASE_DATA where DATA_ID=m.TYPE)
+		TYPE, (select DEPTNAME from dept where DEPT_ID=m.DEPT) DEPT from
+		message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="starttime">
+				<![CDATA[ STARTTIME >= #starttime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endtime">
+				<![CDATA[ ENDTIME <= #endtime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='NOTICE')
+			</isNotEmpty>
+		</dynamic>
+		order by to_number(MESSAGE_ID) desc
+	</select>
+	<!-- 获取规章制度列表信息 -->
+	<select id="queryMessageByRules" parameterClass="map"
+		resultClass="hashmap">
+		select MESSAGE_ID, TITLE, KEYWORDS, PUBLISHTIME,(select DATANAME from BASE_DATA
+		where DATA_ID=m.TYPE)
+		TYPE, (select DEPTNAME from dept where
+		DEPT_ID=m.DEPT) DEPT,STATUS from
+		message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='RULES')
+			</isNotEmpty>
+		</dynamic>
+		order by to_number(MESSAGE_ID) desc
+	</select>
+	<!-- 获取所有的新闻纪录 -->
+	<select id="queryCountMessageByNews" parameterClass="map"
+		resultClass="int">
+		select count(*) from message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='NEWS')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取所有的通知纪录 -->
+	<select id="queryCountMessageByNotice" parameterClass="map"
+		resultClass="int">
+		select count(*) from message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				m.TITLE like
+				'%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				m.TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				m.DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="starttime">
+				<![CDATA[ m.STARTTIME >= #starttime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endtime">
+				<![CDATA[ m.ENDTIME <= #endtime# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='NOTICE')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取所有的规章制度纪录 -->
+	<select id="queryCountMessageByRules" parameterClass="map"
+		resultClass="int">
+		select count(*) from message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='RULES')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 持久化 -->
+	<insert id="persist" parameterClass="messageCenter">
+		<selectKey resultClass="string" keyProperty="messageId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		message_center(
+		MESSAGE_ID,MESSAGESORT,
+		TITLE,PUBLISHTIME,
+		TYPE,STARTTIME,
+		ENDTIME,SCOPE,
+		PUBLISHER,DEPT,
+		KEYWORDS,CONTENT,
+		STATUS,FLAG
+		) values(
+		#messageId#,#messagesort#,
+		#title#,#publishtime#,
+		#type#,#starttime#,
+		#endtime#,#scope#,
+		#publisher#,#dept#,
+		#keywords#,#content#,
+		#status#,#flag#
+		)
+	</insert>
+	<!-- 修改用户 -->
+	<update id="update" parameterClass="messageCenter">
+		update
+		message_center set MESSAGE_ID = #messageId#
+		<isNotEmpty prepend="," property="messagesort">
+				MESSAGESORT=#messagesort#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="title">
+				TITLE=#title#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="publishtime">
+				PUBLISHTIME=#publishtime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="type">
+				TYPE=#type#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="starttime">
+				STARTTIME=#starttime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="endtime">
+				ENDTIME=#endtime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="scope">
+				SCOPE=#scope#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="publisher">
+				PUBLISHER=#publisher#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="dept">
+				DEPT=#dept#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="keywords">
+				KEYWORDS=#keywords#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="content">
+				CONTENT=#content#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="status">
+				STATUS=#status#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="flag">
+				FLAG=#flag#
+		</isNotEmpty>
+		where MESSAGE_ID =#messageId#
+	</update>
+	<!-- 删除用户 -->
+	<delete id="delete" parameterClass="messageCenter">
+		delete
+		from message_center
+		where MESSAGE_ID = #messageId#
+	</delete>
+	<delete id="execDeleteMessageCenterById" parameterClass="string">
+		delete
+		from message_center where MESSAGE_ID = #messageId#
+	</delete>
+	<select id="queryMessageCenterById" parameterClass="string"
+		resultMap="message_center">
+		select * from message_center where MESSAGE_ID = #value#
+	</select>
+	
+	<select id="queryUserMessageById" parameterClass="string"
+		resultMap="user_message">
+		select * from user_message where UM_ID = #value#
+	</select>
+
+	<insert id="execInsertMessageCenter" parameterClass="messageCenter">
+		<selectKey resultClass="string" keyProperty="messageId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		message_center(
+		MESSAGE_ID,MESSAGESORT,
+		TITLE,PUBLISHTIME,
+		TYPE,STARTTIME,
+		ENDTIME,SCOPE,
+		PUBLISHER,DEPT,
+		KEYWORDS,CONTENT,
+		STATUS,FLAG
+		) values(
+		#messageId#,#messagesort#,
+		#title#,#publishtime#,
+		#type#,#starttime#,
+		#endtime#,#scope#,
+		#publisher#,#dept#,
+		#keywords#,#content#,
+		#status#,#flag#
+		)
+	</insert>
+	
+	<insert id="execInsertUM" parameterClass="userMessage">
+		<selectKey resultClass="string" keyProperty="umId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		user_message(
+		UM_ID,MESSAGE_ID,USER_ID,READSTATUS
+		) values(
+		#umId#,#messageId#,
+		#userId#,#readstatus#
+		)
+	</insert>
+	
+	<delete id="execDeleteUM" parameterClass="string">
+		delete
+		from user_message where MESSAGE_ID = #messageId#
+	</delete>
+	
+	<update id="updateUserMessage" parameterClass="userMessage">
+		update
+		user_message set UM_ID=#umId#,MESSAGE_ID = #messageId#,USER_ID=#userId#,READSTATUS=#readstatus#
+		where UM_ID=#umId#
+	</update>
+</sqlMap>

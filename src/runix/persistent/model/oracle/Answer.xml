@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Answer">
+	<typeAlias alias="answer" type="runix.persistent.model.Answer"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="answer" class="answer"> 
+		<result property="answerId" column="ANSWER_ID"/>
+		<result property="sortnum" column="SORTNUM"/>
+		<result property="content" column="CONTENT"/>
+		<result property="uservotenum" column="USERVOTENUM"/>
+		<result property="surveyId" column="SURVEY_ID"/>
+		<result property="flag" column="FLAG"/>
+		<result property="votepeoples" column="VOTEPEOPLES"/>
+	</resultMap>
+
+	<select id="queryAnswers" parameterClass="map"  resultMap="answer">
+		select * from answer
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="answerId">
+					ANSWER_ID like #answerId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sortnum">
+					SORTNUM like #sortnum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="content">
+					CONTENT like #content#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uservotenum">
+					USERVOTENUM like #uservotenum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="surveyId">
+					SURVEY_ID like #surveyId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountAnswers" parameterClass="map"  resultClass="int">
+		select count(*) from answer
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="answerId">
+					ANSWER_ID like #answerId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sortnum">
+					SORTNUM like #sortnum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="content">
+					CONTENT like #content#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uservotenum">
+					USERVOTENUM like #uservotenum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="surveyId">
+					SURVEY_ID like #surveyId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryAnswerById" parameterClass="string"  resultMap="answer">
+		select * from answer where ANSWER_ID = #value#
+	</select>
+	
+	<select id="queryCheckLoginname" parameterClass="map"  resultClass="int">
+		select count(*) from answer
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="surveyId">
+					SURVEY_ID like #surveyId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="loginname">
+					VOTEPEOPLES like #loginname#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<select id="queryTotalnumBySurveyId" parameterClass="string"  resultClass="int">
+		select sum(to_number(USERVOTENUM)) from answer where SURVEY_ID = #surveyId#
+	</select>
+
+	<delete id="execDeleteAnswerById" parameterClass="string">
+		 delete from answer where ANSWER_ID = #answerId#
+	</delete>
+
+	<insert id="execInsertAnswer" parameterClass="answer">
+		<selectKey resultClass="string" keyProperty="answerId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey>  
+		insert into answer(
+			ANSWER_ID,SORTNUM,
+			CONTENT,USERVOTENUM,
+			SURVEY_ID,FLAG,VOTEPEOPLES
+		) values(
+			#answerId#,#sortnum#,
+			#content#,#uservotenum#,
+			#surveyId#,#flag#,#votepeoples#
+		)
+	</insert>
+
+	<update id="execUpdateAnswer" parameterClass="answer">
+		update answer set
+			ANSWER_ID=#answerId#,
+			SORTNUM=#sortnum#,
+			CONTENT=#content#,
+			USERVOTENUM=#uservotenum#,
+			SURVEY_ID=#surveyId#,
+			FLAG=#flag#,
+			VOTEPEOPLES=#votepeoples#
+		where ANSWER_ID = #answerId#
+	</update>
+	
+	<select id="queryAnswersBySurveyId" parameterClass="string"  resultMap="answer">
+		select * from answer where SURVEY_ID = #value# order by to_number(sortnum)
+	</select>
+	
+	
+	<delete id="execDeleteAnswerBySurveyId" parameterClass="string">
+		 delete from answer where SURVEY_ID = #value#
+	</delete>
+</sqlMap>

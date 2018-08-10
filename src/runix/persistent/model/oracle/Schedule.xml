@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Schedule">
+	<typeAlias alias="schedule" type="runix.persistent.model.Schedule"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="schedule" class="schedule"> 
+		<result property="scheduleId" column="SCHEDULE_ID"/>
+		<result property="executer" column="EXECUTER"/>
+		<result property="title" column="TITLE"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="rangetime" column="RANGETIME"/>
+		<result property="content" column="CONTENT"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+
+	<select id="querySchedules" parameterClass="map"  resultMap="schedule">
+		select SCHEDULE_ID,(select name from base_user u where u.user_id = t.EXECUTER) EXECUTER,TITLE,STARTTIME,ENDTIME,RANGETIME,CONTENT,FLAG from schedule t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="starttime">
+					<![CDATA[
+						starttime>=#starttime#
+					]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					<![CDATA[ 
+						endtime<=#endtime# 
+					]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executer">
+					executer = #executer#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountSchedules" parameterClass="map"  resultClass="int">
+		select count(*) from schedule
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="starttime">
+					<![CDATA[
+						starttime>=#starttime#
+					]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					<![CDATA[ 
+						endtime<=#endtime# 
+					]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executer">
+					executer = #executer#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryScheduleById" parameterClass="string"  resultMap="schedule">
+		select SCHEDULE_ID,(select name from base_user u where u.user_id = t.EXECUTER) EXECUTER,TITLE,STARTTIME,ENDTIME,RANGETIME,CONTENT,FLAG from schedule t where SCHEDULE_ID = #value#
+	</select>
+
+	<delete id="execDeleteScheduleById" parameterClass="string">
+		 delete from schedule where SCHEDULE_ID = #scheduleId#
+	</delete>
+
+	<insert id="execInsertSchedule" parameterClass="schedule">
+	 	<selectKey resultClass="string" keyProperty="scheduleId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into schedule(
+			SCHEDULE_ID,EXECUTER,
+			TITLE,STARTTIME,
+			ENDTIME,RANGETIME,
+			CONTENT,FLAG
+		) values(
+			#scheduleId#,#executer#,
+			#title#,#starttime#,
+			#endtime#,#rangetime#,
+			#content#,#flag#
+		)
+	</insert>
+
+	<update id="execUpdateSchedule" parameterClass="schedule">
+		update schedule set
+			SCHEDULE_ID=#scheduleId#,
+			EXECUTER=#executer#,
+			TITLE=#title#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			RANGETIME=#rangetime#,
+			CONTENT=#content#,
+			FLAG=#flag#
+		where SCHEDULE_ID = #scheduleId#
+	</update>
+</sqlMap>

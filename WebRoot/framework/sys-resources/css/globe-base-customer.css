@@ -1,0 +1,167 @@
+.btn_mouseout_small
+{
+margin-right:3px;margin-left:3px;width:40px;BORDER-RIGHT: #2C59AA 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #2C59AA 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#C3DAF5); BORDER-LEFT: #2C59AA 1px solid; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #2C59AA 1px solid
+} 
+.btn_mouseover_small 
+{
+margin-right:3px;margin-left:3px;width:40px;BORDER-RIGHT: #2C59AA 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #2C59AA 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#D7E7FA); BORDER-LEFT: #2C59AA 1px solid; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #2C59AA 1px solid
+}
+.btn_mousedown_small
+{
+margin-right:3px;margin-left:3px;width:40px;BORDER-RIGHT: #FFE400 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #FFE400 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#C3DAF5); BORDER-LEFT: #FFE400 1px solid; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #FFE400 1px solid
+} 
+.btn_mouseup_small 
+{
+margin-right:3px;margin-left:3px;width:40px;BORDER-RIGHT: #2C59AA 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #2C59AA 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#C3DAF5); BORDER-LEFT: #2C59AA 1px solid; CURSOR: hand; COLOR: black; PADDING-TOP: 2px; BORDER-BOTTOM: #2C59AA 1px solid
+} 
+
+
+.main_table_customer	td.head{filter:progid:DXimagesTransform.Microsoft.Gradient(startColorStr='#CFE1F6', endColorStr='#F8FAFE', gradientType='0');color:#124F98;font-weight:bold;}
+.main_table_customer	td.bottom{filter:progid:DXimagesTransform.Microsoft.Gradient(startColorStr='#E5E5E5', endColorStr='#F7F7F7', gradientType='0');text-align:right}
+.main_table_customer	tr{background-color:expression((this.sectionRowIndex%2==0)?"#F8F8F8":"#FFFFFF")}
+.main_table_customer	td{padding:4;border:1px solid #A7A7A7;}
+.main_table_customer tr.gray{background-color:#F8F8F8}
+.main_table_customer tr.white{background-color:#FFFFFF}
+.main_table_customer tr.count{background-color:#e3ecfa}
+
+#tzysgl {
+	height:58px;
+	BACKGROUND:url() no-repeat left top;
+	text-align:right;
+	width:100%;
+}
+
+/*- Menu Tabs F--------------------------- */
+
+    #tabsF1 {
+      float:left;
+      width:100%;
+      font-size:93%;
+      line-height:normal;
+      }
+    #tabsF1 ul {
+    
+	margin-top:25px;
+	margin-bottom:0px;
+	padding:10px 10px 0 70%;
+	list-style:none;
+
+      }
+    #tabsF1 li {
+      display:inline;
+      margin:0;
+      padding:0;
+      }
+    #tabsF1 a {
+      float:left;
+      background:url("../images/tableftF.gif") no-repeat left top;
+      margin:0;
+      padding:0 0 0 4px;
+      text-decoration:none;
+      }
+    #tabsF1 a span {
+      float:right;
+      display:block;
+      background:url("../images/tabrightF.gif") no-repeat right top;
+      padding:5px 15px 4px 6px;
+      color:#666;
+      }
+    /* Commented Backslash Hack hides rule from IE5-Mac \*/
+    #tabsF1 a span {float:none;}
+    /* End IE5-Mac hack */
+    #tabsF1 a:hover span {
+      color:#FFF;
+      }
+    #tabsF1 a:hover {
+      background-position:0% -42px;
+      }
+    #tabsF1 a:hover span {
+      background-position:100% -42px;
+      }
+ 
+ #topBar
+ {
+  position:relative;top:-1px;
+ }
+     
+.zjgc_common_table {width:100%;margin-bottom:8px;}
+.zjgc_common_table td.head {border:1px solid #6DA3CA;BACKGROUND:url(../images/main_bar_bg.gif) repeat-x;height:23px;}
+.zjgc_common_table #nav {height:20px;margin-left:8px;padding-left:18px;padding-top:3px;BACKGROUND:url() no-repeat left 3px;font-weight:bold;color:#124F98;}
+.zjgc_common_table td.main {border:1px solid #6DA3CA;BACKGROUND:url(../images/main_bg_ico_add.gif) no-repeat left bottom;BACKGROUND-color:#EFF7FF;}
+.zjgc_common_table .terms {width:47%;display:inline;height:22px;vertical-align:bottom;margin:5px 0px 2px 20px;}
+.zjgc_common_table #act {width:100%;height:25px;margin:5px 40px 0px 0px;text-align:right;}
+
+.zjgc_head_td
+{
+	font-size:15px;font-weight:bold;text-align:center;
+}
+
+
+
+
+
+
+
+
+/*--- 分项费用TAB --------*/
+
+#tzysg2 {
+	height:58px;
+	BACKGROUND:url() no-repeat left top;
+	text-align:right;
+	width:100%;
+}
+
+/*- Menu Tabs F--------------------------- */
+
+    #tabsF2 {
+      float:left;
+      width:100%;
+      font-size:93%;
+      line-height:normal;
+      }
+    #tabsF2 ul {
+    
+	margin-top:25px;
+	margin-bottom:0px;
+	padding:10px 10px 0 44%;
+	list-style:none;
+
+      }
+    #tabsF2 li {
+      display:inline;
+      margin:0;
+      padding:0;
+      }
+    #tabsF2 a {
+      float:left;
+      background:url("../images/tableftF.gif") no-repeat left top;
+      margin:0;
+      padding:0 0 0 4px;
+      text-decoration:none;
+      }
+    #tabsF2 a span {
+      float:right;
+      display:block;
+      background:url("../images/tabrightF.gif") no-repeat right top;
+      padding:5px 15px 4px 6px;
+      color:#666;
+      }
+    /* Commented Backslash Hack hides rule from IE5-Mac \*/
+    #tabsF2 a span {float:none;}
+    /* End IE5-Mac hack */
+    #tabsF2 a:hover span {
+      color:#FFF;
+      }
+    #tabsF2 a:hover {
+      background-position:0% -42px;
+      }
+    #tabsF2 a:hover span {
+      background-position:100% -42px;
+      }
+
+      
+ #topBar_fxys
+ {
+  position:relative;top:-1px;
+ }

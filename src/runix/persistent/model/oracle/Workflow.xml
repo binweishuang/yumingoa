@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Workflow">
+	<typeAlias alias="workflow" type="runix.persistent.model.Workflow"/>
+	<typeAlias alias="workflownode" type="runix.persistent.model.WorkflowNode"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="workflow" class="workflow"> 
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="flowname" column="FLOWNAME"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	
+	<resultMap id="workflownode" class="workflownode"> 
+		<result property="wnid" column="WN_ID"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="nodeId" column="FLOWNODE_ID"/>
+	</resultMap>
+
+	<select id="queryWorkflows" parameterClass="map"  resultMap="workflow">
+		select * from workflow
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flowname">
+					FLOWNAME like #flowname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountWorkflows" parameterClass="map"  resultClass="int">
+		select count(*) from workflow
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flowname">
+					FLOWNAME like #flowname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<!-- ycr 查询所有流程列表 2013-11-27 -->
+	<select id="queryAllWorkflows"  resultMap="workflow">
+		select * from workflow 
+	</select>
+	
+	<select id="queryFlowNode" parameterClass="string"  resultClass="hashmap">
+		select t.flownode_id, t.nodename
+		  from flow_node t
+		  left join workflow_node t2
+		    on t.flownode_id = t2.flownode_id
+		 where t2.workflow_id = #value#
+		 order by t2.wn_id
+	</select>
+
+	<select id="queryWorkflowById" parameterClass="string"  resultMap="workflow">
+		select * from workflow where WORKFLOW_ID = #value#
+	</select>
+
+	<delete id="execDeleteWorkflowById" parameterClass="string">
+		 delete from workflow where WORKFLOW_ID = #workflowId#
+	</delete>
+
+	<insert id="execInsertWorkflow" parameterClass="workflow">
+		 <selectKey resultClass="string" keyProperty="workflowId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into workflow(
+			WORKFLOW_ID,FLOWNAME,
+			FLAG
+		) values(
+			#workflowId#,#flowname#,
+			#flag#
+		)
+	</insert>
+	
+	<insert id="execInsertWorkflowNode" parameterClass="workflownode">
+	<selectKey resultClass="string" keyProperty="wnid" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey>
+		insert into workflow_node(
+			WN_ID,WORKFLOW_ID,
+			FLOWNODE_ID
+		) values(
+			#wnid#,#workflowId#,
+			#nodeId#
+		)
+	</insert>
+
+	<update id="execUpdateWorkflow" parameterClass="workflow">
+		update workflow set
+			WORKFLOW_ID=#workflowId#,
+			FLOWNAME=#flowname#,
+			FLAG=#flag#
+		where WORKFLOW_ID = #workflowId#
+	</update>
+	
+	<update id="execUpdateFlowNode" parameterClass="string">
+		delete from workflow_node where workflow_id = #value#
+	</update>
+	
+	
+</sqlMap>

@@ -1,0 +1,20 @@
+body{
+	margin:0px;
+	padding:0px;
+	font-family:"微软雅黑";
+	background:url(../img/bg_repeat.jpg) repeat;
+}
+a:focus{ -moz-outline:none; outline:none; }/*去掉点击连接时候的虚框*/
+
+.news1{ height:140px; background:#ECECEF;}
+.news1 img{ float:left; margin:10px;}
+.news1-dec{ width:182px; float:right; padding:10px 5px 0px 0px; line-height:25px;}
+.news1-dec p{float:right; margin-right:10px; }
+.news1-dec p a { color:#49AFCB}
+.list{width:328px; color:#000; font-size:13px; background:#f5f5f5; border:1px solid #C2C2C3;}
+.list li{height:32px; text-decoration:none; list-style:none; }
+.list li span{height:27px;width:35%; float:right; margin-right:20px}
+.list li a{color:#000;padding-left:2px;height:27px;line-height:27px; font-size:13px;}
+.list li a:link{text-decoration:none;}
+.list li a:hover{text-decoration:underline;color:#49AFCB;}
+

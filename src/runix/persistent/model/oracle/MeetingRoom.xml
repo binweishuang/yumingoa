@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="MeetingRoom">
+	<typeAlias alias="meetingRoom" type="runix.persistent.model.MeetingRoom"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="meeting_room" class="meetingRoom"> 
+		<result property="roomId" column="ROOM_ID"/>
+		<result property="spokesman" column="SPOKESMAN"/>
+		<result property="content" column="CONTENT"/>
+		<result property="speaktime" column="SPEAKTIME"/>
+		<result property="netmeetingId" column="NETMEETING_ID"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 查询会议室 -->
+	<select id="queryMeetingRooms" parameterClass="map"  resultMap="meeting_room">
+		select * from meeting_room
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="roomId">
+					ROOM_ID like #roomId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="spokesman">
+					SPOKESMAN like #spokesman#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="content">
+					CONTENT like #content#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="speaktime">
+					SPEAKTIME like #speaktime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="netmeetingId">
+					NETMEETING_ID like #netmeetingId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 查询会议室记录数 -->
+	<select id="queryCountMeetingRooms" parameterClass="map"  resultClass="int">
+		select count(*) from meeting_room
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="roomId">
+					ROOM_ID like #roomId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="spokesman">
+					SPOKESMAN like #spokesman#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="content">
+					CONTENT like #content#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="speaktime">
+					SPEAKTIME like #speaktime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="netmeetingId">
+					NETMEETING_ID like #netmeetingId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询会议室   返回实体对象 -->
+	<select id="queryMeetingRoomById" parameterClass="string"  resultMap="meeting_room">
+		select * from meeting_room where ROOM_ID = #value#
+	</select>
+	
+	<select id="queryMeetingRoomsByMeetingId" parameterClass="string"  resultMap="meeting_room">
+		select * from meeting_room where NETMEETING_ID = #value#  order by SPEAKTIME desc
+	</select>
+	<!-- 删除会议室 -->
+	<delete id="execDeleteMeetingRoomById" parameterClass="string">
+		 delete from meeting_room where ROOM_ID = #roomId#
+	</delete>
+	
+	<delete id="execDeleteMeetingRoomByMeetingId" parameterClass="string">
+		 delete from meeting_room where NETMEETING_ID = #value#
+	</delete>
+	<!-- 添加会议室 -->
+	<insert id="execInsertMeetingRoom" parameterClass="meetingRoom">
+		<selectKey resultClass="string" keyProperty="roomId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into meeting_room(
+			ROOM_ID,SPOKESMAN,
+			CONTENT,SPEAKTIME,
+			NETMEETING_ID,FLAG
+		) values(
+			#roomId#,#spokesman#,
+			#content#,#speaktime#,
+			#netmeetingId#,#flag#
+		)
+	</insert>
+	<!-- 修改会议室 -->
+	<update id="execUpdateMeetingRoom" parameterClass="meetingRoom">
+		update meeting_room set
+			ROOM_ID=#roomId#,
+			SPOKESMAN=#spokesman#,
+			CONTENT=#content#,
+			SPEAKTIME=#speaktime#,
+			NETMEETING_ID=#netmeetingId#,
+			FLAG=#flag#
+		where ROOM_ID = #roomId#
+	</update>
+</sqlMap>

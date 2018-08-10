@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Suggestion">
+	<typeAlias alias="suggestion" type="runix.persistent.model.Suggestion" />
+	<typeAlias alias="list" type="java.util.List" />
+	<typeAlias alias="string" type="java.lang.String" />
+	<typeAlias alias="map" type="java.util.Map" />
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+
+	<resultMap id="suggestion" class="suggestion">
+		<result property="suggestionId" column="SUGGESTION_ID" />
+		<result property="title" column="TITLE" />
+		<result property="suggesttype" column="SUGGESTTYPE" />
+		<result property="publicity" column="PUBLICITY" />
+		<result property="toperson" column="TOPERSON" />
+		<result property="sugester" column="SUGESTER" />
+		<result property="content" column="CONTENT" />
+		<result property="flag" column="FLAG" />
+	</resultMap>
+	<!-- 获取个人建议表中的符合条件的纪录 -->
+	<select id="querySuggestions" parameterClass="map" resultClass="hashmap">
+		select SUGGESTION_ID, TITLE, PUBLICITY, TOPERSON,SUGESTER,
+		<!-- (select NAME from BASE_USER where USER_ID in (s.TOPERSON)) TOPERSON, -->
+		(select DATANAME from BASE_DATA where DATA_ID=s.SUGGESTTYPE) SUGGESTTYPE
+		from suggestion s
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="suggesttype">
+				SUGGESTTYPE like
+				#suggesttype#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="publicity">
+				PUBLICITY like
+				#publicity#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取指定的suggestion -->
+	<select id="findSuggById" parameterClass="string" resultMap="suggestion">
+		select * from suggestion where SUGGESTION_ID=#suggestionId#
+	</select>
+	<!-- 获取个人建议数据表中的符合条件的纪录 -->
+	<select id="queryCountSuggestions" parameterClass="map"
+		resultClass="int">
+		select count(*) from suggestion
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="suggesttype">
+				SUGGESTTYPE like
+				#suggesttype#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="publicity">
+				PUBLICITY like
+				#publicity#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 持久化个人建议 -->
+	<insert id="persist" parameterClass="suggestion">
+	 	<selectKey resultClass="string" keyProperty="suggestionId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		suggestion(
+		SUGGESTION_ID,TITLE,
+		SUGGESTTYPE,PUBLICITY,
+		TOPERSON,SUGESTER,
+		CONTENT,FLAG
+		) values(
+		#suggestionId#,#title#,
+		#suggesttype#,#publicity#,
+		#toperson#,#sugester#,
+		#content#,#flag#
+		)
+	</insert>
+	<!-- 修改个人建议 -->
+	<update id="update" parameterClass="suggestion">
+		update
+		suggestion set
+		TITLE=#title#,
+		SUGGESTTYPE=#suggesttype#,
+		PUBLICITY=#publicity#,
+		TOPERSON=#toperson#,
+		SUGESTER=#sugester#,
+		CONTENT=#content#,
+		FLAG=#flag#
+		where SUGGESTION_ID =
+		#suggestionId#
+	</update>
+	<!-- 删除 -->
+	<delete id="delete" parameterClass="string">
+		delete from
+		suggestion where
+		SUGGESTION_ID = #suggestionId#
+	</delete>
+	<select id="querySuggestionById" parameterClass="string"
+		resultMap="suggestion">
+		select * from suggestion where SUGGESTION_ID = #value#
+	</select>
+
+	<delete id="execDeleteSuggestionById" parameterClass="string">
+		delete from
+		suggestion where SUGGESTION_ID = #suggestionId#
+	</delete>
+
+	<insert id="execInsertSuggestion" parameterClass="suggestion">
+		<selectKey resultClass="string" keyProperty="suggestionId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		suggestion(
+		SUGGESTION_ID,TITLE,
+		SUGGESTTYPE,PUBLICITY,
+		TOPERSON,SUGESTER,
+		CONTENT,FLAG
+		) values(
+		#suggestionId#,#title#,
+		#suggesttype#,#publicity#,
+		#toperson#,#sugester#,
+		#content#,#flag#
+		)
+	</insert>
+
+</sqlMap>

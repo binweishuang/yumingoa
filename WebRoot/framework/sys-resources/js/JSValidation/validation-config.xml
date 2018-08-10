@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE validation-config SYSTEM "validation-config.dtd">
+<validation-config lang="auto">
+	<form id="baseCompanyForm" show-error="alert" show-type="all">
+		<field name="companyid" display-name="公司编码" onfail="">
+			<depend name="required" />
+			<depend name="commonChar" />
+			<depend name="maxLength" param0="25"/>
+		</field>
+		<field name="companyname" display-name="公司名称">
+			<depend name="required" />
+			<depend name="maxLength" param0="50"/>
+		</field>
+		<field name="grade" display-name="公司级别">
+			<depend name="required" />
+		</field>
+		<field name="shortname" display-name="公司简称">
+			<depend name="required" />
+			<depend name="maxLength" param0="10"/>
+		</field>
+	</form>
+	<form id="baseDeptForm" show-error="alert" show-type="all">
+		<field name="deptid" display-name="部门编码">
+			<depend name="required" />
+			<depend name="commonChar" />
+			<depend name="maxLength" param0="25"/>
+		</field>
+		<field name="deptname" display-name="部门名称">
+			<depend name="required" />
+			<depend name="maxLength" param0="50"/>
+		</field>
+	</form>
+	<form id="baseDutyForm" show-error="alert" show-type="all">
+		<field name="dutyid" display-name="职务编码">
+			<depend name="required" />
+			<depend name="commonChar" />
+			<depend name="maxLength" param0="25"/>
+		</field>
+		<field name="dutyname" display-name="职务名称">
+			<depend name="required" />
+			<depend name="maxLength" param0="50"/>
+		</field>
+	</form>
+	<form id="baseUserForm" show-error="alert" show-type="all">
+		<field name="userid" display-name="用户账号">
+			<depend name="required" />
+			<depend name="commonChar" />
+			<depend name="maxLength" param0="20"/>
+		</field>
+		<field name="username" display-name="用户姓名">
+			<depend name="required" />
+			<depend name="maxLength" param0="20"/>
+		</field>
+		<field name="deptid" display-name="所属部门">
+			<depend name="required" />
+		</field>
+		<field name="email" display-name="电子邮箱">
+			<depend name="email" />
+		</field>
+		<field name="ip" display-name="IP地址">
+			<depend name="mask" param0="\b(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])\b"/>
+		</field>
+	</form>
+	<form id="baseRoleForm" show-error="alert" show-type="all">
+		<field name="roleid" display-name="角色编码">
+			<depend name="required" />
+			<depend name="commonChar" />
+			<depend name="maxLength" param0="25"/>
+		</field>
+		<field name="rolename" display-name="角色名称">
+			<depend name="required" />
+			<depend name="maxLength" param0="50"/>
+		</field>
+	</form>
+	<form id="baseResourceForm" show-error="alert" show-type="all">
+		<field name="title" display-name="标题">
+			<depend name="required" />
+			<depend name="maxLength" param0="30"/>
+		</field>
+		<field name="sortid" display-name="序号">
+			<depend name="required" />
+			<depend name="integer"/>
+			<depend name="maxLength" param0="4"/>
+		</field>
+	</form>
+	<form id="baseOrgForm" show-error="alert" show-type="all">
+		<field name="orgid" display-name="部门编码">
+			<depend name="required" />
+		</field>
+		<field name="orgname" display-name="部门名称">
+			<depend name="required" />
+		</field>
+	</form>
+	<form id="baseProjectForm" show-error="alert" show-type="all">
+		<field name="projectid" display-name="项目编码">
+			<depend name="required" />
+			<depend name="commonChar" />
+			<depend name="maxLength" param0="25"/>
+		</field>
+		<field name="projectname" display-name="项目名称">
+			<depend name="required" />
+			<depend name="maxLength" param0="50"/>
+		</field>
+	</form>
+	<form id="baseMessageForm" show-error="alert" show-type="all">
+		<field name="sysmsg" display-name="发布内容">
+			<depend name="required" />
+			<depend name="maxLength" param0="500"/>
+		</field>
+	</form>
+	<form id="baseUserImportForm" show-error="alert" show-type="all">
+		<field name="uploadFile" display-name="文件">
+			<depend name="required" />
+		</field>
+	</form>
+	<form id="jobForm" show-error="alert" show-type="all">
+		<field name="jobGroup" display-name="任务组">
+			<depend name="required" />
+		</field>
+		<field name="jobName" display-name="任务名称">
+			<depend name="required" />
+		</field>
+		<field name="jobClass" display-name="类">
+			<depend name="required" />
+		</field>
+	</form>
+	<form id="createSimpleTriggerForm" show-error="alert" show-type="all">
+		<field name="triggerGroup" display-name="触发器组">
+			<depend name="required" />
+		</field>
+		<field name="triggerName" display-name="触发器名称">
+			<depend name="required" />
+		</field>
+		<field name="startTime" display-name="首次执行时间">
+			<!-- 验证日期时间的正则表达式，测试格式为yyyy-MM-dd HH:mm:ss -->
+			<depend name="mask" param0="^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\d):[0-5]?\d:[0-5]?\d$"/>
+		</field>
+		<field name="endTime" display-name="停止时间">
+			<depend name="mask" param0="^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\d):[0-5]?\d:[0-5]?\d$"/>
+		</field>
+		<field name="repeatCount" display-name="重复执行次数">
+			<depend name="integer" />
+			<depend name="integerRange" param0="-1" param1="99999999"/>
+		</field>
+		<field name="repeatInterval" display-name="重复执行间隔时间">
+			<depend name="integer" />
+			<depend name="integerRange" param0="1" param1="99999999"/>
+		</field>
+	</form>
+	<form id="createCronTriggerForm" show-error="alert" show-type="all">
+		<field name="triggerGroup" display-name="触发器组">
+			<depend name="required" />
+		</field>
+		<field name="triggerName" display-name="触发器名称">
+			<depend name="required"/>
+		</field>
+		<field name="startTime" display-name="首次执行时间">
+			<depend name="mask" param0="^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\d):[0-5]?\d:[0-5]?\d$"/>
+		</field>
+		<field name="endTime" display-name="停止时间">
+			<depend name="mask" param0="^((((1[6-9]|[2-9]\d)\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\d|3[01]))|(((1[6-9]|[2-9]\d)\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\d|30))|(((1[6-9]|[2-9]\d)\d{2})-0?2-(0?[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\d):[0-5]?\d:[0-5]?\d$"/>
+		</field>
+		<field name="cronExpression" display-name="CRON表达式">
+			<depend name="required" />
+			<!--  
+			<depend name="mask" param0="[0-59[,][-][\][*][/]]\s[0-59[,][-][\][*][/]]\s[0-23[,][-][\][*][/]]\s[1-31[,][-][\][*][\][?][/][L][C]]\s[1-12[,][-][\][*][/]]\s[1-7[,][-][\][*][\][?][/][L][C][#]]\s?[1970-2009[,][-][\][*][/]]?"/>
+			-->
+		</field>
+	</form>
+	<form id="createUITriggerForm" show-error="alert" show-type="all">
+		<field name="triggerGroup" display-name="触发器组">
+			<depend name="required" />
+		</field>
+		<field name="triggerName" display-name="触发器名称">
+			<depend name="required"/>
+		</field>
+		<field name="hour" display-name="时间">
+			<depend name="required" />
+		</field>
+		<field name="minute" display-name="时间">
+			<depend name="required" />
+		</field>
+		<field name="second" display-name="时间">
+			<depend name="required" />
+		</field>
+	</form>
+	<form id="fileUploadForm" show-error="alert" show-type="all">
+		<field name="caption" display-name="文件说明">
+			<depend name="required"/>
+		</field>
+		<field name="filetype" display-name="文件类型">
+			<depend name="required"/>
+		</field>		
+		<field name="myFile" display-name="文件">
+			<depend name="required"/>
+		</field>
+	</form>
+	<form id="baseHelpForm" show-error="alert" show-type="all">
+		<field name="resourceid" display-name="对应菜单编码">
+			<depend name="required"/>
+		</field>
+		<field name="helptype" display-name="帮助类型">
+			<depend name="required"/>
+		</field>		
+		<field name="content" display-name="帮助内容">
+			<depend name="required"/>
+		</field>
+	</form>
+</validation-config>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Dossier">
+	<typeAlias alias="dossier" type="runix.persistent.model.Dossier"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="dossier" class="dossier"> 
+		<result property="dossierId" column="DOSSIER_ID"/>
+		<result property="titlle" column="TITLLE"/>
+		<result property="boxnum" column="BOXNUM"/>
+		<result property="annual" column="ANNUAL"/>
+		<result property="recgroupnum" column="RECGROUPNUM"/>
+		<result property="keeplimit" column="KEEPLIMIT"/>
+		<result property="archivesnum" column="ARCHIVESNUM"/>
+		<result property="docroom" column="DOCROOM"/>
+		<result property="author" column="AUTHOR"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="pagenum" column="PAGENUM"/>
+		<result property="secret" column="SECRET"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="remark" column="REMARK"/>
+		<result property="flag" column="FLAG"/>
+		<result property="status" column="STATUS"/>
+	</resultMap>
+
+	<select id="queryDossiers" parameterClass="map"  resultClass="hashmap">
+		select DOSSIER_ID,STATUS,AUTHOR,
+		 CATEGORY,TITLLE,(select dataname from base_data t2 where t2.data_id=t.DOCROOM) DOCROOM,
+		 BOXNUM,ANNUAL from dossier t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="dossierId">
+					DOSSIER_ID like #dossierId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="author">
+					AUTHOR like #author#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="annual">
+					ANNUAL like #annual#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountDossiers" parameterClass="map"  resultClass="int">
+		select count(*) from dossier
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="dossierId">
+					DOSSIER_ID like #dossierId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="author">
+					AUTHOR like #author#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="annual">
+					ANNUAL like #annual#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryDossierById" parameterClass="string"  resultMap="dossier">
+		select * from dossier where DOSSIER_ID = #value#
+	</select>
+	
+	<select id="queryDossierByIdForView" parameterClass="string"  resultMap="dossier">
+		        select dossier_id,
+               titlle,
+               boxnum,
+               annual,
+               recgroupnum,
+               keeplimit,
+               archivesnum,
+               (select dataname
+                  from base_data t1
+                 where t1.data_id = t.docroom) docroom,
+               author,
+               category,
+               pagenum,
+               starttime,
+               endtime,
+               remark,
+               flag,
+               status,
+               (select dataname
+                  from base_data t1
+                 where t1.data_id = t.secret) secret
+          from dossier t
+         where dossier_id = #value#
+	</select>
+	
+	<select id="queryDossierList"   resultClass="hashmap">
+		select DOSSIER_ID,TITLLE from dossier 
+	</select>
+
+	<delete id="execDeleteDossierById" parameterClass="string">
+		 delete from dossier where DOSSIER_ID = #dossierId#
+	</delete>
+	
+	<delete id="execDeleteArchiveByDossierId" parameterClass="string">
+		 delete from archive where DOSSIER_ID = #value#
+	</delete>
+
+	<insert id="execInsertDossier" parameterClass="dossier">
+		<selectKey resultClass="string" keyProperty="dossierId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey>
+		insert into dossier(
+			DOSSIER_ID,TITLLE,
+			BOXNUM,ANNUAL,
+			RECGROUPNUM,KEEPLIMIT,
+			ARCHIVESNUM,DOCROOM,
+			AUTHOR,CATEGORY,
+			PAGENUM,SECRET,
+			STARTTIME,ENDTIME,
+			REMARK,FLAG,
+			STATUS
+		) values(
+			#dossierId#,#titlle#,
+			#boxnum#,#annual#,
+			#recgroupnum#,#keeplimit#,
+			#archivesnum#,#docroom#,
+			#author#,#category#,
+			#pagenum#,#secret#,
+			#starttime#,#endtime#,
+			#remark#,#flag#,
+			#status#
+		)
+	</insert>
+
+	<update id="execUpdateDossier" parameterClass="dossier">
+		update dossier set
+			DOSSIER_ID=#dossierId#,
+			TITLLE=#titlle#,
+			BOXNUM=#boxnum#,
+			ANNUAL=#annual#,
+			RECGROUPNUM=#recgroupnum#,
+			KEEPLIMIT=#keeplimit#,
+			ARCHIVESNUM=#archivesnum#,
+			DOCROOM=#docroom#,
+			AUTHOR=#author#,
+			CATEGORY=#category#,
+			PAGENUM=#pagenum#,
+			SECRET=#secret#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			REMARK=#remark#,
+			FLAG=#flag#,
+			STATUS=#status#
+		where DOSSIER_ID = #dossierId#
+	</update>
+</sqlMap>

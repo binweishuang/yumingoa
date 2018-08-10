@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Task">
+	<typeAlias alias="task" type="runix.persistent.model.Task"/>
+	<typeAlias alias="userTask" type="runix.persistent.model.UserTask"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+
+	<resultMap id="task" class="task"> 
+		<result property="taskId" column="TASK_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="standard" column="STANDARD"/>
+		<result property="reportTo" column="REPORT_TO"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="timelimit" column="TIMELIMIT"/>
+		<result property="attachname" column="ATTACHNAME"/>
+		<result property="attachpath" column="ATTACHPATH"/>
+		<result property="executer" column="EXECUTER"/>
+		<result property="executerid" column="EXECUTERID"/>
+		<result property="exestarttime" column="EXESTARTTIME"/>
+		<result property="exeendtime" column="EXEENDTIME"/>
+		<result property="content" column="CONTENT"/>
+		<result property="process" column="PROCESS"/>
+		<result property="completion" column="COMPLETION"/>
+		<result property="flag" column="FLAG"/>
+		<result property="totalprocess" column="TOTALPROCESS"/>
+		<result property="arranger" column="ARRANGER"/>
+		<result property="taskcomplete" column="TASKCOMPLETE"/>
+	</resultMap>
+	
+	<resultMap id="userTask" class="userTask"> 
+		<result property="utId" column="UT_ID"/>
+		<result property="taskId" column="TASK_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="process" column="PROCESS"/>
+		<result property="comletetion" column="COMLETETION"/>
+		<result property="taskcomplete" column="TASKCOMPLETE"/>
+	</resultMap>
+	
+	<select id="queryTasks" parameterClass="map" resultClass="hashmap">
+		select TASK_ID,TITLE,
+		(select NAME from base_user where USER_ID=t.REPORT_TO) REPORTTO,
+		EXECUTER,
+		PROCESS,TIMELIMIT,STARTTIME,ENDTIME,EXESTARTTIME,EXEENDTIME,COMPLETION,TOTALPROCESS from task t
+		<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="reportTo">
+					REPORT_TO in (select user_id from base_user b where b.name like #reportTo#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executer">
+					EXECUTER like #executer#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="completion">
+					COMPLETION = #completion#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="repId">
+					REPORT_TO = #repId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="arranger">
+					 ARRANGER = #arranger#
+				</isNotEmpty>
+		</dynamic>
+		order by to_number(TASK_ID) desc
+	</select>
+
+	<select id="queryCountTasks" parameterClass="map"  resultClass="int">
+		select count(*) from task
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="reportTo">
+					REPORT_TO in (select user_id from base_user b where b.name like #reportTo#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executer">
+					EXECUTER like #executer#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="completion">
+					COMPLETION = #completion#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="repId">
+					REPORT_TO = #repId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="arranger">
+					 ARRANGER = #arranger#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	
+	<select id="queryTasks1" parameterClass="map" resultClass="hashmap">
+		        select t.TASK_ID,u.ut_id,
+               t.TITLE,
+               (select NAME from base_user where USER_ID = t.REPORT_TO) REPORTTO,
+               t.EXECUTER,
+               u.PROCESS,
+               t.TIMELIMIT,
+               t.STARTTIME,
+               t.ENDTIME,
+               u.comletetion COMPLETION,
+               t.TOTALPROCESS
+          from task t left join user_task u on t.task_id = u.task_id
+		<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="reportTo">
+					t.REPORT_TO in (select user_id from base_user b where b.name like #reportTo#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executer">
+					t.EXECUTER like #executer#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="completion">
+					u.comletetion = #completion#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="exeId">
+					u.USER_ID = #exeId#
+				</isNotEmpty>
+		</dynamic>
+		order by to_number(t.TASK_ID) desc
+	</select>
+
+	<select id="queryCountTasks1" parameterClass="map"  resultClass="int">
+		select count(*) from (  select t.TASK_ID,
+               t.TITLE,
+               (select NAME from base_user where USER_ID = t.REPORT_TO) REPORTTO,
+               t.EXECUTER,
+               u.PROCESS,
+               t.TIMELIMIT,
+               t.STARTTIME,
+               t.ENDTIME,
+               u.comletetion COMPLETION,
+               t.TOTALPROCESS
+          from task t left join user_task u on t.task_id = u.task_id
+		<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="reportTo">
+					t.REPORT_TO in (select user_id from base_user b where b.name like #reportTo#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executer">
+					t.EXECUTER like #executer#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="completion">
+					u.comletetion = #completion#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="exeId">
+					u.USER_ID = #exeId#
+				</isNotEmpty>
+		</dynamic>) tt
+	</select>
+	
+	<select id="queryTaskById" parameterClass="string"  resultMap="task">
+		select * from task where TASK_ID = #value#
+	</select>
+	
+	<select id="queryUserTaskById" parameterClass="string"  resultMap="userTask">
+		select * from user_task where ut_ID = #value#
+	</select>
+	
+	<select id="queryCheckComplete" parameterClass="string"  resultClass="string">
+		select round(avg(process),2) totalprocess from user_task where task_id = #value#
+	</select>
+	
+	<select id="queryUserTasks" parameterClass="string"  resultMap="userTask">
+		select UT_ID,TASK_ID,(select name from base_user u where u.user_id =t.user_id ) USER_ID,PROCESS,COMLETETION,TASKCOMPLETE from user_task t where task_id = #value#
+	</select>
+
+	<delete id="execDeleteTaskById" parameterClass="string">
+		 delete from task where TASK_ID = #taskId#
+	</delete>
+
+	<insert id="execInsertTask" parameterClass="task">
+	 	<selectKey resultClass="string" keyProperty="taskId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into task(
+			TASK_ID,TITLE,
+			STANDARD,REPORT_TO,
+			STARTTIME,ENDTIME,
+			TIMELIMIT,ATTACHNAME,
+			ATTACHPATH,EXECUTER,EXECUTERID,
+			EXESTARTTIME,EXEENDTIME,
+			CONTENT,PROCESS,
+			COMPLETION,FLAG,TOTALPROCESS,ARRANGER
+		) values(
+			#taskId#,#title#,
+			#standard#,#reportTo#,
+			#starttime#,#endtime#,
+			#timelimit#,#attachname#,
+			#attachpath#,#executer#,#executerid#,
+			#exestarttime#,#exeendtime#,
+			#content#,#process#,
+			#completion#,#flag#,#totalprocess#,#arranger#
+		)
+	</insert>
+
+	<update id="execUpdateTask" parameterClass="task">
+		update task set
+			TASK_ID=#taskId#,
+			TITLE=#title#,
+			STANDARD=#standard#,
+			REPORT_TO=#reportTo#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			TIMELIMIT=#timelimit#,
+			ATTACHNAME=#attachname#,
+			ATTACHPATH=#attachpath#,
+			EXECUTER=#executer#,EXECUTERID=#executerid#,
+			EXESTARTTIME=#exestarttime#,
+			EXEENDTIME=#exeendtime#,
+			CONTENT=#content#,
+			PROCESS=#process#,
+			COMPLETION=#completion#,
+			FLAG=#flag#,TOTALPROCESS=#totalprocess#,ARRANGER=#arranger#,TASKCOMPLETE=#taskcomplete#
+		where TASK_ID = #taskId#
+	</update>
+	
+	<insert id="execInsertUserTask" parameterClass="userTask">
+		insert into user_task(UT_ID,
+			TASK_ID,USER_ID,PROCESS,COMLETETION,TASKCOMPLETE
+		) values(#utId#,
+			#taskId#,#userId#,
+			#process#,#comletetion#,
+			#taskcomplete#
+		)
+	</insert>
+	
+	<update id="execUpdateUserTask" parameterClass="userTask">
+		update user_task set
+		UT_ID=#utId#,
+			TASK_ID=#taskId#,
+			USER_ID=#userId#,
+			PROCESS=#process#,
+			COMLETETION=#comletetion#,
+			TASKCOMPLETE=#taskcomplete#
+		where UT_ID = #utId#
+	</update>
+</sqlMap>

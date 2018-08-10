@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UsingEquip">
+	<typeAlias alias="usingEquip" type="runix.persistent.model.UsingEquip"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="using_equip" class="usingEquip"> 
+		<result property="usingequipId" column="USINGEQUIP_ID"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="usecondition" column="USECONDITION"/>
+		<result property="storage" column="STORAGE"/>
+		<result property="cateogory" column="CATEOGORY"/>
+		<result property="equipmentId" column="EQUIPMENT_ID"/>
+		<result property="storagenum" column="STORAGENUM"/>
+		<result property="applynum" column="APPLYNUM"/>
+		<result property="applytime" column="APPLYTIME"/>
+		<result property="remark" column="REMARK"/>
+		<result property="applicant" column="APPLICANT"/>
+		<result property="department" column="DEPARTMENT"/>
+		<result property="status" column="STATUS"/>
+		<result property="opinion" column="OPINION"/>
+		<result property="flag" column="FLAG"/>
+		<result property="title" column="TITLE"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		
+	</resultMap>
+
+	<select id="queryUsingEquips" parameterClass="map"  resultClass="hashmap">
+		select USINGEQUIP_ID,(select name from base_user t1 where t1.user_id=t.APPLICANT) APPLICANT,
+		(select deptname from dept t2 where t2.dept_id = t.DEPARTMENT) dept,
+		(select dataname from base_data t3 where t3.data_id = t.CATEOGORY) CATEOGORY,
+		(select goodsname from equipment t4 where t4.equipment_id = t.EQUIPMENT_ID) goodsname,APPLYNUM,APPLYTIME,USECONDITION,STATUS,CHECKSTATUS
+		 from using_equip t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="usingequipId">
+					USINGEQUIP_ID like #usingequipId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="usecondition">
+					USECONDITION like #usecondition#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					checkstatus like #checkstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					status like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="cateogory">
+					CATEOGORY like #cateogory#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="applicant">
+					APPLICANT like #applicant#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountUsingEquips" parameterClass="map"  resultClass="int">
+		select count(*) from using_equip
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="usingequipId">
+					USINGEQUIP_ID like #usingequipId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="usecondition">
+					USECONDITION like #usecondition#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					checkstatus like #checkstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					status like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="cateogory">
+					CATEOGORY like #cateogory#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="applicant">
+					APPLICANT like #applicant#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryUsingEquipById" parameterClass="string"  resultMap="using_equip">
+		select * from using_equip where USINGEQUIP_ID = #value#
+	</select>
+
+	<delete id="execDeleteUsingEquipById" parameterClass="string">
+		 delete from using_equip where USINGEQUIP_ID = #usingequipId#
+	</delete>
+
+	<insert id="execInsertUsingEquip" parameterClass="usingEquip">
+	 	<selectKey resultClass="string" keyProperty="surveyId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into using_equip(
+			USINGEQUIP_ID,WORKFLOW_ID,
+			USECONDITION,STORAGE,
+			CATEOGORY,EQUIPMENT_ID,
+			STORAGENUM,APPLYNUM,
+			APPLYTIME,REMARK,
+			APPLICANT,DEPARTMENT,
+			STATUS,OPINION,
+			FLAG,TITLE,CHECKSTATUS,STARTTIME,ENDTIME
+		) values(
+			#usingequipId#,#workflowId#,
+			#usecondition#,#storage#,
+			#cateogory#,#equipmentId#,
+			#storagenum#,#applynum#,
+			#applytime#,#remark#,
+			#applicant#,#department#,
+			#status#,#opinion#,
+			#flag#,#title#,#checkstatus#,#starttime#,#endtime#
+		)
+	</insert>
+
+	<update id="execUpdateUsingEquip" parameterClass="usingEquip">
+		update using_equip set
+			USINGEQUIP_ID=#usingequipId#,
+			WORKFLOW_ID=#workflowId#,
+			USECONDITION=#usecondition#,
+			STORAGE=#storage#,
+			CATEOGORY=#cateogory#,
+			EQUIPMENT_ID=#equipmentId#,
+			STORAGENUM=#storagenum#,
+			APPLYNUM=#applynum#,
+			APPLYTIME=#applytime#,
+			REMARK=#remark#,
+			APPLICANT=#applicant#,
+			DEPARTMENT=#department#,
+			STATUS=#status#,
+			OPINION=#opinion#,
+			FLAG=#flag#,
+			TITLE=#title#,
+			CHECKSTATUS=#checkstatus#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#
+		where USINGEQUIP_ID = #usingequipId#
+	</update>
+	
+	<select id="queryUsingEquipByIdForView" parameterClass="string"  resultMap="using_equip">
+		select USINGEQUIP_ID,WORKFLOW_ID,USECONDITION,
+		(select dataname from base_data t1 where t1.data_id = (select storage from equipment t2 where t2.equipment_id=t.EQUIPMENT_ID)) STORAGE,
+		(select dataname from base_data t1 where t1.data_id=t.CATEOGORY) CATEOGORY,
+		(select goodsname from equipment t3 where t3.equipment_id=t.equipment_id) equipment_id,
+		STORAGENUM,APPLYNUM,APPLYTIME,REMARK,(select name from base_user t4 where t4.user_id=t.APPLICANT) APPLICANT,
+		(select deptname from dept t5 where t5.dept_id = t.DEPARTMENT) DEPARTMENT,STATUS,OPINION,FLAG,TITLE,CHECKSTATUS,STARTTIME,ENDTIME
+		 from using_equip t where USINGEQUIP_ID = #value#
+	</select>
+	
+	<select id="queryUsingEquipByIdForCheck" parameterClass="string"  resultMap="using_equip">
+		select USINGEQUIP_ID,WORKFLOW_ID,USECONDITION,
+		(select dataname from base_data t1 where t1.data_id = (select storage from equipment t2 where t2.equipment_id=t.EQUIPMENT_ID)) STORAGE,
+		(select dataname from base_data t1 where t1.data_id=t.CATEOGORY) CATEOGORY,
+		(select goodsname from equipment t3 where t3.equipment_id=t.equipment_id) equipment_id,
+		STORAGENUM,APPLYNUM,APPLYTIME,REMARK,(select name from base_user t4 where t4.user_id=t.APPLICANT) APPLICANT,
+		(select deptname from dept t5 where t5.dept_id = t.DEPARTMENT) DEPARTMENT,STATUS,OPINION,FLAG,TITLE,CHECKSTATUS,STARTTIME,ENDTIME
+		 from using_equip t where USINGEQUIP_ID = #value#
+	</select>
+</sqlMap>

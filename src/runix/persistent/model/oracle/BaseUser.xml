@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="BaseUser">
+	<typeAlias alias="baseUser" type="runix.persistent.model.BaseUser" />
+	<typeAlias alias="list" type="java.util.List" />
+	<typeAlias alias="string" type="java.lang.String" />
+	<typeAlias alias="map" type="java.util.Map" />
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+
+	<resultMap id="base_user" class="baseUser">
+		<result property="userId" column="USER_ID" />
+		<result property="username" column="USERNAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="name" column="NAME" />
+		<result property="sex" column="SEX" />
+		<result property="org" column="ORG" />
+		<result property="deptId" column="DEPT_ID" />
+		<result property="positionId" column="POSITION_ID" />
+		<result property="state" column="STATE" />
+		<result property="birthdate" column="BIRTHDATE" />
+		<result property="age" column="AGE" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="address" column="ADDRESS" />
+		<result property="flag" column="FLAG" />
+	</resultMap>
+	<!-- 获取所有的用户 -->
+	<select id="queryBaseUsers" resultClass="hashmap">
+		select USER_ID, USERNAME, NAME, SEX, DEPT_ID, POSITION_ID, STATE, EMAIL, PHONE, FLAG,
+			(select DEPTNAME from dept where dept.DEPT_ID=buser.DEPT_ID) DEPTNAME,
+			(select POSTNAME from position where position.POSITION_ID=buser.POSITION_ID) POSTNAME
+		from base_user buser where USER_ID !='admin_init'
+		
+			<isNotEmpty prepend="and" property="deptId">
+				DEPT_ID=#deptId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="positionId">
+				POSITION_ID=#positionId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				STATE=#state#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				NAME like  '%$name$%'
+			</isNotEmpty>
+		
+	</select>
+	<!-- 获取所有的用户 -->
+	<select id="getAllUsers" resultMap="base_user">
+		select * from base_user where state = '1' and  USER_ID !='admin_init'
+	</select>
+	<!-- 通过姓名获取指定的的用户 -->
+	<select id="getUsersByName" parameterClass="baseUser" resultMap="base_user">
+		select * from base_user where NAME=#name#
+	</select>
+	<!-- 通过用户名获取指定的的用户 -->
+	<select id="getUsersByUserName" parameterClass="baseUser" resultMap="base_user">
+		select * from base_user where USERNAME=#username#
+	</select>
+	<!--持久化用户 -->
+	<insert id="persist" parameterClass="baseUser">
+		<selectKey resultClass="string" keyProperty="userId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		base_user(
+		USER_ID,USERNAME,
+		PASSWORD,NAME,
+		SEX,ORG,
+		DEPT_ID,POSITION_ID,
+		STATE,BIRTHDATE,
+		AGE,EMAIL,
+		PHONE,ADDRESS,
+		FLAG
+		) values(
+		#userId#,#username#,
+		#password#,#name#,
+		#sex#,#org#,
+		#deptId#,#positionId#,
+		#state#,#birthdate#,
+		#age#,#email#,
+		#phone#,#address#,
+		#flag#
+		)
+	</insert>
+	<!-- 通过用户Id获取指定的用户 -->
+	<select id="getUserById" parameterClass="baseUser" resultMap="base_user">
+		select * from base_user where USER_ID=#userId#
+	</select>
+	<!--修改用户 -->
+	<update id="update" parameterClass="baseUser">
+			update base_user
+			set
+			USER_ID=#userId#,
+			USERNAME=#username#,
+		<isNotEmpty property="password">
+			PASSWORD=#password#,
+		</isNotEmpty>
+			NAME=#name#,
+			SEX=#sex#,
+			ORG=#org#,
+			DEPT_ID=#deptId#,
+			POSITION_ID=#positionId#,
+			STATE=#state#,
+			BIRTHDATE=#birthdate#,
+			AGE=#age#,
+			EMAIL=#email#,
+			PHONE=#phone#,
+			ADDRESS=#address#,
+			FLAG=#flag#
+			where USER_ID = #userId#
+	</update>
+	<!--删除用户 -->
+	<delete id="delete" parameterClass="baseUser">
+		delete from
+		base_user where
+		USER_ID = #userId#
+	</delete>
+	<select id="queryCountBaseUsers" parameterClass="map"
+		resultClass="int">
+		select count(*) from base_user  where USER_ID !='admin_init'
+			<isNotEmpty prepend="and" property="userId">
+				USER_ID like #userId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="username">
+				USERNAME like
+				#username#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="password">
+				PASSWORD like
+				#password#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				NAME like #name#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sex">
+				SEX like #sex#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="org">
+				ORG like #org#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="deptId">
+				DEPT_ID like #deptId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="positionId">
+				POSITION_ID like
+				#positionId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				STATE like #state#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="birthdate">
+				BIRTHDATE like
+				#birthdate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="age">
+				AGE like #age#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="email">
+				EMAIL like #email#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="phone">
+				PHONE like #phone#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="address">
+				ADDRESS like #address#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="flag">
+				FLAG like #flag#
+			</isNotEmpty>
+	</select>
+
+	<select id="queryBaseUserById" parameterClass="string"
+		resultMap="base_user">
+		select * from base_user where USER_ID = #value#
+	</select>
+
+	<delete id="execDeleteBaseUserById" parameterClass="string">
+		delete from
+		base_user where USER_ID = #userId#
+	</delete>
+
+	<insert id="execInsertBaseUser" parameterClass="baseUser">
+		<selectKey resultClass="string" keyProperty="userId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		base_user(
+		USER_ID,USERNAME,
+		PASSWORD,NAME,
+		SEX,ORG,
+		DEPT_ID,POSITION_ID,
+		STATE,BIRTHDATE,
+		AGE,EMAIL,
+		PHONE,ADDRESS,
+		FLAG
+		) values(
+		#userId#,#username#,
+		#password#,#name#,
+		#sex#,#org#,
+		#deptId#,#positionId#,
+		#state#,#birthdate#,
+		#age#,#email#,
+		#phone#,#address#,
+		#flag#
+		)
+	</insert>
+
+	<update id="execUpdateBaseUser" parameterClass="baseUser">
+		update base_user
+		set
+		USER_ID=#userId#,
+		USERNAME=#username#,
+		PASSWORD=#password#,
+		NAME=#name#,
+		SEX=#sex#,
+		ORG=#org#,
+		DEPT_ID=#deptId#,
+		POSITION_ID=#positionId#,
+		STATE=#state#,
+		BIRTHDATE=#birthdate#,
+		AGE=#age#,
+		EMAIL=#email#,
+		PHONE=#phone#,
+		ADDRESS=#address#,
+		FLAG=#flag#
+		where USER_ID = #userId#
+	</update>
+	
+		<select id="queryBaseUsers2" parameterClass="map"  resultClass="hashmap">
+		select user_id,sex,name,(select deptname from dept t2 where t1.dept_id=t2.dept_id ) deptname,(select postname from position t3 where t1.position_id=t3.position_id) postname from base_user t1 where USER_ID !='admin_init'
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="deptId">
+					DEPT_ID like #deptId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="positionId">
+					POSITION_ID like #positionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="idStr">
+					user_id in 
+					<iterate property="idStr" conjunction="," close=")" open="(" >
+                   #idStr[]#
+                   </iterate>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="userId">
+					user_id != #userId#
+				</isNotEmpty>
+	</select>
+
+	<select id="queryCountBaseUsers2" parameterClass="map"  resultClass="int">
+		select count(*) from base_user where USER_ID !='admin_init'
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="deptId">
+					DEPT_ID like #deptId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="positionId">
+					POSITION_ID like #positionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="idStr">
+					user_id in 
+					<iterate property="idStr" conjunction="," close=")" open="(" >
+                   #idStr[]#
+                   </iterate>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="userId">
+					user_id != #userId#
+				</isNotEmpty>
+	</select>
+	
+		<select id="queryLeaders" parameterClass="string"  resultClass="hashmap">
+		select user_id,name from base_user where user_id = #value#
+	  </select>
+	  
+	  <select id="queryBaseUserNum" parameterClass="string"  resultClass="int">
+		select count(1) from base_user where username = #value#
+	  </select>
+	  
+	   <select id="queryBaseUserByUsername" parameterClass="string"  resultClass="baseUser">
+		select t.user_id     userid,
+       t.username,
+       t.password,
+       t.name,
+       t.sex,
+       t.org,
+       t.dept_id     deptid,
+       t.position_id positionid,
+       t.state,t.birthdate,t.age,t.email,t.phone,t.address,t.flag,
+       t2.sortnum rolerank,
+       t2.title
+	  from base_user t
+	  left join position t1
+	    on t.position_id = t1.position_id
+	  left join permission t2
+	    on t1.position_id = t2.parentid
+	 where t.username = #value#
+	  </select>
+	  
+	  <select id="queryBirthPeoples" resultClass="hashmap">
+		select name,birthdate from base_user where state = '1' and  to_char(birthdate,'MM')=to_char(sysdate,'MM')
+	  </select>
+	  
+	  <select id="queryUsersByDept" resultMap="base_user">
+		select * from base_user where state = '1'
+		<isNotEmpty prepend="and" property="deptId">
+			dept_id = #deptId#
+		</isNotEmpty>
+	  </select>
+</sqlMap>

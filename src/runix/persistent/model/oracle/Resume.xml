@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Resume">
+	<typeAlias alias="resume" type="runix.persistent.model.Resume"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="resume" class="resume"> 
+		<result property="resumeId" column="RESUME_ID"/>
+		<result property="name" column="NAME"/>
+		<result property="sex" column="SEX"/>
+		<result property="age" column="AGE"/>
+		<result property="tel" column="TEL"/>
+		<result property="department" column="DEPARTMENT"/>
+		<result property="position" column="POSITION"/>
+		<result property="hire" column="HIRE"/>
+		<result property="recruitmentId" column="RECRUITMENT_ID"/>
+		<result property="atachname" column="ATACHNAME"/>
+		<result property="atachpath" column="ATACHPATH"/>
+		<result property="remark" column="REMARK"/>
+		<result property="flag" column="FLAG"/>
+		<result property="appdate" column="APPDATE"/>
+		<result property="interview" column="INTERVIEW"/>
+	</resultMap>
+
+	<select id="queryResumes" parameterClass="map"  resultMap="resume">
+		select * from resume
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="resumeId">
+					RESUME_ID like #resumeId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sex">
+					SEX like #sex#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="age">
+					AGE like #age#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="tel">
+					TEL like #tel#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="department">
+					DEPARTMENT like #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="position">
+					POSITION like #position#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="hire">
+					HIRE like #hire#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="recruitmentId">
+					RECRUITMENT_ID like #recruitmentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="atachname">
+					ATACHNAME like #atachname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="atachpath">
+					ATACHPATH like #atachpath#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="remark">
+					REMARK like #remark#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="appdate">
+					APPDATE like #appdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="interview">
+					INTERVIEW like #interview#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountResumes" parameterClass="map"  resultClass="int">
+		select count(*) from resume
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="resumeId">
+					RESUME_ID like #resumeId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sex">
+					SEX like #sex#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="age">
+					AGE like #age#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="tel">
+					TEL like #tel#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="department">
+					DEPARTMENT like #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="position">
+					POSITION like #position#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="hire">
+					HIRE like #hire#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="recruitmentId">
+					RECRUITMENT_ID like #recruitmentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="atachname">
+					ATACHNAME like #atachname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="atachpath">
+					ATACHPATH like #atachpath#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="remark">
+					REMARK like #remark#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="appdate">
+					APPDATE like #appdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="interview">
+					INTERVIEW like #interview#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryResumeById" parameterClass="string"  resultMap="resume">
+		select * from resume where RESUME_ID = #value#
+	</select>
+
+	<select id="queryResumeById2" parameterClass="string"  resultMap="resume">
+		select RESUME_ID,NAME,
+			SEX,AGE,
+			TEL,DEPARTMENT,
+			POSITION,HIRE,
+			(select title from recruitment t1 where t1.recruitment_id = t.recruitment_id) RECRUITMENT_ID,ATACHNAME,
+			ATACHPATH,REMARK,
+			FLAG,APPDATE,
+			INTERVIEW from resume t where RESUME_ID = #value#
+	</select>
+	<delete id="execDeleteResumeById" parameterClass="string">
+		 delete from resume where RESUME_ID = #resumeId#
+	</delete>
+
+	<insert id="execInsertResume" parameterClass="resume">
+	 	<selectKey resultClass="string" keyProperty="resumeId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into resume(
+			RESUME_ID,NAME,
+			SEX,AGE,
+			TEL,DEPARTMENT,
+			POSITION,HIRE,
+			RECRUITMENT_ID,ATACHNAME,
+			ATACHPATH,REMARK,
+			FLAG,APPDATE,
+			INTERVIEW
+		) values(
+			#resumeId#,#name#,
+			#sex#,#age#,
+			#tel#,#department#,
+			#position#,#hire#,
+			#recruitmentId#,#atachname#,
+			#atachpath#,#remark#,
+			#flag#,#appdate#,
+			#interview#
+		)
+	</insert>
+
+	<update id="execUpdateResume" parameterClass="resume">
+		update resume set
+			RESUME_ID=#resumeId#,
+			NAME=#name#,
+			SEX=#sex#,
+			AGE=#age#,
+			TEL=#tel#,
+			DEPARTMENT=#department#,
+			POSITION=#position#,
+			HIRE=#hire#,
+			RECRUITMENT_ID=#recruitmentId#,
+			ATACHNAME=#atachname#,
+			ATACHPATH=#atachpath#,
+			REMARK=#remark#,
+			FLAG=#flag#,
+			APPDATE=#appdate#,
+			INTERVIEW=#interview#
+		where RESUME_ID = #resumeId#
+	</update>
+	<delete id="execDeleteResumeByRelateId" parameterClass="string">
+		 delete from resume where RECRUITMENT_ID = #id#
+	</delete>
+</sqlMap>

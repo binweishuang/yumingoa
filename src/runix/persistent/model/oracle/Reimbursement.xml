@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Reimbursement">
+	<typeAlias alias="reimbursement" type="runix.persistent.model.Reimbursement"/>
+	<typeAlias alias="flowpeople" type="runix.persistent.model.FlowPeople"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="reimbursement" class="reimbursement"> 
+		<result property="reimId" column="REIM_ID"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="person" column="PERSON"/>
+		<result property="reimtype" column="REIMTYPE"/>
+		<result property="affiltype" column="AFFILTYPE"/>
+		<result property="totalmoney" column="TOTALMONEY"/>
+		<result property="totaldoc" column="TOTALDOC"/>
+		<result property="titlle" column="TITLLE"/>
+		<result property="remark" column="REMARK"/>
+		<result property="item" column="ITEM"/>
+		<result property="flag" column="FLAG"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="opinion" column="OPINION"/>
+		<result property="status" column="STATUS"/>
+		<result property="applytime" column="APPLYTIME"/>
+		<result property="dept" column="DEPT"/>
+	</resultMap>
+
+	<select id="queryReimbursements" parameterClass="map"  resultClass="hashmap">
+		select (select name from base_user u where u.user_id = t.PERSON) PERSON,(select dataname from base_data d where d.data_id=t.REIMTYPE) REIMTYPE,
+		REIM_ID,TOTALMONEY,TOTALDOC,TITLLE,ITEM,CHECKSTATUS,STATUS,APPLYTIME,DEPT from reimbursement t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="reimId">
+					REIM_ID like #reimId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="person">
+					PERSON in (select user_id from base_user t1 where t1.name like #person#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimtype">
+					REIMTYPE like #reimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+
+			</dynamic>
+	</select>
+
+	<select id="queryCountReimbursements" parameterClass="map"  resultClass="int">
+		select count(*) from reimbursement
+				<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="reimId">
+					REIM_ID like #reimId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="person">
+					PERSON in (select user_id from base_user t1 where t1.name like #person#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimtype">
+					REIMTYPE like #reimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryReimbursementById" parameterClass="string"  resultMap="reimbursement">
+		select * from reimbursement where REIM_ID = #value#
+	</select>
+
+	<select id="queryReimbursementByIdForCheck" parameterClass="string"  resultMap="reimbursement">
+		select * from reimbursement where REIM_ID = #value#
+	</select>
+	
+	<delete id="execDeleteReimbursementById" parameterClass="string">
+		 delete from reimbursement where REIM_ID = #reimId#
+	</delete>
+	
+	<delete id="execDeleteFlowPeopleByRelateId" parameterClass="string">
+		 delete from flow_people where RELATE_ID = #relateId#
+	</delete>
+
+	<insert id="execInsertReimbursement" parameterClass="reimbursement">
+	 	<selectKey resultClass="string" keyProperty="reimId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into reimbursement(
+			REIM_ID,WORKFLOW_ID,
+			PERSON,REIMTYPE,
+			AFFILTYPE,TOTALMONEY,
+			TOTALDOC,TITLLE,
+			REMARK,ITEM,
+			FLAG,STATUS,DEPT,CHECKSTATUS
+		) values(
+			#reimId#,#workflowId#,
+			#person#,#reimtype#,
+			#affiltype#,#totalmoney#,
+			#totaldoc#,#titlle#,
+			#remark#,#item#,
+			#flag#,#status#,#dept#,#checkstatus#
+		)
+	</insert>
+
+	<update id="execUpdateReimbursement" parameterClass="reimbursement">
+		update reimbursement set
+			REIM_ID=#reimId#,
+			WORKFLOW_ID=#workflowId#,
+			PERSON=#person#,
+			REIMTYPE=#reimtype#,
+			AFFILTYPE=#affiltype#,
+			TOTALMONEY=#totalmoney#,
+			TOTALDOC=#totaldoc#,
+			TITLLE=#titlle#,
+			REMARK=#remark#,
+			ITEM=#item#,
+			FLAG=#flag#,
+			APPLYTIME=#applytime#,
+			STATUS=#status#,
+			OPINION=#opinion#,
+			CHECKSTATUS=#checkstatus#
+		where REIM_ID = #reimId#
+	</update>
+	
+	<insert id="execInsertFlowPeople" parameterClass="flowpeople">
+		<selectKey resultClass="string" keyProperty="fpId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into flow_people(
+			FP_ID,RELATE_ID,
+			PERSON_ID,SORTNUM,HANDLESTATUS,READSTATUS,OPINION
+		) values(
+			#fpId#,#relateId#,
+			#personId#,#sortnum#,#handlestatus#,#readstatus#,#opinion#
+		)
+	</insert>
+	
+	<select id="queryReimbursementsCount" parameterClass="map"  resultClass="hashmap">
+		select (select name from base_user b where b.user_id=t.person) person,
+            (select deptname from dept d where d.dept_id=t.dept) dept,
+             (select dataname from base_data t1 where t1.data_id = t.reimtype) reimtype,
+             sum(to_number(totalmoney)) totalmoney,
+             sum(to_number(totaldoc)) totaldoc
+        from reimbursement t 
+			<dynamic prepend="where">
+
+				<isNotEmpty prepend="and" property="person">
+					PERSON in (select user_id from base_user u where u.name like  #person#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimtype">
+					REIMTYPE = #reimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT = #dept#
+				</isNotEmpty>
+				
+			</dynamic>
+			group by t.reimtype,t.dept,t.person
+	</select>
+
+	<select id="queryCountReimbursementsCount" parameterClass="map"  resultClass="int">
+		select count(*) from (select person,
+			       dept,
+			       reimtype,
+			       sum(to_number(totalmoney)) totalmoney,
+			       sum(to_number(totaldoc)) totaldoc
+			  from reimbursement t 
+			<dynamic prepend="where">
+
+				<isNotEmpty prepend="and" property="person">
+					PERSON in (select user_id from base_user u where u.name like  #person#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimtype">
+					REIMTYPE = #reimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT = #dept#
+				</isNotEmpty>
+
+			</dynamic> group by t.reimtype,t.dept,t.person) t1
+	</select>
+</sqlMap>

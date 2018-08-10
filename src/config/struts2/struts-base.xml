@@ -1,0 +1,31 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="base" extends="struts-default,json-default,com.strutsschool.interceptors.breadcrumbs"> 
+    	<interceptors> 
+            <interceptor name ="auth" class ="base.web.interceptor.LoginInterceptor" />
+            <interceptor name ="biz" class ="base.web.interceptor.BizInterceptor" />
+            <interceptor-stack name="myStack"> 
+				<interceptor-ref name="defaultStack"/> 
+				<interceptor-ref name="validationWorkflowStack"/>
+				<interceptor-ref name="auth"/> 
+				<interceptor-ref name="biz"/> 
+				<interceptor-ref name="breadCrumbs">
+					<param name="wildCardSeparator">_</param>
+		    		        <param name="uniqueCrumbsOnly">true</param>
+		    		        <param name="getRequestsOnly">true</param>
+		    		        <param name="crumbMax">24</param>
+					<param name="excludeMethods">save,update,remove</param>
+				</interceptor-ref>
+				
+			</interceptor-stack>              
+        </interceptors>        
+    	<global-results>
+	       <result name="error">/framework/common/error.jsp</result>
+	       <result name="sessionlost" type="redirect">/framework/log.jsp</result>
+	       <result name="autologin" type="redirect">/autologin.action</result>
+	    </global-results> 	   
+    </package>
+</struts>
+

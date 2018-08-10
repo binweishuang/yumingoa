@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Contract">
+	<typeAlias alias="contract" type="runix.persistent.model.Contract"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="contract" class="contract"> 
+		<result property="contractId" column="CONTRACT_ID"/>
+		<result property="signedperson" column="SIGNEDPERSON"/>
+		<result property="department" column="DEPARTMENT"/>
+		<result property="contracttype" column="CONTRACTTYPE"/>
+		<result property="status" column="STATUS"/>
+		<result property="customecompany" column="CUSTOMECOMPANY"/>
+		<result property="contact" column="CONTACT"/>
+		<result property="contacttel" column="CONTACTTEL"/>
+		<result property="signeddate" column="SIGNEDDATE"/>
+		<result property="enddate" column="ENDDATE"/>
+		<result property="details" column="DETAILS"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 查询合同列表 -->
+	<select id="queryContracts" parameterClass="map"  resultClass="hashmap">
+		select c.*,(select bu.NAME from base_user bu where bu.USER_ID = c.SIGNEDPERSON) as signedpersonname,
+		(select d.DEPTNAME from dept d where d.DEPT_ID = c.department) as deptname,
+		(select b.DATANAME from base_data b where b.DATA_ID = c.contracttype) as contracttypename from contract c
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="contractId">
+					c.CONTRACT_ID like #contractId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="signedperson">
+					c.SIGNEDPERSON like #signedperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="department">
+					c.DEPARTMENT like #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="contracttype">
+					c.CONTRACTTYPE like #contracttype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					c.STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					c.FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(c.CONTRACT_ID) desc
+	</select>
+	<!-- 查询记录数 -->
+	<select id="queryCountContracts" parameterClass="map"  resultClass="int">
+		select count(*) from contract
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="contractId">
+					CONTRACT_ID like #contractId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="signedperson">
+					SIGNEDPERSON like #signedperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="department">
+					DEPARTMENT like #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="contracttype">
+					CONTRACTTYPE like #contracttype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询合同   返回合同实体 -->
+	<select id="queryContractById" parameterClass="string"  resultMap="contract">
+		select * from contract where CONTRACT_ID = #value#
+	</select>
+	<!-- 根据ID查询合同   返回合同实体和相关表字段名称 -->
+	<select id="queryContractAndNamesById" parameterClass="string"  resultClass="hashmap">
+		select c.*,(select bu.NAME from base_user bu where bu.USER_ID = c.signedperson) as signedpersonname,
+		(select d.DEPTNAME from dept d where d.DEPT_ID = c.department) as deptname,
+		(select b.DATANAME from base_data b where b.DATA_ID = c.contracttype) as contracttypename from contract c where c.CONTRACT_ID = #value#
+	</select>
+	<!-- 删除合同 -->
+	<delete id="execDeleteContractById" parameterClass="string">
+		 delete from contract where CONTRACT_ID = #contractId#
+	</delete>
+	<!-- 添加合同 -->
+	<insert id="execInsertContract" parameterClass="contract">
+		<selectKey resultClass="string" keyProperty="contractId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into contract(
+			CONTRACT_ID,SIGNEDPERSON,
+			DEPARTMENT,CONTRACTTYPE,
+			STATUS,CUSTOMECOMPANY,
+			CONTACT,CONTACTTEL,
+			SIGNEDDATE,ENDDATE,
+			DETAILS,FLAG
+		) values(
+			#contractId#,#signedperson#,
+			#department#,#contracttype#,
+			#status#,#customecompany#,
+			#contact#,#contacttel#,
+			#signeddate#,#enddate#,
+			#details#,#flag#
+		)
+	</insert>
+	<!-- 修改合同 -->
+	<update id="execUpdateContract" parameterClass="contract">
+		update contract set
+			CONTRACT_ID=#contractId#,
+			SIGNEDPERSON=#signedperson#,
+			DEPARTMENT=#department#,
+			CONTRACTTYPE=#contracttype#,
+			STATUS=#status#,
+			CUSTOMECOMPANY=#customecompany#,
+			CONTACT=#contact#,
+			CONTACTTEL=#contacttel#,
+			SIGNEDDATE=#signeddate#,
+			ENDDATE=#enddate#,
+			DETAILS=#details#,
+			FLAG=#flag#
+		where CONTRACT_ID = #contractId#
+	</update>
+</sqlMap>

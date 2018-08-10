@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns ="http://www.springframework.org/schema/beans"  
+	xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance"  
+	xsi:schemaLocation ="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="answerService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.AnswerServiceImpl" autowire="byName">
+			<property name="answerDAO" ref="answerDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="dutyMessageService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.DutyMessageServiceImpl" autowire="byName">
+			<property name="dutyMessageDAO" ref="dutyMessageDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="emailService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.EmailServiceImpl" autowire="byName">
+			<property name="emailDAO" ref="emailDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="equipmentService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.EquipmentServiceImpl" autowire="byName">
+			<property name="equipmentDAO" ref="equipmentDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="flowNodeService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.FlowNodeServiceImpl" autowire="byName">
+			<property name="flowNodeDAO" ref="flowNodeDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="folderService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.FolderServiceImpl" autowire="byName">
+			<property name="folderDAO" ref="folderDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="matterService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.MatterServiceImpl" autowire="byName">
+			<property name="matterDAO" ref="matterDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="meetingRoomService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.MeetingRoomServiceImpl" autowire="byName">
+			<property name="meetingRoomDAO" ref="meetingRoomDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="memoService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.MemoServiceImpl" autowire="byName">
+			<property name="memoDAO" ref="memoDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="messageCenterService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.MessageCenterServiceImpl" autowire="byName">
+			<property name="messageCenterDAO" ref="messageCenterDAO"/>
+			<property name="baseDataDAO" ref="baseDataDAO"></property>
+			<property name="deptDAO" ref="deptDAO"></property>
+		</bean>
+	</property>
+	</bean>
+	<bean id="netdiskService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.NetdiskServiceImpl" autowire="byName">
+			<property name="netdiskDAO" ref="netdiskDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="archiveService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ArchiveServiceImpl" autowire="byName">
+			<property name="archiveDAO" ref="archiveDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="netmeetingService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.NetmeetingServiceImpl" autowire="byName">
+			<property name="netmeetingDAO" ref="netmeetingDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="officialDocumentService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.OfficialDocumentServiceImpl" autowire="byName">
+			<property name="officialDocumentDAO" ref="officialDocumentDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="permissionService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.PermissionServiceImpl" autowire="byName">
+			<property name="permissionDAO" ref="permissionDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="personnelService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.PersonnelServiceImpl" autowire="byName">
+			<property name="personnelDAO" ref="personnelDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+	<bean id="positionService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.PositionServiceImpl" autowire="byName">
+			<property name="positionDAO" ref="positionDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+		<bean id="recruitmentService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.RecruitmentServiceImpl" autowire="byName">
+			<property name="recruitmentDAO" ref="recruitmentDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="reimbursementService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ReimbursementServiceImpl" autowire="byName">
+			<property name="reimbursementDAO" ref="reimbursementDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+	<bean id="reimbursementItemService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ReimbursementItemServiceImpl" autowire="byName">
+			<property name="reimbursementItemDAO" ref="reimbursementItemDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="resumeService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ResumeServiceImpl" autowire="byName">
+			<property name="resumeDAO" ref="resumeDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="scheduleService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ScheduleServiceImpl" autowire="byName">
+			<property name="scheduleDAO" ref="scheduleDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="attendanceService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.AttendanceServiceImpl" autowire="byName">
+			<property name="attendanceDAO" ref="attendanceDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+	<bean id="suggestionService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.SuggestionServiceImpl" autowire="byName">
+			<property name="suggestionDAO" ref="suggestionDAO"/>
+			<property name="baseDataDAO" ref="baseDataDAO"/>
+			<property name="baseDataService" ref="baseDataService"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="surveyService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.SurveyServiceImpl" autowire="byName">
+			<property name="surveyDAO" ref="surveyDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+	<bean id="taskService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.TaskServiceImpl" autowire="byName">
+			<property name="taskDAO" ref="taskDAO"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="usingcarService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.UsingcarServiceImpl" autowire="byName">
+			<property name="usingcarDAO" ref="usingcarDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+	<bean id="usingEquipService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.UsingEquipServiceImpl" autowire="byName">
+			<property name="usingEquipDAO" ref="usingEquipDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="workflowService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.WorkflowServiceImpl" autowire="byName">
+			<property name="workflowDAO" ref="workflowDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="workingConditionService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.WorkingConditionServiceImpl" autowire="byName">
+			<property name="workingConditionDAO" ref="workingConditionDAO"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="addressbookService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.AddressbookServiceImpl" autowire="byName">
+			<property name="addressbookDAO" ref="addressbookDAO"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="baseDataService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.BaseDataServiceImpl" autowire="byName">
+			<property name="baseDataDAO" ref="baseDataDAO"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="baseUserService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.BaseUserServiceImpl" autowire="byName">
+			<property name="baseUserDAO" ref="baseUserDAO"/>
+			<property name="deptDAO" ref="deptDAO"/>
+			<property name="baseDataService" ref="baseDataService"/>
+			<property name="positionDAO" ref="positionDAO"/>
+		</bean>
+	</property>
+	</bean>
+	
+		<bean id="carService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.CarServiceImpl" autowire="byName">
+			<property name="carDAO" ref="carDAO"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="contractService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ContractServiceImpl" autowire="byName">
+			<property name="contractDAO" ref="contractDAO"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="deptService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.DeptServiceImpl" autowire="byName">
+			<property name="deptDAO" ref="deptDAO"/>
+			<property name="baseDataService" ref="baseDataService"/>
+		</bean>
+	</property>
+	</bean>
+		<bean id="dossierService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.DossierServiceImpl" autowire="byName">
+			<property name="dossierDAO" ref="dossierDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="setAttendService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.SetAttendServiceImpl" autowire="byName">
+			<property name="setAttendDAO" ref="setAttendDAO"/>
+		</bean>
+	</property>
+	</bean>
+	<bean id="applyService" parent="txProxyTemplate">
+	<property name="target">
+		<bean class="runix.service.impl.ApplyServiceImpl" autowire="byName">
+			<property name="applyDAO" ref="applyDAO"/>
+		</bean>
+	</property>
+	</bean>
+
+
+
+</beans>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="WorkingCondition">
+	<typeAlias alias="workingCondition" type="runix.persistent.model.WorkingCondition"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="working_condition" class="workingCondition"> 
+		<result property="conditionId" column="CONDITION_ID"/>
+		<result property="conditiontype" column="CONDITIONTYPE"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="name" column="NAME"/>
+		<result property="dept" column="DEPT"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="destination" column="DESTINATION"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="vacationtype" column="VACATIONTYPE"/>
+		<result property="registdate" column="REGISTDATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="commitstatus" column="COMMITSTATUS"/>
+		<result property="otherpeople" column="OTHERPEOPLE"/>
+		<result property="biztriplimit" column="BIZTRIPLIMIT"/>
+		<result property="expense" column="EXPENSE"/>
+		<result property="traffic" column="TRAFFIC"/>
+		<result property="flag" column="FLAG"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="opinion" column="OPINION"/>
+	</resultMap>
+
+	<select id="queryWorkingConditions" parameterClass="map"  resultMap="working_condition">
+		select CONDITION_ID,(select name from base_user t1 where t1.user_id = t.name) name,CONDITIONTYPE,WORKFLOW_ID,
+       (select deptname from dept t2 where t2.dept_id = t.dept) dept,STARTTIME,ENDTIME,DESTINATION,TITLE,
+       CONTENT,(select dataname from base_data t3 where t3.data_id = t.vacationtype) VACATIONTYPE,REGISTDATE,
+       STATUS,COMMITSTATUS,OTHERPEOPLE,BIZTRIPLIMIT,EXPENSE,TRAFFIC,FLAG,CHECKSTATUS,OPINION from working_condition t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="conditionId">
+					CONDITION_ID like #conditionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="conditiontype">
+					CONDITIONTYPE like #conditiontype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME in (select user_id from base_user t1 where t1.name like #name#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="destination">
+					DESTINATION like #destination#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="content">
+					CONTENT like #content#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="vacationtype">
+					VACATIONTYPE like #vacationtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="registdate">
+					REGISTDATE like #registdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="commitstatus">
+					COMMITSTATUS like #commitstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="otherpeople">
+					OTHERPEOPLE like #otherpeople#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="biztriplimit">
+					BIZTRIPLIMIT like #biztriplimit#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="expense">
+					EXPENSE like #expense#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="traffic">
+					TRAFFIC like #traffic#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic> order by to_number(CONDITION_ID)
+	</select>
+
+	<select id="queryCountWorkingConditions" parameterClass="map"  resultClass="int">
+		select count(*) from working_condition
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="conditionId">
+					CONDITION_ID like #conditionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="conditiontype">
+					CONDITIONTYPE like #conditiontype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME in (select user_id from base_user t1 where t1.name like #name#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="destination">
+					DESTINATION like #destination#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="content">
+					CONTENT like #content#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="vacationtype">
+					VACATIONTYPE like #vacationtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="registdate">
+					REGISTDATE like #registdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="commitstatus">
+					COMMITSTATUS like #commitstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="otherpeople">
+					OTHERPEOPLE like #otherpeople#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="biztriplimit">
+					BIZTRIPLIMIT like #biztriplimit#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="expense">
+					EXPENSE like #expense#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="traffic">
+					TRAFFIC like #traffic#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryWorkingConditionById" parameterClass="string"  resultMap="working_condition">
+		select * from working_condition where CONDITION_ID = #value#
+	</select>
+	
+	<select id="queryWorkingConditionByIdForView" parameterClass="string"  resultMap="working_condition">
+	select condition_id, WORKFLOW_ID,
+       (select name from base_user t1 where t1.user_id = t.name) name,
+       (select deptname from dept t2 where t2.dept_id = t.dept) dept,
+       t.starttime,
+       t.endtime,
+       t.destination,
+       t.title,
+       (select dataname from base_data t3 where t3.data_id = t.vacationtype) vacationtype,
+       t.registdate,
+       t.status,
+       t.commitstatus,
+       t.otherpeople,
+       t.biztriplimit,
+       t.expense,
+       (select dataname from base_data t3 where t3.data_id = t.traffic) traffic,
+       t.flag,
+       t.content,
+       t.checkstatus,
+       t.conditiontype,opinion
+  from working_condition t where condition_id = #value#
+	</select>
+	
+	<select id="queryWorkingConditionByIdForCheck" parameterClass="string"  resultMap="working_condition">
+	select condition_id, WORKFLOW_ID,
+       (select name from base_user t1 where t1.user_id = t.name) name,
+       (select deptname from dept t2 where t2.dept_id = t.dept) dept,
+       t.starttime,
+       t.endtime,
+       t.destination,
+       t.title,
+       (select dataname from base_data t3 where t3.data_id = t.vacationtype) vacationtype,
+       t.registdate,
+       t.status,
+       t.commitstatus,
+       t.otherpeople,
+       t.biztriplimit,
+       t.expense,
+       (select dataname from base_data t3 where t3.data_id = t.traffic) traffic,
+       t.flag,
+       t.content,
+       t.checkstatus,
+       t.conditiontype,opinion
+  from working_condition t where condition_id = #value#
+	</select>
+
+	<delete id="execDeleteWorkingConditionById" parameterClass="string">
+		 delete from working_condition where CONDITION_ID = #conditionId#
+	</delete>
+
+	<insert id="execInsertWorkingCondition" parameterClass="workingCondition">
+	 	<selectKey resultClass="string" keyProperty="conditionId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into working_condition(
+			CONDITION_ID,CONDITIONTYPE,
+			WORKFLOW_ID,NAME,
+			DEPT,STARTTIME,
+			ENDTIME,DESTINATION,
+			TITLE,CONTENT,
+			VACATIONTYPE,REGISTDATE,
+			STATUS,COMMITSTATUS,
+			OTHERPEOPLE,BIZTRIPLIMIT,
+			EXPENSE,TRAFFIC,
+			FLAG,CHECKSTATUS,OPINION
+		) values(
+			#conditionId#,#conditiontype#,
+			#workflowId#,#name#,
+			#dept#,#starttime#,
+			#endtime#,#destination#,
+			#title#,#content#,
+			#vacationtype#,#registdate#,
+			#status#,#commitstatus#,
+			#otherpeople#,#biztriplimit#,
+			#expense#,#traffic#,
+			#flag#,#checkstatus#,#opinion#
+		)
+	</insert>
+
+	<update id="execUpdateWorkingCondition" parameterClass="workingCondition">
+		update working_condition set
+			CONDITION_ID=#conditionId#,
+			CONDITIONTYPE=#conditiontype#,
+			WORKFLOW_ID=#workflowId#,
+			NAME=#name#,
+			DEPT=#dept#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			DESTINATION=#destination#,
+			TITLE=#title#,
+			CONTENT=#content#,
+			VACATIONTYPE=#vacationtype#,
+			REGISTDATE=#registdate#,
+			STATUS=#status#,
+			COMMITSTATUS=#commitstatus#,
+			OTHERPEOPLE=#otherpeople#,
+			BIZTRIPLIMIT=#biztriplimit#,
+			EXPENSE=#expense#,
+			TRAFFIC=#traffic#,
+			FLAG=#flag#,
+			CHECKSTATUS=#checkstatus#,
+			OPINION=#opinion#
+		where CONDITION_ID = #conditionId#
+	</update>
+</sqlMap>

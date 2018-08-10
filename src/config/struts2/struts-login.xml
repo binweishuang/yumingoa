@@ -1,0 +1,29 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="login" extends="base">    
+		<action name="loginAction" class="loginAction">
+            <result name="input">/framework/login.jsp</result>  
+             <result>/framework/home.jsp</result>  
+            <result name="logout">/framework/login.jsp</result>
+            <result name="exit">/framework/exit.jsp</result>
+            <result name="ext" type="redirect">/framework/homeExt.jsp</result>
+			<result name="checkLogin" type="json">
+				<param name="root">msg</param>
+			</result>
+        </action>  
+
+              
+       
+        <action name="validateCodeAction" class="validateCodeAction">
+        	<result name="success" type="stream">    
+	            <param name="contentType">image/jpeg</param>    
+	            <!-- 指定提供InputStream的filed name -->    
+	            <param name="inputName">imageStream</param>    
+	            <param name="bufferSize">1024</param>    
+	        </result>    
+        	<interceptor-ref name="defaultStack"/>
+        </action> 
+    </package>
+</struts>

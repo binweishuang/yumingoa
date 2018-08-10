@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE sqlMapConfig 
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings useStatementNamespaces="true"/>
+
+	<sqlMap resource="runix/persistent/model/oracle/Answer.xml"/>
+	
+	<sqlMap resource="runix/persistent/model/oracle/DutyMessage.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Email.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Equipment.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/FlowNode.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Folder.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Matter.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/MeetingRoom.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Memo.xml"/> 
+	<sqlMap resource="runix/persistent/model/oracle/MessageCenter.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Netdisk.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Archive.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Netmeeting.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/OfficialDocument.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Permission.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Personnel.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Position.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Recruitment.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Reimbursement.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/ReimbursementItem.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Resume.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Schedule.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Attendance.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Suggestion.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Survey.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Task.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Usingcar.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/UsingEquip.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Workflow.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/WorkingCondition.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Addressbook.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/BaseData.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/BaseUser.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Car.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Contract.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Dept.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/Dossier.xml"/>
+	<sqlMap resource="runix/persistent/model/oracle/SetAttend.xml"/>
+<!-- 	<sqlMap resource="runix/persistent/model/oracle/Application.xml"/> -->
+	<sqlMap resource="runix/persistent/model/oracle/Apply.xml"/>
+	
+</sqlMapConfig>

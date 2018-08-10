@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Personnel">
+	<typeAlias alias="personnel" type="runix.persistent.model.Personnel"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="personnel" class="personnel"> 
+		<result property="personnelId" column="PERSONNEL_ID"/>
+		<result property="perstype" column="PERSTYPE"/>
+		<result property="name" column="NAME"/>
+		<result property="dept" column="DEPT"/>
+		<result property="applytime" column="APPLYTIME"/>
+		<result property="handlestatus" column="HANDLESTATUS"/>
+		<result property="commitstatus" column="COMMITSTATUS"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="content" column="CONTENT"/>
+		<result property="dimtype" column="DIMTYPE"/>
+		<result property="dimstatus" column="DIMSTATUS"/>
+		<result property="title" column="TITLE"/>
+		<result property="oldpositioln" column="OLDPOSITIOLN"/>
+		<result property="newposition" column="NEWPOSITION"/>
+		<result property="newdept" column="NEWDEPT"/>
+		<result property="attachname" column="ATTACHNAME"/>
+		<result property="atachpath" column="ATACHPATH"/>
+		<result property="flag" column="FLAG"/>
+		<result property="status" column="STATUS"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="opinion" column="OPINION"/>
+	</resultMap>
+	
+	<select id="queryPersonnels" parameterClass="map" resultClass="hashmap">
+		select PERSONNEL_ID,(select NAME from base_user where USER_ID=p.NAME) NAME,
+    (select DEPTNAME from dept where DEPT_ID=p.DEPT) DEPT,APPLYTIME,CHECKSTATUS,STATUS,title,
+    (select dataname from base_data t1 where t1.data_id=p.dimtype) dimtype,(select postname from position t2 where t2.position_id=p.oldpositioln) OLDPOSITIOLN,
+    (select postname from position t2 where t2.position_id=p.newposition) NEWPOSITION,(select DEPTNAME from dept where DEPT_ID=p.newdept) NEWDEPT,attachname,atachpath from personnel p
+		<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="personnelId">
+					PERSONNEL_ID like #personnelId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="perstype">
+					PERSTYPE like #perstype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dimtype">
+					DIMTYPE like #dimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dimstatus">
+					DIMSTATUS like #dimstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+		order by to_number(PERSONNEL_ID) desc
+	</select>
+	
+	<select id="queryPersonnels1" parameterClass="map"  resultMap="personnel">
+		select * from personnel
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="personnelId">
+					PERSONNEL_ID like #personnelId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="perstype">
+					PERSTYPE like #perstype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dimtype">
+					DIMTYPE like #dimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dimstatus">
+					DIMSTATUS like #dimstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountPersonnels" parameterClass="map"  resultClass="int">
+		select count(*) from personnel
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="personnelId">
+					PERSONNEL_ID like #personnelId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="perstype">
+					PERSTYPE like #perstype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dimtype">
+					DIMTYPE like #dimtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dimstatus">
+					DIMSTATUS like #dimstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryPersonnelByIdForView" parameterClass="string"  resultMap="personnel">
+		select PERSONNEL_ID,PERSTYPE,(select name from base_user t1 where t1.user_id = t.name) NAME,
+		(select deptname from dept t2 where t2.dept_id = t.dept) dept,APPLYTIME,HANDLESTATUS,COMMITSTATUS,WORKFLOW_ID,
+		CONTENT,(select dataname from base_data t3 where t3.data_id=t.dimtype) DIMTYPE,DIMSTATUS,TITLE,
+		(select postname from position t4 where t4.position_id=t.OLDPOSITIOLN) OLDPOSITIOLN,
+		(select postname from position t4 where t4.position_id=t.NEWPOSITION) NEWPOSITION,
+		 (select deptname from dept t2 where t2.dept_id = t.NEWDEPT) NEWDEPT,ATTACHNAME,ATACHPATH,FLAG,STATUS,CHECKSTATUS,OPINION from personnel t where PERSONNEL_ID = #id#
+	</select>
+	
+	<select id="queryPersonnelByIdForCheck" parameterClass="string"  resultMap="personnel">
+		select PERSONNEL_ID,PERSTYPE,(select name from base_user t1 where t1.user_id = t.name) NAME,
+		(select deptname from dept t2 where t2.dept_id = t.dept) dept,APPLYTIME,HANDLESTATUS,COMMITSTATUS,WORKFLOW_ID,
+		CONTENT,(select dataname from base_data t3 where t3.data_id=t.dimtype) DIMTYPE,DIMSTATUS,TITLE,
+		(select postname from position t4 where t4.position_id=t.OLDPOSITIOLN) OLDPOSITIOLN,
+		(select postname from position t4 where t4.position_id=t.NEWPOSITION) NEWPOSITION,
+		 (select deptname from dept t2 where t2.dept_id = t.NEWDEPT) NEWDEPT,ATTACHNAME,ATACHPATH,FLAG,STATUS,CHECKSTATUS,OPINION from personnel t where PERSONNEL_ID = #id#
+	</select>
+	
+	<select id="queryPersonnelById" parameterClass="string"  resultMap="personnel">
+		select * from personnel t where PERSONNEL_ID = #id#
+	</select>
+
+	<delete id="execDeletePersonnelById" parameterClass="string">
+		 delete from personnel where PERSONNEL_ID = #personnelId#
+	</delete>
+
+	<insert id="execInsertPersonnel" parameterClass="personnel">
+		<selectKey resultClass="string" keyProperty="personnelId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into personnel(
+			PERSONNEL_ID,PERSTYPE,
+			NAME,DEPT,
+			APPLYTIME,HANDLESTATUS,
+			COMMITSTATUS,WORKFLOW_ID,
+			CONTENT,DIMTYPE,
+			DIMSTATUS,TITLE,
+			OLDPOSITIOLN,NEWPOSITION,
+			NEWDEPT,ATTACHNAME,
+			ATACHPATH,FLAG,
+			STATUS,CHECKSTATUS,
+			OPINION
+		) values(
+			#personnelId#,#perstype#,
+			#name#,#dept#,
+			#applytime#,#handlestatus#,
+			#commitstatus#,#workflowId#,
+			#content#,#dimtype#,
+			#dimstatus#,#title#,
+			#oldpositioln#,#newposition#,
+			#newdept#,#attachname#,
+			#atachpath#,#flag#,
+			#status#,#checkstatus#,
+			#opinion#
+		)
+	</insert>
+
+	<update id="execUpdatePersonnel" parameterClass="personnel">
+		update personnel set
+			PERSONNEL_ID=#personnelId#,
+			PERSTYPE=#perstype#,
+			NAME=#name#,
+			DEPT=#dept#,
+			APPLYTIME=#applytime#,
+			HANDLESTATUS=#handlestatus#,
+			COMMITSTATUS=#commitstatus#,
+			WORKFLOW_ID=#workflowId#,
+			CONTENT=#content#,
+			DIMTYPE=#dimtype#,
+			DIMSTATUS=#dimstatus#,
+			TITLE=#title#,
+			OLDPOSITIOLN=#oldpositioln#,
+			NEWPOSITION=#newposition#,
+			NEWDEPT=#newdept#,
+			ATTACHNAME=#attachname#,
+			ATACHPATH=#atachpath#,
+			FLAG=#flag#,
+			STATUS=#status#,
+			CHECKSTATUS=#checkstatus#,
+			OPINION=#opinion#
+		where PERSONNEL_ID = #personnelId#
+	</update>
+</sqlMap>

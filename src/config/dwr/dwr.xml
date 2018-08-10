@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+<dwr>
+	<allow>
+		<create creator="spring" javascript="baseDataService"
+			scope="application">
+			<param name="beanName" value="baseDataService" />
+			<include method="checkDataCode" />
+		</create>
+		
+		<create creator="spring" javascript="flowNodeService"
+			scope="application">
+			<param name="beanName" value="flowNodeService" />
+			<include method="checkNodename" />
+		</create>
+		
+		<create creator="spring" javascript="workflowService"
+			scope="application">
+			<param name="beanName" value="workflowService" />
+			<include method="getFlowNode" />
+		</create>
+		
+		<convert converter="bean"
+			match="runix.persistent.model.Recruitment" javascript="Recruitment" />
+		<create creator="spring" javascript="recruitmentService"
+			scope="application">
+			<param name="beanName" value="recruitmentService" />
+			<include method="getRecruitmentById" />
+		</create>
+		
+		<create creator="spring" javascript="equipmentService"
+			scope="application">
+			<param name="beanName" value="equipmentService" />
+			<include method="getEquipmentsByCategory" />
+			<include method="getStoragenumByEquip" />
+		</create>
+		
+		<create creator="spring" javascript="answerService"
+			scope="application">
+			<param name="beanName" value="answerService" />
+			<include method="modifyAnswer" />
+			<include method="checkLoginname" />
+		</create>
+		
+		<create creator="spring" javascript="carService"
+			scope="application">
+			<param name="beanName" value="carService" />
+			<include method="getDriverByCarId" />
+		</create>
+		
+		<create creator="spring" javascript="attendanceService"
+			scope="application">
+			<param name="beanName" value="attendanceService" />
+			<include method="checkSignin" />
+		</create>
+		
+		<convert converter="bean"
+			match="runix.persistent.model.Folder" javascript="Folder" />
+		<create creator="spring" javascript="folderService"
+			scope="application">
+			<param name="beanName" value="folderService" />
+			<include method="checkID" />
+		</create>
+	</allow>	
+</dwr>

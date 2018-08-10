@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="OfficialDocument">
+	<typeAlias alias="officialDocument" type="runix.persistent.model.OfficialDocument"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="official_document" class="officialDocument"> 
+		<result property="documentId" column="DOCUMENT_ID"/>
+		<result property="docperson" column="DOCPERSON"/>
+		<result property="docsort" column="DOCSORT"/>
+		<result property="flowId" column="FLOW_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="company" column="COMPANY"/>
+		<result property="subjectterm" column="SUBJECTTERM"/>
+		<result property="docsize" column="DOCSIZE"/>
+		<result property="doctype" column="DOCTYPE"/>
+		<result property="secret" column="SECRET"/>
+		<result property="urgency" column="URGENCY"/>
+		<result property="receivenum" column="RECEIVENUM"/>
+		<result property="copies" column="COPIES"/>
+		<result property="receivedate" column="RECEIVEDATE"/>
+		<result property="attachname" column="ATTACHNAME"/>
+		<result property="attachpath" column="ATTACHPATH"/>
+		<result property="remark" column="REMARK"/>
+		<result property="timelimit" column="TIMELIMIT"/>
+		<result property="mainsender" column="MAINSENDER"/>
+		<result property="copysender" column="COPYSENDER"/>
+		<result property="flag" column="FLAG"/>
+		<result property="status" column="STATUS"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="opinion" column="OPINION"/>
+	</resultMap>
+
+	<select id="queryOfficialDocuments" parameterClass="map"  resultClass="hashmap">
+		select DOCUMENT_ID DOCUMENTID,(select dataname from base_data t1 where t1.data_id= t.doctype) doctype,
+		title,SUBJECTTERM,COMPANY,(select dataname from base_data t1 where t1.data_id=t.secret) secret,
+		(select dataname from base_data t1 where t1.data_id=t.urgency) urgency,RECEIVEDATE,STATUS,CHECKSTATUS,TIMELIMIT
+		  from official_document t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="documentId">
+					DOCUMENT_ID like #documentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="docperson">
+					DOCPERSON like #docperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="docsort">
+					DOCSORT like #docsort#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="doctype">
+					DOCTYPE like #doctype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="secret">
+					SECRET like #secret#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="urgency">
+					URGENCY like #urgency#
+				</isNotEmpty>
+
+			</dynamic>
+	</select>
+
+	<select id="queryCountOfficialDocuments" parameterClass="map"  resultClass="int">
+		select count(*) from official_document
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="documentId">
+					DOCUMENT_ID like #documentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="docperson">
+					DOCPERSON like #docperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="docsort">
+					DOCSORT like #docsort#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="doctype">
+					DOCTYPE like #doctype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="secret">
+					SECRET like #secret#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="urgency">
+					URGENCY like #urgency#
+				</isNotEmpty>
+
+			</dynamic>
+	</select>
+
+	<select id="queryOfficialDocumentById" parameterClass="string"  resultMap="official_document">
+		select * from official_document where DOCUMENT_ID = #value#
+	</select>
+
+	<delete id="execDeleteOfficialDocumentById" parameterClass="string">
+		 delete from official_document where DOCUMENT_ID = #documentId#
+	</delete>
+
+	<insert id="execInsertOfficialDocument" parameterClass="officialDocument">
+		<selectKey resultClass="string" keyProperty="documentId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into official_document(
+			DOCUMENT_ID,DOCPERSON,
+			DOCSORT,FLOW_ID,
+			TITLE,COMPANY,
+			SUBJECTTERM,DOCSIZE,
+			DOCTYPE,SECRET,
+			URGENCY,RECEIVENUM,
+			COPIES,RECEIVEDATE,
+			ATTACHNAME,ATTACHPATH,
+			REMARK,TIMELIMIT,
+			MAINSENDER,COPYSENDER,
+			FLAG,STATUS,CHECKSTATUS,OPINION
+		) values(
+			#documentId#,#docperson#,
+			#docsort#,#flowId#,
+			#title#,#company#,
+			#subjectterm#,#docsize#,
+			#doctype#,#secret#,
+			#urgency#,#receivenum#,
+			#copies#,#receivedate#,
+			#attachname#,#attachpath#,
+			#remark#,#timelimit#,
+			#mainsender#,#copysender#,
+			#flag#,#status#,#checkstatus#,#opinion#
+		)
+	</insert>
+
+	<update id="execUpdateOfficialDocument" parameterClass="officialDocument">
+		update official_document set
+			DOCUMENT_ID=#documentId#,
+			DOCPERSON=#docperson#,
+			DOCSORT=#docsort#,
+			FLOW_ID=#flowId#,
+			TITLE=#title#,
+			COMPANY=#company#,
+			SUBJECTTERM=#subjectterm#,
+			DOCSIZE=#docsize#,
+			DOCTYPE=#doctype#,
+			SECRET=#secret#,
+			URGENCY=#urgency#,
+			RECEIVENUM=#receivenum#,
+			COPIES=#copies#,
+			RECEIVEDATE=#receivedate#,
+			ATTACHNAME=#attachname#,
+			ATTACHPATH=#attachpath#,
+			REMARK=#remark#,
+			TIMELIMIT=#timelimit#,
+			MAINSENDER=#mainsender#,
+			COPYSENDER=#copysender#,
+			FLAG=#flag#,
+			STATUS=#status#,
+			CHECKSTATUS=#checkstatus#,
+			OPINION=#opinion#
+		where DOCUMENT_ID = #documentId#
+	</update>
+	
+	<select id="queryOfficialDocumentByIdForView" parameterClass="string"  resultMap="official_document">
+		select DOCUMENT_ID,(select name from base_user t1 where t1.user_id=t.DOCPERSON) DOCPERSON,DOCSORT,
+		FLOW_ID,TITLE,COMPANY,SUBJECTTERM,DOCSIZE,(select dataname from base_data t2 where t2.data_id=t.DOCTYPE) DOCTYPE,
+		 (select dataname from base_data t2 where t2.data_id=t.SECRET) SECRET,
+		 (select dataname from base_data t2 where t2.data_id=t.URGENCY) URGENCY,
+		 RECEIVENUM,COPIES,RECEIVEDATE,ATTACHNAME,ATTACHPATH,REMARK,TIMELIMIT,MAINSENDER,COPYSENDER,FLAG,STATUS,CHECKSTATUS,OPINION 
+		from official_document t where DOCUMENT_ID = #value#
+	</select>
+	
+	<select id="queryOfficialDocumentByIdForCheck" parameterClass="string"  resultMap="official_document">
+		select DOCUMENT_ID,(select name from base_user t1 where t1.user_id=t.DOCPERSON) DOCPERSON,DOCSORT,
+		FLOW_ID,TITLE,COMPANY,SUBJECTTERM,DOCSIZE,(select dataname from base_data t2 where t2.data_id=t.DOCTYPE) DOCTYPE,
+		 (select dataname from base_data t2 where t2.data_id=t.SECRET) SECRET,
+		 (select dataname from base_data t2 where t2.data_id=t.URGENCY) URGENCY,
+		 RECEIVENUM,COPIES,RECEIVEDATE,ATTACHNAME,ATTACHPATH,REMARK,TIMELIMIT,MAINSENDER,COPYSENDER,FLAG,STATUS,CHECKSTATUS,OPINION 
+		from official_document t where DOCUMENT_ID = #value#
+	</select>
+</sqlMap>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns ="http://www.springframework.org/schema/beans"  
+	xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance"  
+	xsi:schemaLocation ="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="answerDAO" class="runix.persistent.dao.impl.AnswerDAOImpl" parent="baseDAO"/>
+	<bean id="dutyMessageDAO" class="runix.persistent.dao.impl.DutyMessageDAOImpl" parent="baseDAO"/>
+	<bean id="emailDAO" class="runix.persistent.dao.impl.EmailDAOImpl" parent="baseDAO"/>
+	<bean id="equipmentDAO" class="runix.persistent.dao.impl.EquipmentDAOImpl" parent="baseDAO"/>
+	<bean id="flowNodeDAO" class="runix.persistent.dao.impl.FlowNodeDAOImpl" parent="baseDAO"/>
+	<bean id="folderDAO" class="runix.persistent.dao.impl.FolderDAOImpl" parent="baseDAO"/>
+	<bean id="matterDAO" class="runix.persistent.dao.impl.MatterDAOImpl" parent="baseDAO"/>
+	<bean id="meetingRoomDAO" class="runix.persistent.dao.impl.MeetingRoomDAOImpl" parent="baseDAO"/>
+	<bean id="memoDAO" class="runix.persistent.dao.impl.MemoDAOImpl" parent="baseDAO"/>
+	<bean id="messageCenterDAO" class="runix.persistent.dao.impl.MessageCenterDAOImpl" parent="baseDAO"/>
+	<bean id="netdiskDAO" class="runix.persistent.dao.impl.NetdiskDAOImpl" parent="baseDAO"/>
+	<bean id="archiveDAO" class="runix.persistent.dao.impl.ArchiveDAOImpl" parent="baseDAO"/>
+	<bean id="netmeetingDAO" class="runix.persistent.dao.impl.NetmeetingDAOImpl" parent="baseDAO"/>
+	<bean id="officialDocumentDAO" class="runix.persistent.dao.impl.OfficialDocumentDAOImpl" parent="baseDAO"/>
+	<bean id="permissionDAO" class="runix.persistent.dao.impl.PermissionDAOImpl" parent="baseDAO"/>
+	<bean id="personnelDAO" class="runix.persistent.dao.impl.PersonnelDAOImpl" parent="baseDAO"/>
+	<bean id="positionDAO" class="runix.persistent.dao.impl.PositionDAOImpl" parent="baseDAO"/>
+	<bean id="recruitmentDAO" class="runix.persistent.dao.impl.RecruitmentDAOImpl" parent="baseDAO"/>
+	<bean id="reimbursementDAO" class="runix.persistent.dao.impl.ReimbursementDAOImpl" parent="baseDAO"/>
+	<bean id="reimbursementItemDAO" class="runix.persistent.dao.impl.ReimbursementItemDAOImpl" parent="baseDAO"/>
+	<bean id="resumeDAO" class="runix.persistent.dao.impl.ResumeDAOImpl" parent="baseDAO"/>
+	<bean id="scheduleDAO" class="runix.persistent.dao.impl.ScheduleDAOImpl" parent="baseDAO"/>
+	<bean id="attendanceDAO" class="runix.persistent.dao.impl.AttendanceDAOImpl" parent="baseDAO"/>
+	<bean id="suggestionDAO" class="runix.persistent.dao.impl.SuggestionDAOImpl" parent="baseDAO"/>
+	<bean id="surveyDAO" class="runix.persistent.dao.impl.SurveyDAOImpl" parent="baseDAO"/>
+	<bean id="taskDAO" class="runix.persistent.dao.impl.TaskDAOImpl" parent="baseDAO"/>
+	<bean id="usingcarDAO" class="runix.persistent.dao.impl.UsingcarDAOImpl" parent="baseDAO"/>
+	<bean id="usingEquipDAO" class="runix.persistent.dao.impl.UsingEquipDAOImpl" parent="baseDAO"/>
+	<bean id="workflowDAO" class="runix.persistent.dao.impl.WorkflowDAOImpl" parent="baseDAO"/>
+	<bean id="workingConditionDAO" class="runix.persistent.dao.impl.WorkingConditionDAOImpl" parent="baseDAO"/>
+	<bean id="addressbookDAO" class="runix.persistent.dao.impl.AddressbookDAOImpl" parent="baseDAO"/>
+	<bean id="baseDataDAO" class="runix.persistent.dao.impl.BaseDataDAOImpl" parent="baseDAO"/>
+	<bean id="baseUserDAO" class="runix.persistent.dao.impl.BaseUserDAOImpl" parent="baseDAO"/>
+	<bean id="carDAO" class="runix.persistent.dao.impl.CarDAOImpl" parent="baseDAO"/>
+	<bean id="contractDAO" class="runix.persistent.dao.impl.ContractDAOImpl" parent="baseDAO"/>
+	<bean id="deptDAO" class="runix.persistent.dao.impl.DeptDAOImpl" parent="baseDAO"/>
+	<bean id="dossierDAO" class="runix.persistent.dao.impl.DossierDAOImpl" parent="baseDAO"/>
+	<bean id="setAttendDAO" class="runix.persistent.dao.impl.SetAttendDAOImpl" parent="baseDAO"/>
+	<bean id="applyDAO" class="runix.persistent.dao.impl.ApplyDAOImpl" parent="baseDAO"/>
+</beans>

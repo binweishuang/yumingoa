@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Netmeeting">
+	<typeAlias alias="netmeeting" type="runix.persistent.model.Netmeeting"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="netmeeting" class="netmeeting"> 
+		<result property="netmeetingId" column="NETMEETING_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="meetingdate" column="MEETINGDATE"/>
+		<result property="status" column="STATUS"/>
+		<result property="attendee" column="ATTENDEE"/>
+		<result property="sponsor" column="SPONSOR"/>
+		<result property="flag" column="FLAG"/>
+		<result property="attendeename" column="ATTENDEENAME"/>
+	</resultMap>
+	<!-- 查询网络会议 -->
+	<select id="queryNetmeetings" parameterClass="map"  resultMap="netmeeting">
+		select NETMEETING_ID,TITLE,STARTTIME,ENDTIME,MEETINGDATE,STATUS,ATTENDEE,
+		(select name from base_user t1 where t1.user_id=t.SPONSOR) SPONSOR,FLAG,ATTENDEENAME from netmeeting t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="netmeetingId">
+					NETMEETING_ID like #netmeetingId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME <![CDATA[>= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME <![CDATA[<= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="meetingdate">
+					MEETINGDATE like #meetingdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="sponsor">
+					(SPONSOR like #sponsor# or ATTENDEE like #attendee#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 查询网络会议记录数 -->
+	<select id="queryCountNetmeetings" parameterClass="map"  resultClass="int">
+		select count(*) from netmeeting
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="netmeetingId">
+					NETMEETING_ID like #netmeetingId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME <![CDATA[>= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME <![CDATA[<= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="meetingdate">
+					MEETINGDATE like #meetingdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="sponsor">
+					(SPONSOR like #sponsor# or ATTENDEE like #attendee#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询网络会议   返回实体对象 -->
+	<select id="queryNetmeetingById" parameterClass="string"  resultMap="netmeeting">
+		select * from netmeeting where NETMEETING_ID = #value#
+	</select>
+	<!-- 删除网络会议 -->
+	<delete id="execDeleteNetmeetingById" parameterClass="string">
+		 delete from netmeeting where NETMEETING_ID = #netmeetingId#
+	</delete>
+	<!-- 添加网络会议 -->
+	<insert id="execInsertNetmeeting" parameterClass="netmeeting">
+		<selectKey resultClass="string" keyProperty="netmeetingId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into netmeeting(
+			NETMEETING_ID,TITLE,
+			STARTTIME,ENDTIME,
+			MEETINGDATE,STATUS,
+			ATTENDEE,SPONSOR,
+			FLAG,ATTENDEENAME
+		) values(
+			#netmeetingId#,#title#,
+			#starttime#,#endtime#,
+			#meetingdate#,#status#,
+			#attendee#,#sponsor#,
+			#flag#,#attendeename#
+		)
+	</insert>
+	<!-- 修改网络会议 -->
+	<update id="execUpdateNetmeeting" parameterClass="netmeeting">
+		update netmeeting set
+			NETMEETING_ID=#netmeetingId#,
+			TITLE=#title#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			MEETINGDATE=#meetingdate#,
+			STATUS=#status#,
+			ATTENDEE=#attendee#,
+			SPONSOR=#sponsor#,
+			FLAG=#flag#,
+			ATTENDEENAME=#attendeename#
+		where NETMEETING_ID = #netmeetingId#
+	</update>
+</sqlMap>

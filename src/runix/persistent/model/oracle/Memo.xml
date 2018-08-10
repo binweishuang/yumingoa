@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Memo">
+	<typeAlias alias="memo" type="runix.persistent.model.Memo"/>
+	<typeAlias alias="baseUser" type="runix.persistent.model.BaseUser"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="memo" class="memo"> 
+		<result property="memoId" column="MEMO_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="content" column="CONTENT"/>
+		<result property="submittime" column="SUBMITTIME"/>
+		<result property="reportperson" column="REPORTPERSON"/>
+		<result property="recieveperson" column="RECIEVEPERSON"/>
+		<result property="status" column="STATUS"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 查询便签列表 -->
+	<select id="queryMemos" parameterClass="map"  resultClass="hashmap">
+		select m.*,(select bu.NAME from base_user bu where bu.USER_ID = m.REPORTPERSON) as reportpersonname,
+		(select bu1.NAME from base_user bu1 where bu1.USER_ID = m.RECIEVEPERSON) as recievepersonname from memo m
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="title">
+					m.TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					m.STARTTIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					m.ENDTIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					m.STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reportperson">
+					m.REPORTPERSON like #reportperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="or" property="recieveperson">
+					m.RECIEVEPERSON like #recieveperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					m.FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(m.MEMO_ID) desc
+	</select>
+	<!-- 查询记录数 -->
+	<select id="queryCountMemos" parameterClass="map"  resultClass="int">
+		select count(*) from memo
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reportperson">
+					REPORTPERSON like #reportperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="or" property="recieveperson">
+					RECIEVEPERSON like #recieveperson#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询便签   返回便签实例对象 -->
+	<select id="queryMemoById" parameterClass="string"  resultMap="memo">
+		select * from memo where MEMO_ID = #value#
+	</select>
+	<!-- 根据ID查询便签   返回便签实例和上报人和上报对象名字的hap集合 -->
+	<select id="queryMemoAndNamesById" parameterClass="string"  resultMap="memo">
+		select MEMO_ID,TITLE,STARTTIME,ENDTIME,CONTENT,SUBMITTIME,STATUS,FLAG,(select bu.NAME from base_user bu where bu.USER_ID = m.reportperson)as reportperson,
+		(select bu1.NAME from base_user bu1 where bu1.USER_ID = m.recieveperson)as recieveperson from memo m where m.MEMO_ID = #value#
+	</select>
+	<!-- 根据ID删除便签 -->
+	<delete id="execDeleteMemoById" parameterClass="string">
+		 delete from memo where MEMO_ID = #memoId#
+	</delete>
+	<!-- 添加便签 -->
+	<insert id="execInsertMemo" parameterClass="memo">
+		<selectKey resultClass="string" keyProperty="memoId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into memo(
+			MEMO_ID,TITLE,
+			STARTTIME,ENDTIME,
+			CONTENT,SUBMITTIME,
+			REPORTPERSON,RECIEVEPERSON,
+			STATUS,FLAG
+		) values(
+			#memoId#,#title#,
+			#starttime#,#endtime#,
+			#content#,#submittime#,
+			#reportperson#,#recieveperson#,
+			#status#,#flag#
+		)
+	</insert>
+	<!-- 修改便签 -->
+	<update id="execUpdateMemo" parameterClass="memo">
+		update memo set
+			MEMO_ID=#memoId#,
+			TITLE=#title#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			CONTENT=#content#,
+			SUBMITTIME=#submittime#,
+			REPORTPERSON=#reportperson#,
+			RECIEVEPERSON=#recieveperson#,
+			STATUS=#status#,
+			FLAG=#flag#
+		where MEMO_ID = #memoId#
+	</update>
+</sqlMap>

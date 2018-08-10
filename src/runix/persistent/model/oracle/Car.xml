@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Car">
+	<typeAlias alias="car" type="runix.persistent.model.Car" />
+	<typeAlias alias="list" type="java.util.List" />
+	<typeAlias alias="string" type="java.lang.String" />
+	<typeAlias alias="map" type="java.util.Map" />
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+
+	<resultMap id="car" class="car">
+		<result property="carId" column="CAR_ID" />
+		<result property="cartype" column="CARTYPE" />
+		<result property="capacity" column="CAPACITY" />
+		<result property="license" column="LICENSE" />
+		<result property="passengernum" column="PASSENGERNUM" />
+		<result property="checktime" column="CHECKTIME" />
+		<result property="insuretime" column="INSURETIME" />
+		<result property="buytime" column="BUYTIME" />
+		<result property="drivenkm" column="DRIVENKM" />
+		<result property="driver" column="DRIVER" />
+		<result property="usable" column="USABLE" />
+		<result property="attachname" column="ATTACHNAME" />
+		<result property="attachpath" column="ATTACHPATH" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="photoname" column="PHOTONAME" />
+		<result property="photopath" column="PHOTOPATH" />
+		<result property="flag" column="FLAG" />
+	</resultMap>
+	<!-- 获取所有符合条件的车辆纪录 -->
+	<select id="queryCountCars" parameterClass="map" resultClass="int">
+		select count(*) from car
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="cartype">
+				CARTYPE like #cartype#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="license">
+				LICENSE like #license#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="checktime">
+				CHECKTIME like
+				#checktime#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取所有符合条件的车辆-->
+	<select id="queryCars" parameterClass="map" resultClass="hashmap">
+		select CAR_ID, CARTYPE, LICENSE, CAPACITY, PASSENGERNUM, CHECKTIME, INSURETIME, BUYTIME, USABLE,
+		DRIVER
+		from car
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="cartype">
+				CARTYPE like '%$cartype$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="license">
+				LICENSE like '%$license$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="checktime">
+				CHECKTIME like
+				#checktime#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="queryCarById" parameterClass="string" resultMap="car">
+		select * from car where CAR_ID = #value#
+	</select>
+	
+	<select id="queryAllCars" parameterClass="string" resultMap="car">
+		select * from car where usable='1'
+	</select>
+	
+	<select id="queryDriverByCarId" parameterClass="string" resultClass="string">
+		select driver from car where CAR_ID = #value#
+	</select>
+
+	<delete id="execDeleteCarById" parameterClass="string">
+		delete from car
+		where CAR_ID = #carId#
+	</delete>
+
+	<insert id="execInsertCar" parameterClass="car">
+		<selectKey resultClass="string" keyProperty="carId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into car(
+		CAR_ID,CARTYPE,
+		CAPACITY,LICENSE,
+		PASSENGERNUM,CHECKTIME,
+		INSURETIME,BUYTIME,
+		DRIVENKM,DRIVER,
+		USABLE,ATTACHNAME,
+		ATTACHPATH,DESCRIPTION,
+		PHOTONAME,PHOTOPATH,
+		FLAG
+		) values(
+		#carId#,#cartype#,
+		#capacity#,#license#,
+		#passengernum#,#checktime#,
+		#insuretime#,#buytime#,
+		#drivenkm#,#driver#,
+		#usable#,#attachname#,
+		#attachpath#,#description#,
+		#photoname#,#photopath#,
+		#flag#
+		)
+	</insert>
+
+	<update id="execUpdateCar" parameterClass="car">
+		update car set
+		CAR_ID=#carId#,
+		CARTYPE=#cartype#,
+		CAPACITY=#capacity#,
+		LICENSE=#license#,
+		PASSENGERNUM=#passengernum#,
+		CHECKTIME=#checktime#,
+		INSURETIME=#insuretime#,
+		BUYTIME=#buytime#,
+		DRIVENKM=#drivenkm#,
+		DRIVER=#driver#,
+		USABLE=#usable#,
+		ATTACHNAME=#attachname#,
+		ATTACHPATH=#attachpath#,
+		DESCRIPTION=#description#,
+		PHOTONAME=#photoname#,
+		PHOTOPATH=#photopath#,
+		FLAG=#flag#
+		where CAR_ID =
+		#carId#
+	</update>
+</sqlMap>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Matter">
+	<typeAlias alias="matter" type="runix.persistent.model.Matter"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="matter" class="matter"> 
+		<result property="matterId" column="MATTER_ID"/>
+		<result property="mattername" column="MATTERNAME"/>
+		<result property="sponsor" column="SPONSOR"/>
+		<result property="executor" column="EXECUTOR"/>
+		<result property="title" column="TITLE"/>
+		<result property="issuetime" column="ISSUETIME"/>
+		<result property="handlestatus" column="HANDLESTATUS"/>
+		<result property="readstatus" column="READSTATUS"/>
+		<result property="flag" column="FLAG"/>
+		<result property="relateId" column="RELATE_ID"/>
+		<result property="sortnum" column="SORTNUM"/>
+	</resultMap>
+
+	<select id="queryMatters" parameterClass="map"  resultMap="matter">
+		select MATTER_ID,MATTERNAME,(select name from base_user t1 where t1.user_id = t.SPONSOR) SPONSOR,
+		(select name from base_user t1 where t1.user_id = t.EXECUTOR) EXECUTOR,TITLE,ISSUETIME,
+		(select handlestatus from flow_people t2 where t2.relate_id = t.relate_id and t2.person_id = t.executor and t2.sortnum=t.sortnum) HANDLESTATUS,
+		(select readstatus from flow_people t2 where t2.relate_id = t.relate_id and t2.person_id = t.executor and t2.sortnum=t.sortnum) READSTATUS,FLAG,RELATE_ID,sortnum from matter t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="matterId">
+					MATTER_ID like #matterId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mattername">
+					MATTERNAME like #mattername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sponsor">
+					SPONSOR in (select user_id from base_user t1 where t1.name like #sponsor#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executor">
+					EXECUTOR like #executor#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="issuetime">
+					ISSUETIME like #issuetime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					ISSUETIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ISSUETIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="handlestatus">
+					relate_id in (select relate_id from flow_people t2 where t2.handlestatus = #handlestatus#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="personId">
+					relate_id in (select relate_id from flow_people t2 where t2.handlestatus = #handlestatus# and t2.person_id = #personId#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="relateId">
+					RELATE_ID like #relateId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountMatters" parameterClass="map"  resultClass="int">
+		select count(*) from matter
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="matterId">
+					MATTER_ID like #matterId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mattername">
+					MATTERNAME like #mattername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sponsor">
+					SPONSOR in (select user_id from base_user t1 where t1.name like #sponsor#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executor">
+					EXECUTOR like #executor#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="issuetime">
+					ISSUETIME like #issuetime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					ISSUETIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ISSUETIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="handlestatus">
+					relate_id in (select relate_id from flow_people t2 where t2.handlestatus = #handlestatus#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="personId">
+					relate_id in (select relate_id from flow_people t2 where t2.handlestatus = #handlestatus# and t2.person_id = #personId#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="relateId">
+					RELATE_ID like #relateId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<select id="queryMatters2" parameterClass="map"  resultMap="matter">
+		select t.MATTER_ID,
+       t.MATTERNAME,
+       (select name from base_user t1 where t1.user_id = t.SPONSOR) SPONSOR,
+       (select name from base_user t1 where t1.user_id = tt.person_id) EXECUTOR,
+       t.TITLE,
+       t.ISSUETIME,
+       tt.HANDLESTATUS,
+       tt.READSTATUS,
+       t.FLAG,
+       t.RELATE_ID,
+       tt.sortnum
+  from matter t left join flow_people tt on tt.relate_id = t.relate_id
+           and tt.person_id = #personId#
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="matterId">
+					t.MATTER_ID like #matterId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mattername">
+					t.MATTERNAME like #mattername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sponsor">
+					t.SPONSOR in (select user_id from base_user t1 where t1.name like #sponsor#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executor">
+					t.EXECUTOR like #executor#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					t.TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="issuetime">
+					t.ISSUETIME like #issuetime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					t.ISSUETIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					t.ISSUETIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="handlestatus">
+					tt.HANDLESTATUS = #handlestatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					t.READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					t.FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="relateId">
+					t.RELATE_ID like #relateId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<select id="queryCountMatters2" parameterClass="map"  resultClass="int">
+		select count(*) from (select t.MATTER_ID,
+       t.MATTERNAME,
+       (select name from base_user t1 where t1.user_id = t.SPONSOR) SPONSOR,
+       (select name from base_user t1 where t1.user_id = tt.person_id) EXECUTOR,
+       t.TITLE,
+       t.ISSUETIME,
+       tt.HANDLESTATUS,
+       tt.READSTATUS,
+       t.FLAG,
+       t.RELATE_ID,
+       tt.sortnum
+  from matter t left join flow_people tt on tt.relate_id = t.relate_id
+           and tt.person_id = #personId#
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="matterId">
+					t.MATTER_ID like #matterId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mattername">
+					t.MATTERNAME like #mattername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sponsor">
+					t.SPONSOR in (select user_id from base_user t1 where t1.name like #sponsor#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executor">
+					t.EXECUTOR like #executor#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					t.TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="issuetime">
+					t.ISSUETIME like #issuetime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					t.ISSUETIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					t.ISSUETIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="handlestatus">
+					tt.HANDLESTATUS = #handlestatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					t.READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					t.FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="relateId">
+					t.RELATE_ID like #relateId#
+				</isNotEmpty>
+			</dynamic>) tc
+	</select>
+	
+	<select id="queryMatters3" parameterClass="map"  resultMap="matter">
+		select t.MATTER_ID,
+       t.MATTERNAME,
+       (select name from base_user t1 where t1.user_id = t.SPONSOR) SPONSOR,
+       (select name from base_user t1 where t1.user_id = tt.person_id) EXECUTOR,
+       t.TITLE,
+       t.ISSUETIME,
+       tt.HANDLESTATUS,
+       tt.READSTATUS,
+       t.FLAG,
+       t.RELATE_ID,
+       tt.sortnum
+  from matter t left join flow_people tt on tt.relate_id = t.relate_id
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="matterId">
+					t.MATTER_ID like #matterId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mattername">
+					t.MATTERNAME like #mattername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sponsor">
+					t.SPONSOR in (select user_id from base_user t1 where t1.name like #sponsor#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executor">
+					t.EXECUTOR like #executor#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					t.TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="issuetime">
+					t.ISSUETIME like #issuetime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					t.ISSUETIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					t.ISSUETIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="handlestatus">
+					tt.HANDLESTATUS = #handlestatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					t.READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					t.FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="relateId">
+					t.RELATE_ID like #relateId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<select id="queryCountMatters3" parameterClass="map"  resultClass="int">
+		select count(*) from (select t.MATTER_ID,
+       t.MATTERNAME,
+       (select name from base_user t1 where t1.user_id = t.SPONSOR) SPONSOR,
+       (select name from base_user t1 where t1.user_id = tt.person_id) EXECUTOR,
+       t.TITLE,
+       t.ISSUETIME,
+       tt.HANDLESTATUS,
+       tt.READSTATUS,
+       t.FLAG,
+       t.RELATE_ID,
+       tt.sortnum
+  from matter t left join flow_people tt on tt.relate_id = t.relate_id
+          
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="matterId">
+					t.MATTER_ID like #matterId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="mattername">
+					t.MATTERNAME like #mattername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sponsor">
+					t.SPONSOR in (select user_id from base_user t1 where t1.name like #sponsor#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="executor">
+					t.EXECUTOR like #executor#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					t.TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="issuetime">
+					t.ISSUETIME like #issuetime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					t.ISSUETIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					t.ISSUETIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="handlestatus">
+					tt.HANDLESTATUS = #handlestatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					t.READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					t.FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="relateId">
+					t.RELATE_ID like #relateId#
+				</isNotEmpty>
+			</dynamic>) tc
+	</select>
+	
+
+	<select id="queryMatterById" parameterClass="string"  resultMap="matter">
+		select * from matter where MATTER_ID = #value#
+	</select>
+
+	<delete id="execDeleteMatterById" parameterClass="string">
+		 delete from matter where MATTER_ID = #matterId#
+	</delete>
+	
+	<delete id="execDeleteMatterByRelateId" parameterClass="string">
+		 delete from matter where RELATE_ID = #relateId#
+	</delete>
+
+	<insert id="execInsertMatter" parameterClass="matter">
+		<selectKey resultClass="string" keyProperty="matterId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey>
+		insert into matter(
+			MATTER_ID,MATTERNAME,
+			SPONSOR,EXECUTOR,
+			TITLE,ISSUETIME,
+			HANDLESTATUS,READSTATUS,
+			FLAG,RELATE_ID,SORTNUM
+		) values(
+			#matterId#,#mattername#,
+			#sponsor#,#executor#,
+			#title#,#issuetime#,
+			#handlestatus#,#readstatus#,
+			#flag#,#relateId#,#sortnum#
+		)
+	</insert>
+
+	<update id="execUpdateMatter" parameterClass="matter">
+		update matter set
+			MATTER_ID=#matterId#,
+			MATTERNAME=#mattername#,
+			SPONSOR=#sponsor#,
+			EXECUTOR=#executor#,
+			TITLE=#title#,
+			ISSUETIME=#issuetime#,
+			HANDLESTATUS=#handlestatus#,
+			READSTATUS=#readstatus#,
+			FLAG=#flag#,
+			RELATE_ID=#relateId#,
+			SORTNUM=#sortnum#
+		where MATTER_ID = #matterId#
+	</update>
+</sqlMap>

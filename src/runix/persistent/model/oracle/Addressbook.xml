@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Addressbook">
+	<typeAlias alias="addressbook" type="runix.persistent.model.Addressbook"/>
+	 <typeAlias alias="baseData" type="runix.persistent.model.BaseData"/> 
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="addressbook" class="addressbook"> 
+		<result property="addrbookId" column="ADDRBOOK_ID"/>
+		<result property="addrtype" column="ADDRTYPE"/>
+		<result property="grouptype" column="GROUPTYPE"/>
+		<result property="name" column="NAME"/>
+		<result property="enname" column="ENNAME"/>
+		<result property="birthdate" column="BIRTHDATE"/>
+		<result property="sex" column="SEX"/>
+		<result property="company" column="COMPANY"/>
+		<result property="dept" column="DEPT"/>
+		<result property="officetel" column="OFFICETEL"/>
+		<result property="position" column="POSITION"/>
+		<result property="mobilephone" column="MOBILEPHONE"/>
+		<result property="homephone" column="HOMEPHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="fax" column="FAX"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="postcode" column="POSTCODE"/>
+		<result property="othercontact" column="OTHERCONTACT"/>
+		<result property="contactrecord" column="CONTACTRECORD"/>
+		<result property="remark" column="REMARK"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+
+	<!-- 查询通讯录列表 -->
+	<select id="queryAddressbooks" parameterClass="map"  resultClass="hashmap">
+		select a.*,(select b.dataname from base_data b where b.data_id=a.addrtype) as addrtypename,
+		(select c.dataname from base_data c where c.data_id=a.grouptype) as grouptypename from addressbook a
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="addrbookId">
+					a.ADDRBOOK_ID like #addrbookId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="grouptype">
+					a.GROUPTYPE like #grouptype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					a.NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sex">
+					a.SEX like #sex#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					a.FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(a.ADDRBOOK_ID) desc
+	</select>
+	<!-- 查询通讯录表总记录数 -->
+	<select id="queryCountAddressbooks" parameterClass="map"  resultClass="int">
+		select count(*) from addressbook
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="addrbookId">
+					ADDRBOOK_ID like #addrbookId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="addrtype">
+					ADDRTYPE like #addrtype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="grouptype">
+					GROUPTYPE like #grouptype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sex">
+					SEX like #sex#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询返回通讯录实例 -->
+	<select id="queryAddressbookById" parameterClass="string" resultMap="addressbook">
+		select * from addressbook where ADDRBOOK_ID = #value#
+	</select>
+	<!-- 根据ID查询返回带类型和组别名称的map列表 -->
+	<select id="queryAddressbookAndTypesById" parameterClass="string"  resultClass="hashmap">
+		select a.*,(select b.dataname from base_data b where b.data_id=a.addrtype) as addrtypename,
+		(select c.dataname from base_data c where c.data_id=a.grouptype) as grouptypename from addressbook a
+		 where a.ADDRBOOK_ID = #value#
+	</select>
+	<!-- 根据ID删除通讯录 -->
+	<delete id="execDeleteAddressbookById" parameterClass="string">
+		 delete from addressbook where ADDRBOOK_ID = #addrbookId#
+	</delete>
+	<!-- 添加通讯录 -->
+	<insert id="execInsertAddressbook" parameterClass="addressbook">
+	 <selectKey resultClass="string" keyProperty="addrbookId" type="pre">    
+      select SMM.NEXTVAL FROM DUAL 
+    </selectKey>    
+		insert into addressbook(
+			ADDRBOOK_ID,ADDRTYPE,
+			GROUPTYPE,NAME,
+			ENNAME,BIRTHDATE,
+			SEX,COMPANY,
+			DEPT,OFFICETEL,
+			POSITION,MOBILEPHONE,
+			HOMEPHONE,EMAIL,
+			FAX,ADDRESS,
+			POSTCODE,OTHERCONTACT,
+			CONTACTRECORD,REMARK,
+			FLAG
+		) values(
+			#addrbookId#,#addrtype#,
+			#grouptype#,#name#,
+			#enname#,#birthdate#,
+			#sex#,#company#,
+			#dept#,#officetel#,
+			#position#,#mobilephone#,
+			#homephone#,#email#,
+			#fax#,#address#,
+			#postcode#,#othercontact#,
+			#contactrecord#,#remark#,
+			#flag#
+		)
+	</insert>
+	<!-- 修改通讯录 -->
+	<update id="execUpdateAddressbook" parameterClass="addressbook">
+		update addressbook set
+			ADDRBOOK_ID=#addrbookId#,
+			ADDRTYPE=#addrtype#,
+			GROUPTYPE=#grouptype#,
+			NAME=#name#,
+			ENNAME=#enname#,
+			BIRTHDATE=#birthdate#,
+			SEX=#sex#,
+			COMPANY=#company#,
+			DEPT=#dept#,
+			OFFICETEL=#officetel#,
+			POSITION=#position#,
+			MOBILEPHONE=#mobilephone#,
+			HOMEPHONE=#homephone#,
+			EMAIL=#email#,
+			FAX=#fax#,
+			ADDRESS=#address#,
+			POSTCODE=#postcode#,
+			OTHERCONTACT=#othercontact#,
+			CONTACTRECORD=#contactrecord#,
+			REMARK=#remark#,
+			FLAG=#flag#
+		where ADDRBOOK_ID = #addrbookId#
+	</update>
+</sqlMap>

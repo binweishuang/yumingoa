@@ -1,0 +1,13 @@
+ul,li{ list-style-type:none;}
+.all_content{ margin:0 auto; width:100%; clear:both}
+.ser_wt_tabtop{ height:10%; background:white}
+.ser_wt_tfont{ padding-right:1000px;height:30px; line-height:30px; font-size:20px; color:#FFFFFF}
+.tab{ width:800px; height:150px; margin:0 auto; overflow:hidden;}
+.tab .tab_title{ width:800px; height:150px; overflow:hidden;clear:both; background:white; overflow:hidden; position:relative;}
+.tab .tab_title .u{ width:600px; height:150px; overflow:hidden; position:relative; }
+.tab .tab_title .uu{float: left;padding-left: 0px;}
+.tab .tab_title ul{ margin:0; position:absolute;width: 2050px; }
+.tab .tab_title div{ float:left;width:90px; height:80px; line-height:20px; cursor:pointer;}
+.tab .tab_title span.vright{}
+.tab .tab_title span.vleft{}
+.tab .tab_title li{ float:left; width:140px; height:150px;text-align:center; padding-top:20px; margin-right:6px;cursor:pointer; color:balck}

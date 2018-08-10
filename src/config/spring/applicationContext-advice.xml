@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns ="http://www.springframework.org/schema/beans" 
+    xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation ="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <!-- ADVICE，操作advice的类 --> 
+  <bean id="sqlAdvice" class="kdf.aop.SqlAdvice"/>
+ 
+  <!--  
+  <bean id="timeAdvice" class="kdf.ee.aop.TimeAdvice"/>
+  <bean id="exceptionAdvice" class="kdf.ee.aop.ExceptionAdvice"/>
+   <bean id="bizAdvice" class="kdf.ee.aop.BizAdvice"/>
+  -->
+  <!--ADVISOR--> 
+
+  <!-- 记录SQL执行语句Advisor -->
+  <bean id="sqlAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> 
+    <property name="advice"> 
+      <ref local="sqlAdvice"/> 
+    </property> 
+    <property name="pattern">
+      <value>base.persistent.impl.*query.*</value>    
+    </property> 
+  </bean>  
+  <bean id="execAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> 
+    <property name="advice"> 
+      <ref local="sqlAdvice"/> 
+    </property> 
+    <property name="pattern">
+      <value>base.persistent.impl.*exec.*</value>
+    </property> 
+  </bean>
+  <!-- 时间记录Advisor -->
+  <!--   
+  <bean id="timeAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> 
+    <property name="advice"> 
+      <ref local="timeAdvice"/> 
+    </property> 
+    <property name="pattern">
+       <value>.*.*</value>
+    </property> 
+  </bean>
+  -->
+  <!-- 异常记录Advisor -->
+  <!--  
+  <bean id="exceptionAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> 
+    <property name="advice"> 
+      <ref bean="exceptionAdvice"/> 
+    </property> 
+    <property name="pattern">
+       <value>.*.*</value>
+    </property> 
+  </bean>
+  -->
+  <!-- 业务操作日志Advisor -->
+  <!--    
+  <bean id="bizAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"> 
+    <property name="advice"> 
+      <ref bean="bizAdvice"/> 
+    </property> 
+    <property name="pattern">
+    	<value>kf.struts2.manage.*do.*</value>
+    </property> 
+  </bean>
+  -->
+  
+  <!--CONFIG--> 
+  <!-- 自动代理和ProxyFactoryBean两者只能使用一个 -->
+  <!--设定为自动代理Advisor-->  
+  <bean id="autoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+  	<!-- 代理实体类
+  	<property name="proxyTargetClass">
+  		<value>true</value>
+  	</property>
+  	-->
+  </bean>
+  <!-- 如果使用ProxyFactoryBean代理时，请使用下面的配置，针对每个类配置一个代理 -->
+  <!--  
+  <bean id="beanProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces"> 
+      <value>kf.spring.aop.Bean</value>
+    </property> 
+    <property name="target"> 
+        <ref local="bean"/>     
+    </property> 
+    <property name="interceptorNames"> 
+      <list> 
+        <value>theAdvisor</value> 
+      </list> 
+    </property> 
+  </bean>
+   
+  <bean id="commonDAOProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces"> 
+	  <value>kf.dao.CommonDAO</value>
+    </property> 
+    <property name="target">       
+      <ref local="commonDAO"/> 
+    </property> 
+    <property name="interceptorNames"> 
+      <list> 
+        <value>sqlAdvisor</value> 
+        <value>exceptionAdvisor</value>
+        <value>timeAdvisor</value>
+      </list> 
+    </property> 
+  </bean>
+  -->
+</beans>

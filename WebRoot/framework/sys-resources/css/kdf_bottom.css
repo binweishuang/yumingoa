@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.foot01{ position:relative; font-family:"宋体";height:20px;color:#fff; font-size:12px; padding-top:10px;line-height:22px; text-align:center; }
+
+.footL{ position:absolute; left:0px; bottom:0px; padding-left:8px;}
+
+.footR{ position:absolute; right:0px; padding-right:8px; bottom:0px;text-align:right; background:url(../images/common/bottom01.gif) right bottom no-repeat; width:204px; height:22px;}

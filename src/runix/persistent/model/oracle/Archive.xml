@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Archive">
+	<typeAlias alias="archive" type="runix.persistent.model.Archive"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="archive" class="archive"> 
+		<result property="archiveId" column="ARCHIVE_ID"/>
+		<result property="author" column="AUTHOR"/>
+		<result property="filetype" column="FILETYPE"/>
+		<result property="secret" column="SECRET"/>
+		<result property="createdate" column="CREATEDATE"/>
+		<result property="fillingdate" column="FILLINGDATE"/>
+		<result property="partnum" column="PARTNUM"/>
+		<result property="annual" column="ANNUAL"/>
+		<result property="filesize" column="FILESIZE"/>
+		<result property="pagenum" column="PAGENUM"/>
+		<result property="archiveroom" column="ARCHIVEROOM"/>
+		<result property="dossierId" column="DOSSIER_ID"/>
+		<result property="archivetype" column="ARCHIVETYPE"/>
+		<result property="title" column="TITLE"/>
+		<result property="remark" column="REMARK"/>
+		<result property="content" column="CONTENT"/>
+		<result property="flag" column="FLAG"/>
+		<result property="fillingstatus" column="FILLINGSTATUS"/>
+	</resultMap>
+
+	<select id="queryArchives" parameterClass="map"  resultClass="hashmap">
+		select ARCHIVE_ID,AUTHOR,FILETYPE,(select dataname from base_data t1 where t1.data_id=t.SECRET) SECRET,
+		CREATEDATE,FILLINGDATE,ANNUAL,FILESIZE,PAGENUM,(select dataname from base_data t1 where t1.data_id=(select docroom from dossier t2 where  t2.dossier_id=t.DOSSIER_ID)) ARCHIVEROOM,
+		(select titlle from dossier t2 where t2.dossier_id=t.DOSSIER_ID) DOSSIERID,TITLE,FILLINGSTATUS from archive t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="archiveId">
+					ARCHIVE_ID like #archiveId#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="filetype">
+					FILETYPE like #filetype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="secret">
+					SECRET like #secret#
+				</isNotEmpty>
+	
+				<isNotEmpty prepend="and" property="filesize">
+					FILESIZE like #filesize#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="archivetype">
+					ARCHIVETYPE like #archivetype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+	
+				<isNotEmpty prepend="and" property="fillingstatus">
+					FILLINGSTATUS like #fillingstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountArchives" parameterClass="map"  resultClass="int">
+		select count(*) from archive
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="archiveId">
+					ARCHIVE_ID like #archiveId#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="filetype">
+					FILETYPE like #filetype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="secret">
+					SECRET like #secret#
+				</isNotEmpty>
+	
+				<isNotEmpty prepend="and" property="filesize">
+					FILESIZE like #filesize#
+				</isNotEmpty>
+
+				<isNotEmpty prepend="and" property="archivetype">
+					ARCHIVETYPE like #archivetype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+	
+				<isNotEmpty prepend="and" property="fillingstatus">
+					FILLINGSTATUS like #fillingstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryArchiveById" parameterClass="string"  resultMap="archive">
+		select * from archive where ARCHIVE_ID = #value#
+	</select>
+	
+
+
+	<delete id="execDeleteArchiveById" parameterClass="string">
+		 delete from archive where ARCHIVE_ID = #archiveId#
+	</delete>
+
+	<insert id="execInsertArchive" parameterClass="archive">
+		<selectKey resultClass="string" keyProperty="archiveId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into archive(
+			ARCHIVE_ID,AUTHOR,
+			FILETYPE,SECRET,
+			CREATEDATE,FILLINGDATE,
+			PARTNUM,ANNUAL,
+			FILESIZE,PAGENUM,
+			ARCHIVEROOM,DOSSIER_ID,
+			ARCHIVETYPE,TITLE,
+			REMARK,CONTENT,
+			FLAG,FILLINGSTATUS
+		) values(
+			#archiveId#,#author#,
+			#filetype#,#secret#,
+			#createdate#,#fillingdate#,
+			#partnum#,#annual#,
+			#filesize#,#pagenum#,
+			#archiveroom#,#dossierId#,
+			#archivetype#,#title#,
+			#remark#,#content#,
+			#flag#,#fillingstatus#
+		)
+	</insert>
+
+	<update id="execUpdateArchive" parameterClass="archive">
+		update archive set
+			ARCHIVE_ID=#archiveId#,
+			AUTHOR=#author#,
+			FILETYPE=#filetype#,
+			SECRET=#secret#,
+			CREATEDATE=#createdate#,
+			FILLINGDATE=#fillingdate#,
+			PARTNUM=#partnum#,
+			ANNUAL=#annual#,
+			FILESIZE=#filesize#,
+			PAGENUM=#pagenum#,
+			ARCHIVEROOM=#archiveroom#,
+			DOSSIER_ID=#dossierId#,
+			ARCHIVETYPE=#archivetype#,
+			TITLE=#title#,
+			REMARK=#remark#,
+			CONTENT=#content#,
+			FLAG=#flag#,
+			FILLINGSTATUS=#fillingstatus#
+		where ARCHIVE_ID = #archiveId#
+	</update>
+	
+	<select id="queryArchiveByIdForView" parameterClass="string"  resultMap="archive">
+		select ARCHIVE_ID,AUTHOR,FILETYPE,(select dataname from base_data t1 where t1.data_id=t.SECRET) SECRET,
+		CREATEDATE,FILLINGDATE,PARTNUM,ANNUAL,FILESIZE,PAGENUM,(select dataname from base_data t1 where t1.data_id=(select docroom from dossier t2 where  t2.dossier_id=t.DOSSIER_ID)) ARCHIVEROOM,
+		(select titlle from dossier t2 where t2.dossier_id=t.DOSSIER_ID) DOSSIER_ID,
+		(select dataname from base_data t1 where t1.data_id=t.ARCHIVETYPE) ARCHIVETYPE,TITLE,REMARK,CONTENT,FLAG,FILLINGSTATUS from archive t where ARCHIVE_ID = #value#
+	</select>
+</sqlMap>

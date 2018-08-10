@@ -1,0 +1,17 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- 国际化开始   平台中使用的是action国际化的方式-->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.custom.i18n.resources" value="globalMessages"/>
+	<!-- 国际化结束 -->
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
+	<!-- 设置通过struts2上传的最大文件大小 5MB -->
+	<constant name="struts.multipart.maxSize" value="10485760"/>
+	<include file="struts-default.xml"/>
+	<include file="config/struts2/struts-base.xml"/>     
+	<include file="config/struts2/struts-login.xml"/>
+	<include file="config/struts2/struts2-runix.xml"/>
+</struts>

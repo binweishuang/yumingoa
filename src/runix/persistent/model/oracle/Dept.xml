@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Dept">
+	<typeAlias alias="dept" type="runix.persistent.model.Dept"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="dept" class="dept"> 
+		<result property="deptId" column="DEPT_ID"/>
+		<result property="deptname" column="DEPTNAME"/>
+		<result property="phone" column="PHONE"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="parentid" column="PARENTID"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 获取所有的部门实例 -->
+	<select id="getAllDepts" resultMap="dept">
+		select * from dept order by to_number(DEPT_ID) desc
+	</select>
+	<!-- 获取指定部门的部门实例 -->
+	<select id="findDeptByName" resultMap="dept" parameterClass="dept">
+		select * from dept where DEPTNAME=#deptname#
+	</select>
+	<!-- 添加部门 -->
+	<insert id="persistDept" parameterClass="dept">
+		<selectKey resultClass="string" keyProperty="deptId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into dept(
+			DEPT_ID,DEPTNAME,
+			PHONE,DESCRIPTION,
+			PARENTID,FLAG
+		) values(
+			#deptId#,#deptname#,
+			#phone#,#description#,
+			#parentid#,#flag#
+		)
+	</insert>
+	<!-- 通过id查询指定的部门 -->
+	<select id="getDeptById" parameterClass="dept"  resultMap="dept">
+		select * from dept where DEPT_ID = #deptId#
+	</select>
+	<!--修改部门 -->
+	<update id="updateDept" parameterClass="dept">
+		update dept set
+			DEPT_ID=#deptId#,
+			DEPTNAME=#deptname#,
+			PHONE=#phone#,
+			DESCRIPTION=#description#,
+			PARENTID=#parentid#,
+			FLAG=#flag#
+		where DEPT_ID = #deptId#
+	</update>
+	<!--删除部门 -->
+	<delete id="delete" parameterClass="dept">
+		 delete from dept where DEPT_ID = #deptId#
+	</delete>
+	<select id="queryDepts" parameterClass="map"  resultMap="dept">
+		select * from dept order by to_number(DEPT_ID) desc
+	</select>
+	
+	<select id="queryCountDepts" parameterClass="map"  resultClass="int">
+		select count(*) from dept
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="deptId">
+					DEPT_ID like #deptId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="deptname">
+					DEPTNAME like #deptname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="phone">
+					PHONE like #phone#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="description">
+					DESCRIPTION like #description#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="parentid">
+					PARENTID like #parentid#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryDeptById" parameterClass="string"  resultMap="dept">
+		select * from dept where DEPT_ID = #value#
+	</select>
+	
+	<select id="queryDeptnameById" parameterClass="string"  resultClass="string">
+		select deptname from dept where DEPT_ID = #value#
+	</select>
+
+	<delete id="execDeleteDeptById" parameterClass="string">
+		 delete from dept where DEPT_ID = #deptId#
+	</delete>
+
+	<insert id="execInsertDept" parameterClass="dept">
+		<selectKey resultClass="string" keyProperty="deptId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey>
+		insert into dept(
+			DEPT_ID,DEPTNAME,
+			PHONE,DESCRIPTION,
+			PARENTID,FLAG
+		) values(
+			#deptId#,#deptname#,
+			#phone#,#description#,
+			#parentid#,#flag#
+		)
+	</insert>
+
+	<update id="execUpdateDept" parameterClass="dept">
+		update dept set
+			DEPT_ID=#deptId#,
+			DEPTNAME=#deptname#,
+			PHONE=#phone#,
+			DESCRIPTION=#description#,
+			PARENTID=#parentid#,
+			FLAG=#flag#
+		where DEPT_ID = #deptId#
+	</update>
+</sqlMap>

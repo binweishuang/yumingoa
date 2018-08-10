@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Netdisk">
+	<typeAlias alias="netdisk" type="runix.persistent.model.Netdisk"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="netdisk" class="netdisk"> 
+		<result property="fileId" column="FILE_ID"/>
+		<result property="filename" column="FILENAME"/>
+		<result property="filesize" column="FILESIZE"/>
+		<result property="filepath" column="FILEPATH"/>
+		<result property="uploadtime" column="UPLOADTIME"/>
+		<result property="publicity" column="PUBLICITY"/>
+		<result property="folderId" column="FOLDER_ID"/>
+		<result property="uploader" column="UPLOADER"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	
+	
+	<select id="queryNetdisksByFolderID"  parameterClass="string"  resultMap = "netdisk">
+		select * from netdisk where FOLDER_ID = #folderID#
+	</select>
+	<select id="queryNetdisks" parameterClass="map"  resultClass="hashmap">
+	<!-- 	select * from netdisk
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="uploader">
+					UPLOADER like #uploader#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="filename">
+					FILENAME like '%$filename$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uploadtime">
+					to_char(UPLOADTIME, 'yyyy-MM-dd') like '%$uploadtime$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="or" property="publicity">
+					PUBLICITY like #publicity#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(FILE_ID) desc
+			 -->
+			select p.* from (select f.folder_id,
+               f.foldername,
+               null as file_id,
+               null as filesize,
+               null as uploadtime,
+               null as publicity,
+               null as filename,
+               null as filepath,
+               null as uploader
+          from folder f 
+        union
+        select nvl(t.folder_id,'0') as folder_id,
+               null as  foldername,
+               t.file_id,
+               t.filesize,
+               t.uploadtime,
+               t.publicity,
+               t.filename,
+               t.filepath,
+               t.uploader
+          from netdisk t
+         where folder_id is null
+          		<isNotEmpty prepend="and" property="uploader">
+					(UPLOADER like #uploader# or PUBLICITY like #publicity#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="filename">
+					FILENAME like '%$filename$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uploadtime">
+					to_char(UPLOADTIME, 'yyyy-MM-dd') like '%$uploadtime$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="folderId">
+					folder_id like #folderId#
+				</isNotEmpty>
+        		) p order by to_number(p.folder_id) desc
+	</select>
+	<select id="queryNetdisks1" parameterClass="map"  resultClass="hashmap">
+	<!-- 	select * from netdisk
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="uploader">
+					UPLOADER like #uploader#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="filename">
+					FILENAME like '%$filename$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uploadtime">
+					to_char(UPLOADTIME, 'yyyy-MM-dd') like '%$uploadtime$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="or" property="publicity">
+					PUBLICITY like #publicity#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(FILE_ID) desc
+			 -->
+			select * from netdisk t
+				<dynamic prepend="where">
+          		<isNotEmpty prepend="and" property="uploader">
+					(UPLOADER like #uploader# or PUBLICITY like #publicity#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="filename">
+					FILENAME like '%$filename$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uploadtime">
+					to_char(UPLOADTIME, 'yyyy-MM-dd') like '%$uploadtime$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="folderId">
+					folder_id like #folderId#
+				</isNotEmpty>
+				</dynamic>
+        		 order by to_number(t.file_id) asc
+	</select>
+
+	<select id="queryCountNetdisks" parameterClass="map"  resultClass="int">
+		select count(*) from (
+				select p.* from (select f.folder_id,
+               f.foldername,
+               null as file_id,
+               null as filesize,
+               null as uploadtime,
+               null as publicity,
+               null as filename,
+               null as filepath
+          from folder f 
+        union
+        select nvl(t.folder_id,'0') as folder_id,
+               null as  foldername,
+               t.file_id,
+               t.filesize,
+               t.uploadtime,
+               t.publicity,
+               t.filename,
+               t.filepath
+          from netdisk t
+         where folder_id is null
+          		<isNotEmpty prepend="and" property="uploader">
+					(UPLOADER like #uploader# or PUBLICITY like #publicity#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="filename">
+					FILENAME like '%$filename$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uploadtime">
+					to_char(UPLOADTIME, 'yyyy-MM-dd') like '%$uploadtime$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="folderId">
+					folder_id like #folderId#
+				</isNotEmpty>
+        		) p order by to_number(p.folder_id) desc
+		)
+	</select>
+	<select id="queryCountNetdisks1" parameterClass="map"  resultClass="int">
+		select count(*) from netdisk t
+			<dynamic prepend="where">
+          		<isNotEmpty prepend="and" property="uploader">
+					(UPLOADER like #uploader# or PUBLICITY like #publicity#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="filename">
+					FILENAME like '%$filename$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="uploadtime">
+					to_char(UPLOADTIME, 'yyyy-MM-dd') like '%$uploadtime$%'
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="folderId">
+					folder_id like #folderId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<select id="queryNetdiskById" parameterClass="string"  resultMap="netdisk">
+		select * from netdisk where FILE_ID = #id#
+	</select>
+
+	<delete id="execDeleteNetdiskById" parameterClass="string">
+		 delete from netdisk where FILE_ID = #fileId#
+	</delete>
+	
+	<delete id="execDeleteNetdiskByPath" parameterClass="string">
+		 delete from netdisk where FILEPATH = #filepath#
+	</delete>
+	
+	<delete id="execDeleteAllNetdisk" parameterClass="string">
+		 delete from netdisk where FOLDER_ID = #folderID#
+	</delete>
+
+	<insert id="execInsertNetdisk" parameterClass="netdisk">
+		<selectKey resultClass="string" keyProperty="fileId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into netdisk(
+			FILE_ID,FILENAME,
+			FILESIZE,FILEPATH,
+			UPLOADTIME,PUBLICITY,
+			FOLDER_ID,UPLOADER,
+			FLAG
+		) values(
+			#fileId#,#filename#,
+			#filesize#,#filepath#,
+			#uploadtime#,#publicity#,
+			#folderId#,#uploader#,
+			#flag#
+		)
+	</insert>
+
+	<update id="execUpdateNetdisk" parameterClass="netdisk">
+		update netdisk set
+			FILE_ID=#fileId#,
+			FILENAME=#filename#,
+			FILESIZE=#filesize#,
+			FILEPATH=#filepath#,
+			UPLOADTIME=#uploadtime#,
+			PUBLICITY=#publicity#,
+			FOLDER_ID=#folderId#,
+			UPLOADER=#uploader#,
+			FLAG=#flag#
+		where FILE_ID = #fileId#
+	</update>
+</sqlMap>

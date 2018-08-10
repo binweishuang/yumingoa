@@ -1,0 +1,138 @@
+.header_001{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_001.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_002{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_002.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_003{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_003.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_004{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_004.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_005{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_005.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_006{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_006.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_007{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_007.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_008{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_008.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.header_009{
+	width:100%;
+	height:53px;
+	background-image:url(../images/title_009.gif);
+	background-repeat:no-repeat;
+	position:absolute;
+	top:0px;
+}
+
+.panelWall {
+	float:right;
+	position:absolute;
+	top:30px;
+	right:160px;
+	z-index:9999;
+}
+
+.panelAbout {
+	float:center;
+	position:absolute;
+	top:30px;
+	right:20px;
+	z-index:9999;
+}
+
+.panelCon {
+	width: 100%;
+	overflow-y:auto;
+	overflow-x:hidden;
+	background-color:#FFF;
+	height:340px;
+}
+
+.panelCon_ul {
+	list-style:none;
+	width:100%;
+	margin:0px;
+}
+
+.panelCon_ul li a{
+	display:block;
+	width:100%;
+	height:22px;
+	text-indent:20px;
+	line-height:22px;
+	color:#666;
+	text-decoration: none;
+	cursor:hand;
+}
+
+
+.panelCon_ul li a:hover {
+	background-color:#EFEFEF
+}
+
+
+
+
+.panelFunction {
+	list-style:none;
+	width:100%;
+	margin:0px;
+	clear:both;
+	float:bottom;
+	display:block;
+}

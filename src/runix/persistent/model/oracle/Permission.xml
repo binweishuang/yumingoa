@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Permission">
+	<typeAlias alias="permission" type="runix.persistent.model.Permission"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="permission" class="permission"> 
+		<result property="permissionId" column="PERMISSION_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="url" column="URL"/>
+		<result property="sortnum" column="SORTNUM"/>
+		<result property="parentid" column="PARENTID"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+
+	<select id="queryPermissions" parameterClass="map"  resultMap="permission">
+		select * from permission
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="permissionId">
+					PERMISSION_ID like #permissionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="url">
+					URL like #url#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sortnum">
+					SORTNUM like #sortnum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="parentid">
+					PARENTID like #parentid#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountPermissions" parameterClass="map"  resultClass="int">
+		select count(*) from permission
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="permissionId">
+					PERMISSION_ID like #permissionId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="url">
+					URL like #url#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sortnum">
+					SORTNUM like #sortnum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="parentid">
+					PARENTID like #parentid#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryPermissionById" parameterClass="string"  resultMap="permission">
+		select * from permission where PERMISSION_ID = #value#
+	</select>
+	
+	<select id="queryPermissionByPosition" parameterClass="string"  resultMap="permission">
+		select * from permission where PARENTID = #value#
+	</select>
+	
+	<delete id="execDeletePermissionById" parameterClass="string">
+		 delete from permission where PERMISSION_ID = #permissionId#
+	</delete>
+
+	<insert id="execInsertPermission" parameterClass="permission">
+		<selectKey resultClass="string" keyProperty="permissionId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into permission(
+			PERMISSION_ID,TITLE,
+			URL,SORTNUM,
+			PARENTID,FLAG
+		) values(
+			#permissionId#,#title#,
+			#url#,#sortnum#,
+			#parentid#,#flag#
+		)
+	</insert>
+
+	<update id="execUpdatePermission" parameterClass="permission">
+		update permission set
+			PERMISSION_ID=#permissionId#,
+			TITLE=#title#,
+			URL=#url#,
+			SORTNUM=#sortnum#,
+			PARENTID=#parentid#,
+			FLAG=#flag#
+		where PERMISSION_ID = #permissionId#
+	</update>
+</sqlMap>

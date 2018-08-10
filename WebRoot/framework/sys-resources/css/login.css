@@ -1,0 +1,133 @@
+#login_body {
+	position:absolute; 
+	background-color: #ffffff; 
+	left: 50%; 
+	width:647px; 
+	margin-left: -323px; 
+	top:50%; 
+	height:327px; 
+	margin-top: -198px; 
+	background:url(../images/login_bg.gif)
+}
+
+#login_div {
+	width:647px;
+	height:317px;
+	background:url(../images/login.png);
+}
+
+#user_name {
+	float:right;
+	clear:right;
+	margin-top:140px;
+	width:268px;
+	height:26px;
+	color:#FFFFFF;
+	text-align:left;
+}
+
+#password {
+	float:right;
+	clear:right;
+	width:268px;
+	height:26px;
+	color:#FFFFFF;
+	text-align:left;
+}
+
+#ZT {
+	float:right;
+	clear:right;
+	width:268px;
+	height:26px;
+	color:#FFFFFF;
+	text-align:left;
+}
+
+#login_botton_div {
+	float:right;
+	clear:right;
+	width:268px;
+	height:22px;
+	color:#FFFFFF;
+	text-align:left;
+}
+
+.login_botton {
+	margin-left:48px;
+	border:none;
+	float:left;
+	clear:right;
+	width:82px;
+	height:19px;
+	text-align:left;
+    background-color:none;
+    BACKGROUND:url(../images/login_button.gif) no-repeat left top;
+	cursor:hand;
+}
+
+#lostpass_botton {
+	margin-left:12px;
+	float:left;
+	clear:right;
+	width:82px;
+	height:19px;
+	text-align:left;
+	BACKGROUND:url(../images/lostpass_button.gif) no-repeat left top;
+	cursor:hand;
+}
+
+.login_input {
+	border:1px solid #000;
+	padding:1px;
+	height:15px;
+	width:186px;
+}
+.login_input_validate {
+	border:1px solid #000;
+	padding:1px;
+	height:15px;
+	width:60px;
+}
+
+.login_select {
+	width:190px;
+}
+
+#alert{
+	float:right;
+	clear:right;
+	width:220px;
+	height:20px;
+	color:#FFFFFF;
+	text-align:left;
+	color:#FFF;
+}
+
+#Copyright {
+	TEXT-ALIGN:center;
+	color:#FFF
+}
+
+#login_info {
+	width:290px;
+	height:170px;
+	float:left;
+	margin-top:55px;
+	margin-left:16px;
+	color:#FFFFFF;
+}
+
+#system_name {
+	float:right;
+	clear:left;
+	margin-top:18px;
+	width:490px;
+	height:40px;
+	color:#FFFFFF;
+	text-align:left;
+	font-family: "黑体", "Tahoma", "宋体", "Arial", "Verdana"; 
+	font-size: 20pt;
+	line-height:30px;
+	vertical-align:bottom;
+}

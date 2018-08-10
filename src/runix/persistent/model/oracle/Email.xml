@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Email">
+	<typeAlias alias="email" type="runix.persistent.model.Email"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="email" class="email"> 
+		<result property="emailId" column="EMAIL_ID"/>
+		<result property="receiver" column="RECEIVER"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT"/>
+		<result property="sender" column="SENDER"/>
+		<result property="draftsstatus" column="DRAFTSSTATUS"/>
+		<result property="inboxstatus" column="INBOXSTATUS"/>
+		<result property="readstatus" column="READSTATUS"/>
+		<result property="outboxstatus" column="OUTBOXSTATUS"/>
+		<result property="sendstatus" column="SENDSTATUS"/>
+		<result property="sendtime" column="SENDTIME"/>
+		<result property="attachname" column="ATTACHNAME"/>
+		<result property="attachpath" column="ATTACHPATH"/>
+		<result property="receivePeoples" column="RECEIVEPEOPLES"/>
+		<result property="receivePeoplesId" column="RECEIVEPEOPLESID"/>
+	</resultMap>
+
+	<select id="queryEmails" parameterClass="map"  resultClass="hashmap">
+		select EMAIL_ID,(select name from base_user t1 where t1.user_id = t.receiver) receiver,title,sendtime,readstatus,
+		 (select name from base_user t1 where t1.user_id = t.sender) sender,receivePeoples from email t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="emailId">
+					EMAIL_ID like #emailId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="receiver">
+					RECEIVER in (select user_id from base_user where name like #receiver#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="receivePeoples">
+					RECEIVEPEOPLES like #receivePeoples# 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sender">
+					SENDER in (select user_id from base_user where name like #sender#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="receive">
+					INBOXSTATUS = '1' and RECEIVER = #receive#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="send">
+					OUTBOXSTATUS = '1' and SENDER = #send# and receivePeoples is not null
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="draft">
+					DRAFTSSTATUS = '1' and SENDER = #draft#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountEmails" parameterClass="map"  resultClass="int">
+		select count(*) from (select EMAIL_ID,(select name from base_user t1 where t1.user_id = t.receiver) receiver,title,sendtime,readstatus,
+		 (select name from base_user t1 where t1.user_id = t.sender) sender from email t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="emailId">
+					EMAIL_ID like #emailId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="receiver">
+					RECEIVER in (select user_id from base_user where name like #receiver#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="receivePeoples">
+					RECEIVEPEOPLES like #receivePeoples# 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="sender">
+					SENDER in (select user_id from base_user where name like #sender#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="readstatus">
+					READSTATUS like #readstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="receive">
+					INBOXSTATUS = '1' and RECEIVER = #receive#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="send">
+					OUTBOXSTATUS = '1' and SENDER = #send#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="draft">
+					DRAFTSSTATUS = '1' and SENDER = #draft#
+				</isNotEmpty>
+			</dynamic>) t3
+	</select>
+
+	<select id="queryEmailById" parameterClass="string"  resultMap="email">
+		select * from email where EMAIL_ID = #value#
+	</select>
+
+	<delete id="execDeleteEmailById" parameterClass="string">
+		 delete from email where EMAIL_ID = #emailId#
+	</delete>
+
+	<insert id="execInsertEmail" parameterClass="email">
+		<selectKey resultClass="string" keyProperty="emailId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into email(
+			EMAIL_ID,RECEIVER,
+			TITLE,CONTENT,
+			SENDER,DRAFTSSTATUS,
+			INBOXSTATUS,READSTATUS,
+			OUTBOXSTATUS,SENDSTATUS,
+			SENDTIME,ATTACHNAME,
+			ATTACHPATH,RECEIVEPEOPLES,RECEIVEPEOPLESID
+		) values(
+			#emailId#,#receiver#,
+			#title#,#content#,
+			#sender#,#draftsstatus#,
+			#inboxstatus#,#readstatus#,
+			#outboxstatus#,#sendstatus#,
+			#sendtime#,#attachname#,
+			#attachpath#,#receivePeoples#,#receivePeoplesId#
+		)
+	</insert>
+
+	<update id="execUpdateEmail" parameterClass="email">
+		update email set
+			EMAIL_ID=#emailId#,
+			RECEIVER=#receiver#,
+			TITLE=#title#,
+			CONTENT=#content#,
+			SENDER=#sender#,
+			DRAFTSSTATUS=#draftsstatus#,
+			INBOXSTATUS=#inboxstatus#,
+			READSTATUS=#readstatus#,
+			OUTBOXSTATUS=#outboxstatus#,
+			SENDSTATUS=#sendstatus#,
+			SENDTIME=#sendtime#,
+			ATTACHNAME=#attachname#,
+			ATTACHPATH=#attachpath#,
+			RECEIVEPEOPLES=#receivePeoples#,
+			RECEIVEPEOPLESID=#receivePeoplesId#
+		where EMAIL_ID = #emailId#
+	</update>
+	
+	<select id="queryEmailById2" parameterClass="string"  resultMap="email">
+		select email_id,
+               (select name from base_user t1 where t1.user_id = t.receiver) receiver,
+               title,
+               content,
+               (select name from base_user t1 where t1.user_id = t.sender) sender,
+               sendtime,
+               attachname,
+               attachpath,draftsstatus,inboxstatus,readstatus,outboxstatus,sendstatus,receivePeoplesId,
+               receivepeoples from email t where email_id = #value#
+	</select>
+</sqlMap>

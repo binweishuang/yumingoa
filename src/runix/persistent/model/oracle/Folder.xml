@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Folder">
+	<typeAlias alias="folder" type="runix.persistent.model.Folder"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="folder" class="folder"> 
+		<result property="folderId" column="FOLDER_ID"/>
+		<result property="foldername" column="FOLDERNAME"/>
+		<result property="flag" column="FLAG"/>
+		<result property="userId" column="USER_ID"/>
+	</resultMap>
+
+	<select id="queryFolders" parameterClass="map"  resultMap="folder">
+		select * from folder
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="folderId">
+					FOLDER_ID like #folderId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="foldername">
+					FOLDERNAME like #foldername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountFolders" parameterClass="map"  resultClass="int">
+		select count(*) from folder
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="folderId">
+					FOLDER_ID like #folderId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="foldername">
+					FOLDERNAME like #foldername#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryFolderById" parameterClass="string"  resultMap="folder">
+		select * from folder where FOLDER_ID = #value#
+	</select>
+
+	<delete id="execDeleteFolderById" parameterClass="string">
+		 delete from folder where FOLDER_ID = #folderId#
+	</delete>
+	
+	<select id="checkID" parameterClass="string" resultMap="folder">
+		 select * from folder where FOLDERNAME = #foldername#
+	</select>
+	
+	<insert id="execInsertFolder" parameterClass="folder">
+		<selectKey resultClass="string" keyProperty="folderId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into folder(
+			FOLDER_ID,FOLDERNAME,
+			FLAG
+		) values(
+			#folderId#,#foldername#,
+			#flag#
+		)
+	</insert>
+
+	<update id="execUpdateFolder" parameterClass="folder">
+		update folder set
+			FOLDER_ID=#folderId#,
+			FOLDERNAME=#foldername#,
+			FLAG=#flag#
+		where FOLDER_ID = #folderId#
+	</update>
+</sqlMap>

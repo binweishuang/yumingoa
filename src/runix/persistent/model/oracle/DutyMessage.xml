@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DutyMessage">
+	<typeAlias alias="dutyMessage" type="runix.persistent.model.DutyMessage"/>
+	<typeAlias alias="baseUser" type="runix.persistent.model.BaseUser"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="duty_message" class="dutyMessage"> 
+		<result property="dutyId" column="DUTY_ID"/>
+		<result property="dutyperson" column="DUTYPERSON"/>
+		<result property="classes" column="CLASSES"/>
+		<result property="dutydate" column="DUTYDATE"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="dutyaddress" column="DUTYADDRESS"/>
+		<result property="remark" column="REMARK"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 查询值班信息 -->
+	<select id="queryDutyMessages" parameterClass="map"  resultClass="hashmap">
+		select dm.*,(select bu.NAME from base_user bu where bu.USER_ID = dm.dutyperson) as dutypersonname from duty_message dm
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="dutyperson">
+					dm.DUTYPERSON in (select bu1.USER_ID from base_user bu1 where bu1.NAME like #dutyperson#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					dm.STARTTIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					dm.ENDTIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					dm.FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(dm.DUTY_ID) desc
+	</select>
+	<!-- 查询记录数 -->
+	<select id="queryCountDutyMessages" parameterClass="map"  resultClass="int">
+		select count(*) from duty_message
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="dutyperson">
+					DUTYPERSON in (select bu1.USER_ID from base_user bu1 where bu1.NAME like #dutyperson#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME <![CDATA[ >= ]]> #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME <![CDATA[ <= ]]> #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询值班信息  返回具体实例对象 -->
+	<select id="queryDutyMessageById" parameterClass="string"  resultMap="duty_message">
+		select * from duty_message where DUTY_ID = #value#
+	</select>
+	<!-- 根据ID查询值班信息  返回实例对象和值班人名称map -->
+	<select id="queryDutyMessageAndNameById" parameterClass="string"  resultClass="hashmap">
+		select dm.*,(select bu.NAME from base_user bu where bu.USER_ID = dm.dutyperson) as dutypersonname from duty_message dm where dm.DUTY_ID = #value#
+	</select>
+	<!-- 删除值班信息 -->
+	<delete id="execDeleteDutyMessageById" parameterClass="string">
+		 delete from duty_message where DUTY_ID = #dutyId#
+	</delete>
+	<!-- 添加值班信息 -->
+	<insert id="execInsertDutyMessage" parameterClass="dutyMessage">
+		<selectKey resultClass="string" keyProperty="dutyId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into duty_message(
+			DUTY_ID,DUTYPERSON,
+			CLASSES,DUTYDATE,
+			STARTTIME,ENDTIME,
+			DUTYADDRESS,REMARK,
+			FLAG
+		) values(
+			#dutyId#,#dutyperson#,
+			#classes#,#dutydate#,
+			#starttime#,#endtime#,
+			#dutyaddress#,#remark#,
+			#flag#
+		)
+	</insert>
+	<!-- 修改值班信息 -->
+	<update id="execUpdateDutyMessage" parameterClass="dutyMessage">
+		update duty_message set
+			DUTY_ID=#dutyId#,
+			DUTYPERSON=#dutyperson#,
+			CLASSES=#classes#,
+			DUTYDATE=#dutydate#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			DUTYADDRESS=#dutyaddress#,
+			REMARK=#remark#,
+			FLAG=#flag#
+		where DUTY_ID = #dutyId#
+	</update>
+</sqlMap>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="SetAttend">
+	<typeAlias alias="setAttend" type="runix.persistent.model.SetAttend"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="set_attend" class="setAttend"> 
+		<result property="setattendId" column="SETATTEND_ID"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="rest" column="REST"/>
+		<result property="absentlimit" column="ABSENTLIMIT"/>
+	</resultMap>
+
+	<select id="querySetAttends" parameterClass="map"  resultMap="set_attend">
+		select * from set_attend
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="setattendId">
+					SETATTEND_ID like #setattendId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME like #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME like #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="rest">
+					REST like #rest#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="absentlimit">
+					ABSENTLIMIT like #absentlimit#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountSetAttends" parameterClass="map"  resultClass="int">
+		select count(*) from set_attend
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="setattendId">
+					SETATTEND_ID like #setattendId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME like #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME like #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="rest">
+					REST like #rest#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="absentlimit">
+					ABSENTLIMIT like #absentlimit#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="querySetAttendById" parameterClass="string"  resultMap="set_attend">
+		select * from set_attend where SETATTEND_ID = #value#
+	</select>
+	
+	<select id="querySetAttend"   resultMap="set_attend">
+		select * from set_attend t where rownum=1
+	</select>
+
+	<delete id="execDeleteSetAttendById" parameterClass="string">
+		 delete from set_attend where SETATTEND_ID = #setattendId#
+	</delete>
+
+	<insert id="execInsertSetAttend" parameterClass="setAttend">
+		 <selectKey resultClass="string" keyProperty="setattendId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into set_attend(
+			SETATTEND_ID,STARTTIME,
+			ENDTIME,REST,
+			ABSENTLIMIT
+		) values(
+			#setattendId#,#starttime#,
+			#endtime#,#rest#,
+			#absentlimit#
+		)
+	</insert>
+
+	<update id="execUpdateSetAttend" parameterClass="setAttend">
+		update set_attend set
+			SETATTEND_ID=#setattendId#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			REST=#rest#,
+			ABSENTLIMIT=#absentlimit#
+		where SETATTEND_ID = #setattendId#
+	</update>
+</sqlMap>

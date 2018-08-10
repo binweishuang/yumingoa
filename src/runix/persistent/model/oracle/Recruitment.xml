@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Recruitment">
+	<typeAlias alias="recruitment" type="runix.persistent.model.Recruitment"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="recruitment" class="recruitment"> 
+		<result property="recruitmentId" column="RECRUITMENT_ID"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="department" column="DEPARTMENT"/>
+		<result property="position" column="POSITION"/>
+		<result property="submitter" column="SUBMITTER"/>
+		<result property="limittime" column="LIMITTIME"/>
+		<result property="title" column="TITLE"/>
+		<result property="peoplenum" column="PEOPLENUM"/>
+		<result property="details" column="DETAILS"/>
+		<result property="flag" column="FLAG"/>
+		<result property="status" column="STATUS"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="opinion" column="OPINION"/>
+	</resultMap>
+
+	<select id="queryRecruitments" parameterClass="map"  resultMap="recruitment">
+		select * from recruitment
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="recruitmentId">
+					RECRUITMENT_ID like #recruitmentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="department">
+					DEPARTMENT like #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="position">
+					POSITION like #position#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="submitter">
+					SUBMITTER like #submitter#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="limittime">
+					LIMITTIME like #limittime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="peoplenum">
+					PEOPLENUM like #peoplenum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="details">
+					DETAILS like #details#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountRecruitments" parameterClass="map"  resultClass="int">
+		select count(*) from recruitment
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="recruitmentId">
+					RECRUITMENT_ID like #recruitmentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="department">
+					DEPARTMENT like #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="position">
+					POSITION like #position#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="submitter">
+					SUBMITTER like #submitter#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="limittime">
+					LIMITTIME like #limittime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="peoplenum">
+					PEOPLENUM like #peoplenum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="details">
+					DETAILS like #details#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryRecruitmentById" parameterClass="string"  resultMap="recruitment">
+		select * from recruitment where RECRUITMENT_ID = #value#
+	</select>
+	
+	<select id="queryRecruitmentByIdForCheck" parameterClass="string"  resultMap="recruitment">
+		select * from recruitment where RECRUITMENT_ID = #value#
+	</select>
+
+	<delete id="execDeleteRecruitmentById" parameterClass="string">
+		 delete from recruitment where RECRUITMENT_ID = #recruitmentId#
+	</delete>
+
+	<insert id="execInsertRecruitment" parameterClass="recruitment">
+		<selectKey resultClass="string" keyProperty="recruitmentId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into recruitment(
+			RECRUITMENT_ID,WORKFLOW_ID,
+			DEPARTMENT,POSITION,
+			SUBMITTER,LIMITTIME,
+			TITLE,PEOPLENUM,
+			DETAILS,FLAG,STATUS,CHECKSTATUS,OPINION
+		) values(
+			#recruitmentId#,#workflowId#,
+			#department#,#position#,
+			#submitter#,#limittime#,
+			#title#,#peoplenum#,
+			#details#,#flag#,#status#,#checkstatus#,#opinion#
+		)
+	</insert>
+
+	<update id="execUpdateRecruitment" parameterClass="recruitment">
+		update recruitment set
+			RECRUITMENT_ID=#recruitmentId#,
+			WORKFLOW_ID=#workflowId#,
+			DEPARTMENT=#department#,
+			POSITION=#position#,
+			SUBMITTER=#submitter#,
+			LIMITTIME=#limittime#,
+			TITLE=#title#,
+			PEOPLENUM=#peoplenum#,
+			DETAILS=#details#,
+			FLAG=#flag#,
+			STATUS=#status#,
+			CHECKSTATUS=#checkstatus#,
+			OPINION=#opinion#
+		where RECRUITMENT_ID = #recruitmentId#
+	</update>
+	
+	<select id="queryAllRecruitments"   resultClass="hashmap">
+		select RECRUITMENT_ID,TITLE,POSITION from recruitment where CHECKSTATUS ='1'
+	</select>
+	
+	<select id="queryRecruitmentsCount" parameterClass="map"  resultClass="hashmap">
+		
+  select ti.position, ti.department,nvl(interview,0) interview,nvl(hire,0) hire,nvl(peoplenum,0) peoplenum from 
+(select position, department, count(interview) interview
+  from (select t1.recruitment_id, t1.position, t1.department, t2.interview
+          from recruitment t1
+          left join resume t2
+            on t1.recruitment_id = t2.recruitment_id
+         where t2.interview = '1') 
+ group by position,
+          department) ti left join 
+       
+          ( select position,department,count(hire) hire
+             from (select t1.recruitment_id,
+                          t1.position,
+                          t1.department,
+                          t2.hire
+                     from recruitment t1
+                     left join resume t2
+                       on t1.recruitment_id = t2.recruitment_id
+                    where t2.hire = '1')  group by position,
+          department)th on ti.position = th.position and ti.department=th.department left join 
+          (select position, department,sum(nvl(peoplenum,0)) peoplenum from recruitment t1 group by t1.position, t1.department) tp
+          on ti.position = tp.position and ti.department=tp.department
+			<dynamic prepend="where">
+
+				<isNotEmpty prepend="and" property="department">
+					ti.DEPARTMENT = #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="position">
+					ti.POSITION = #position#
+				</isNotEmpty>
+
+			</dynamic>
+	</select>
+
+	<select id="queryCountRecruitmentsCount" parameterClass="map"  resultClass="int">
+		select count(*) from ( select ti.position, ti.department,nvl(interview,0) interview,nvl(hire,0) hire,nvl(peoplenum,0) peoplenum from 
+(select position, department, count(interview) interview
+  from (select t1.recruitment_id, t1.position, t1.department, t2.interview
+          from recruitment t1
+          left join resume t2
+            on t1.recruitment_id = t2.recruitment_id
+         where t2.interview = '1') 
+ group by position,
+          department) ti left join 
+       
+          ( select position,department,count(hire) hire
+             from (select t1.recruitment_id,
+                          t1.position,
+                          t1.department,
+                          t2.hire
+                     from recruitment t1
+                     left join resume t2
+                       on t1.recruitment_id = t2.recruitment_id
+                    where t2.hire = '1')  group by position,
+          department)th on ti.position = th.position and ti.department=th.department left join 
+          (select position, department,sum(nvl(peoplenum,0)) peoplenum from recruitment t1 group by t1.position, t1.department) tp
+          on ti.position = tp.position and ti.department=tp.department
+			<dynamic prepend="where">
+
+				<isNotEmpty prepend="and" property="department">
+					ti.DEPARTMENT = #department#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="position">
+					ti.POSITION = #position#
+				</isNotEmpty>
+
+			</dynamic>)
+	</select>
+	
+</sqlMap>

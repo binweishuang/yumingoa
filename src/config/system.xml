@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+	<params>
+		<excel.maxRowPerSheet>5000</excel.maxRowPerSheet>
+		<app_name><![CDATA[OA办公管理系统]]></app_name>
+		<app_version><![CDATA[version 1.0 build by 2011.03.20]]></app_version>
+		<plat_version><![CDATA[1.0]]></plat_version>
+		<app_copyright><![CDATA[Copyright 2013 runix版权所有，保留所有权力。]]></app_copyright>
+		<init_pwd><![CDATA[123456]]></init_pwd>
+		<telephone>12345678</telephone>
+		<tech_support>87654321</tech_support>
+		
+		<!-- 超级系统管理员账号非研发人员禁止使用 -->
+		<admin>sa</admin>
+		<!-- 系统管理员可使用的菜单权限，不管此管理员有无此权限，都可以显示此菜单
+			可以设置多个权限，用逗号隔开，SystemConfig.MENU的值不变，
+			还是下面设置的值，如果在系统中使用到，
+			请自己使用split方法把多个权限生成为权限数组
+		 -->
+		<menu>KDF.SYS.RESOURCE</menu>
+		
+		<!-- 是否启用验证码 1:启用；0:不启用 -->
+		<is_startup_validate>0</is_startup_validate>
+		
+
+		
+		<!-- 目标编码 -->
+		<encoding>GBK</encoding>
+		<!-- 容器编码 -->
+		<container_encoding>ISO-8859-1</container_encoding>
+		
+		<!-- 系统使用的数据库，是为了解决在使用Oracle数据库时，返回的map的key都为大写，在程序中做处理 -->
+		<database>oracle</database>
+		
+		<!-- 全文检索时，文档存放的位置，WebRoot的相对位置 -->
+		<doc_search_path>doc_search</doc_search_path>
+		
+		<!-- 全文检索时，索引存放的位置，WebRoot的相对位置 -->
+		<doc_index_path>doc_index</doc_index_path>
+		
+
+	</params>
+</system>

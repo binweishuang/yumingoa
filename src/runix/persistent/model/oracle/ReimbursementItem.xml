@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ReimbursementItem">
+	<typeAlias alias="reimbursementItem" type="runix.persistent.model.ReimbursementItem"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="reimbursement_item" class="reimbursementItem"> 
+		<result property="itemId" column="ITEM_ID"/>
+		<result property="itemname" column="ITEMNAME"/>
+		<result property="time" column="TIME"/>
+		<result property="reason" column="REASON"/>
+		<result property="reimdate" column="REIMDATE"/>
+		<result property="docpoll" column="DOCPOLL"/>
+		<result property="reimmoney" column="REIMMONEY"/>
+		<result property="otheritem" column="OTHERITEM"/>
+		<result property="otherpoll" column="OTHERPOLL"/>
+		<result property="othermoney" column="OTHERMONEY"/>
+		<result property="flag" column="FLAG"/>
+		<result property="reimId" column="REIM_ID"/>
+	</resultMap>
+
+	<select id="queryReimbursementItems" parameterClass="map"  resultMap="reimbursement_item">
+		select * from reimbursement_item
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="itemId">
+					ITEM_ID like #itemId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="itemname">
+					ITEMNAME like #itemname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="time">
+					TIME like #time#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reason">
+					REASON like #reason#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimdate">
+					REIMDATE like #reimdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="docpoll">
+					DOCPOLL like #docpoll#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimmoney">
+					REIMMONEY like #reimmoney#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="otheritem">
+					OTHERITEM like #otheritem#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="otherpoll">
+					OTHERPOLL like #otherpoll#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="othermoney">
+					OTHERMONEY like #othermoney#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimId">
+					REIM_ID like #reimId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountReimbursementItems" parameterClass="map"  resultClass="int">
+		select count(*) from reimbursement_item
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="itemId">
+					ITEM_ID like #itemId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="itemname">
+					ITEMNAME like #itemname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="time">
+					TIME like #time#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reason">
+					REASON like #reason#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimdate">
+					REIMDATE like #reimdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="docpoll">
+					DOCPOLL like #docpoll#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimmoney">
+					REIMMONEY like #reimmoney#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="otheritem">
+					OTHERITEM like #otheritem#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="otherpoll">
+					OTHERPOLL like #otherpoll#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="othermoney">
+					OTHERMONEY like #othermoney#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="reimId">
+					REIM_ID like #reimId#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryReimbursementItemById" parameterClass="string"  resultMap="reimbursement_item">
+		select * from reimbursement_item where ITEM_ID = #value#
+	</select>
+	
+	<select id="queryReimbursementItemsByReimId" parameterClass="string"  resultMap="reimbursement_item">
+		select * from reimbursement_item where reim_id = #value#
+	</select>
+
+	<delete id="execDeleteReimbursementItemById" parameterClass="string">
+		 delete from reimbursement_item where ITEM_ID = #itemId#
+	</delete>
+	
+	<delete id="execDeleteReimbursementItemsByReimId" parameterClass="string">
+		 delete from reimbursement_item where REIM_ID = #reimId#
+	</delete>
+
+	<insert id="execInsertReimbursementItem" parameterClass="reimbursementItem">
+	 	<selectKey resultClass="string" keyProperty="itemId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into reimbursement_item(
+			ITEM_ID,ITEMNAME,
+			TIME,REASON,
+			REIMDATE,DOCPOLL,
+			REIMMONEY,OTHERITEM,
+			OTHERPOLL,OTHERMONEY,
+			FLAG,REIM_ID
+		) values(
+			#itemId#,#itemname#,
+			#time#,#reason#,
+			#reimdate#,#docpoll#,
+			#reimmoney#,#otheritem#,
+			#otherpoll#,#othermoney#,
+			#flag#,#reimId#
+		)
+	</insert>
+
+	<update id="execUpdateReimbursementItem" parameterClass="reimbursementItem">
+		update reimbursement_item set
+			ITEM_ID=#itemId#,
+			ITEMNAME=#itemname#,
+			TIME=#time#,
+			REASON=#reason#,
+			REIMDATE=#reimdate#,
+			DOCPOLL=#docpoll#,
+			REIMMONEY=#reimmoney#,
+			OTHERITEM=#otheritem#,
+			OTHERPOLL=#otherpoll#,
+			OTHERMONEY=#othermoney#,
+			FLAG=#flag#,
+			REIM_ID=#reimId#
+		where ITEM_ID = #itemId#
+	</update>
+</sqlMap>

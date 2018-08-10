@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Survey">
+	<typeAlias alias="survey" type="runix.persistent.model.Survey"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="survey" class="survey"> 
+		<result property="surveyId" column="SURVEY_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="voter" column="VOTER"/>
+		<result property="surveyperson" column="SURVEYPERSON"/>
+		<result property="starttime" column="STARTTIME"/>
+		<result property="endtime" column="ENDTIME"/>
+		<result property="publicity" column="PUBLICITY"/>
+		<result property="votingway" column="VOTINGWAY"/>
+		<result property="questiontype" column="QUESTIONTYPE"/>
+		<result property="questionname" column="QUESTIONNAME"/>
+		<result property="status" column="STATUS"/>
+		<result property="flag" column="FLAG"/>
+		<result property="peoplesname" column="PEOPLESNAME"/>
+	</resultMap>
+	<!-- 查询投票 -->
+	<select id="querySurveys" parameterClass="map"  resultMap="survey">
+		select * from survey
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="surveyId">
+					SURVEY_ID like #surveyId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="voter">
+					(VOTER like #voter# or SURVEYPERSON like #surveyperson#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME like #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME like #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="publicity">
+					PUBLICITY like #publicity#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="votingway">
+					VOTINGWAY like #votingway#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="questiontype">
+					QUESTIONTYPE like #questiontype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="questionname">
+					QUESTIONNAME like #questionname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 查询投票记录数 -->
+	<select id="queryCountSurveys" parameterClass="map"  resultClass="int">
+		select count(*) from survey
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="surveyId">
+					SURVEY_ID like #surveyId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="voter">
+					(VOTER like #voter# or SURVEYPERSON like #surveyperson#)
+				</isNotEmpty>
+			
+				<isNotEmpty prepend="and" property="starttime">
+					STARTTIME like #starttime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endtime">
+					ENDTIME like #endtime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="publicity">
+					PUBLICITY like #publicity#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="votingway">
+					VOTINGWAY like #votingway#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="questiontype">
+					QUESTIONTYPE like #questiontype#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="questionname">
+					QUESTIONNAME like #questionname#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询投票  返回实体对象 -->
+	<select id="querySurveyById" parameterClass="string"  resultMap="survey">
+		select * from survey where SURVEY_ID = #value#
+	</select>
+	<!-- 删除投票 -->
+	<delete id="execDeleteSurveyById" parameterClass="string">
+		 delete from survey where SURVEY_ID = #surveyId#
+	</delete>
+	<!-- 添加投票 -->
+	<insert id="execInsertSurvey" parameterClass="survey">
+	    <selectKey resultClass="string" keyProperty="surveyId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into survey(
+			SURVEY_ID,TITLE,
+			VOTER,SURVEYPERSON,
+			STARTTIME,ENDTIME,
+			PUBLICITY,VOTINGWAY,
+			QUESTIONTYPE,QUESTIONNAME,
+			STATUS,FLAG,PEOPLESNAME
+		) values(
+			#surveyId#,#title#,
+			#voter#,#surveyperson#,
+			#starttime#,#endtime#,
+			#publicity#,#votingway#,
+			#questiontype#,#questionname#,
+			#status#,#flag#,#peoplesname#
+		)
+	</insert>
+	<!-- 修改投票 -->
+	<update id="execUpdateSurvey" parameterClass="survey">
+		update survey set
+			SURVEY_ID=#surveyId#,
+			TITLE=#title#,
+			VOTER=#voter#,
+			SURVEYPERSON=#surveyperson#,
+			STARTTIME=#starttime#,
+			ENDTIME=#endtime#,
+			PUBLICITY=#publicity#,
+			VOTINGWAY=#votingway#,
+			QUESTIONTYPE=#questiontype#,
+			QUESTIONNAME=#questionname#,
+			STATUS=#status#,
+			FLAG=#flag#,
+			PEOPLESNAME=#peoplesname#
+		where SURVEY_ID = #surveyId#
+	</update>
+</sqlMap>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Apply">
+	<typeAlias alias="apply" type="runix.persistent.model.Apply"/>
+	<typeAlias alias="flowPeople" type="runix.persistent.model.FlowPeople"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="apply" class="apply"> 
+		<result property="applicationId" column="APPLICATION_ID"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="type" column="TYPE"/>
+		<result property="secret" column="SECRET"/>
+		<result property="urgency" column="URGENCY"/>
+		<result property="title" column="TITLE"/>
+		<result property="money" column="MONEY"/>
+		<result property="attachname" column="ATTACHNAME"/>
+		<result property="attachpath" column="ATTACHPATH"/>
+		<result property="content" column="CONTENT"/>
+		<result property="applicant" column="APPLICANT"/>
+		<result property="department" column="DEPARTMENT"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+		<result property="status" column="STATUS"/>
+		<result property="opinion" column="OPINION"/>
+		<result property="issuedate" column="ISSUEDATE"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+	<!-- 查询请示列表 -->
+	<select id="queryApplys" parameterClass="map"  resultClass="hashmap">
+		select a.*,(select b.DATANAME from base_data b where b.DATA_ID = a.TYPE) as typename,
+		(select c.DATANAME from base_data c where c.DATA_ID = a.SECRET) as secretname,
+		(select d.DATANAME from base_data d where d.DATA_ID = a.URGENCY) as urgencyname from apply a
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="workflowId">
+					a.WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="type">
+					a.TYPE like #type#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="secret">
+					a.SECRET like #secret#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="urgency">
+					a.URGENCY like #urgency#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="title">
+					a.TITLE like #title#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="applicant">
+					a.APPLICANT like #applicant#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					a.CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					a.STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					a.FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+			order by to_number(APPLICATION_ID) desc
+	</select>
+	<!-- 查询请示数量 -->
+	<select id="queryCountApplys" parameterClass="map"  resultClass="int">
+		select count(*) from apply
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="workflowId">
+					WORKFLOW_ID like #workflowId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="type">
+					TYPE like #type#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="secret">
+					SECRET like #secret#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="urgency">
+					URGENCY like #urgency#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="applicant">
+					APPLICANT like #applicant#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<!-- 根据ID查询请示  返回实体对象 -->
+	<select id="queryApplyById" parameterClass="string"  resultMap="apply">
+		select * from apply where APPLICATION_ID = #value#
+	</select>
+	<!-- 根据ID查询请示  返回实体对象以及各字段名称 -->
+	<select id="queryApplyAndNamesById" parameterClass="string"  resultClass="hashmap">
+		select a.*,(select e.NAME from base_user e where e.user_id = a.applicant) as applicantname,
+		(select f.DEPTNAME from dept f where f.dept_id = a.department) as deptname,
+		(select b.DATANAME from base_data b where b.DATA_ID = a.TYPE) as typename,
+		(select c.DATANAME from base_data c where c.DATA_ID = a.SECRET) as secretname,
+		(select d.DATANAME from base_data d where d.DATA_ID = a.URGENCY) as urgencyname from apply a where APPLICATION_ID = #value#
+	</select>
+	<delete id="execDeleteApplyById" parameterClass="string">
+		 delete from apply where APPLICATION_ID = #applicationId#
+	</delete>
+
+	<insert id="execInsertApply" parameterClass="apply">
+		<selectKey resultClass="string" keyProperty="applicationId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into apply(
+			APPLICATION_ID,WORKFLOW_ID,
+			TYPE,SECRET,
+			URGENCY,TITLE,
+			MONEY,ATTACHNAME,
+			ATTACHPATH,CONTENT,
+			APPLICANT,DEPARTMENT,
+			CHECKSTATUS,
+			STATUS,OPINION,
+			ISSUEDATE,FLAG
+		) values(
+			#applicationId#,#workflowId#,
+			#type#,#secret#,
+			#urgency#,#title#,
+			#money#,#attachname#,
+			#attachpath#,#content#,
+			#applicant#,#department#,
+			#checkstatus#,
+			#status#,#opinion#,
+			#issuedate#,#flag#
+		)
+	</insert>
+
+	<update id="execUpdateApply" parameterClass="apply">
+		update apply set
+			APPLICATION_ID=#applicationId#,
+			WORKFLOW_ID=#workflowId#,
+			TYPE=#type#,
+			SECRET=#secret#,
+			URGENCY=#urgency#,
+			TITLE=#title#,
+			MONEY=#money#,
+			ATTACHNAME=#attachname#,
+			ATTACHPATH=#attachpath#,
+			CONTENT=#content#,
+			APPLICANT=#applicant#,
+			DEPARTMENT=#department#,
+			CHECKSTATUS=#checkstatus#,
+			STATUS=#status#,
+			OPINION=#opinion#,
+			ISSUEDATE=#issuedate#,
+			FLAG=#flag#
+		where APPLICATION_ID = #applicationId#
+	</update>
+	<!-- 添加审批领导 -->
+	<insert id="execInsertFlowPeople" parameterClass="flowPeople">
+		<selectKey resultClass="string" keyProperty="fpId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into flow_people(
+			FP_ID,RELATE_ID,
+			PERSON_ID,SORTNUM,HANDLESTATUS,READSTATUS,OPINION
+		)values(
+			#fpId#,#relateId#,
+			#personId#,#sortnum#,#handlestatus#,#readstatus#,#opinion#
+		)
+	</insert>
+</sqlMap>

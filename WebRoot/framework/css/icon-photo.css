@@ -1,0 +1,27 @@
+img{border:0px}
+a:focus{ -moz-outline:none; outline:none; }
+.caption-top, .caption-bottom {
+	color: #ffffff;
+	padding: 1.7em;	/*͸�������߶�*/
+	font-weight: bold;
+	font-size: 13px;	
+	font-family: arial;	
+	cursor: default;
+	background: #000000;
+	text-shadow: 1px 1px 0 #202020; 	/*�ı���ӰЧ��*/
+}
+
+.caption-bottom {
+   border-width: 0px 0px 0px 0px;}
+   
+.caption a:hover, .caption a:hover {
+	background: #202020;
+}
+.caption-wrapper {
+	float: left;
+}
+
+#wrapper { width:788px;}
+
+.captify {margin:0px 15px 20px 0px;}
+

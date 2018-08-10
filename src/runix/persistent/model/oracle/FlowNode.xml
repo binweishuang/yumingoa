@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="FlowNode">
+	<typeAlias alias="flowNode" type="runix.persistent.model.FlowNode"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="flow_node" class="flowNode"> 
+		<result property="flownodeId" column="FLOWNODE_ID"/>
+		<result property="nodename" column="NODENAME"/>
+		<result property="appronum" column="APPRONUM"/>
+		<result property="approleaders" column="APPROLEADERS"/>
+		<result property="leadersid" column="LEADERSID"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+
+	<select id="queryFlowNodes" parameterClass="map"  resultMap="flow_node">
+		select * from flow_node
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="flownodeId">
+					FLOWNODE_ID like #flownodeId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="nodename">
+					NODENAME like #nodename#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="appronum">
+					APPRONUM like #appronum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="approleaders">
+					APPROLEADERS like #approleaders#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountFlowNodes" parameterClass="map"  resultClass="int">
+		select count(*) from flow_node
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="flownodeId">
+					FLOWNODE_ID like #flownodeId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="nodename">
+					NODENAME like #nodename#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="appronum">
+					APPRONUM like #appronum#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="approleaders">
+					APPROLEADERS like #approleaders#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="flag">
+					FLAG like #flag#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryFlowNodeById" parameterClass="string"  resultMap="flow_node">
+		select * from flow_node where FLOWNODE_ID = #value#
+	</select>
+	
+	<select id="queryCheckNodename" parameterClass="string"   resultClass="int">
+		select count(*) from flow_node where NODENAME = #value#
+	</select>
+	
+
+	
+	<select id="queryNodeId" parameterClass="string"  resultClass="string">
+		select FLOWNODE_ID from flow_node where NODENAME = #value#
+	</select>
+	
+	<select id="queryAllFlowNodes"   resultClass="hashmap">
+		select FLOWNODE_ID,NODENAME from flow_node
+	</select>
+
+	<delete id="execDeleteFlowNodeById" parameterClass="string">
+		 delete from flow_node where FLOWNODE_ID = #flownodeId#
+	</delete>
+	
+	<delete id="execDeleteWorkflowNodeById" parameterClass="string">
+		 delete from workflow_node where FLOWNODE_ID = #nodeId#
+	</delete>
+
+	<insert id="execInsertFlowNode" parameterClass="flowNode">
+		<selectKey resultClass="string" keyProperty="flownodeId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into flow_node(
+			FLOWNODE_ID,NODENAME,
+			APPRONUM,APPROLEADERS,LEADERSID,
+			FLAG
+		) values(
+			#flownodeId#,#nodename#,
+			#appronum#,#approleaders#,#leadersid#,
+			#flag#
+		)
+	</insert>
+
+	<update id="execUpdateFlowNode" parameterClass="flowNode">
+		update flow_node set
+			FLOWNODE_ID=#flownodeId#,
+			NODENAME=#nodename#,
+			APPRONUM=#appronum#,
+			APPROLEADERS=#approleaders#,
+			LEADERSID=#leadersid#,
+			FLAG=#flag#
+		where FLOWNODE_ID = #flownodeId#
+	</update>
+	
+	<select id="queryNodeNamesByFlowname" parameterClass="string"  resultClass="hashmap">
+		select NODENAME, leadersid
+		  from flow_node t1
+		  left join workflow_node t2
+		    on t1.flownode_id = t2.flownode_id
+		 where t2.workflow_id =
+		       (select t3.workflow_id from workflow t3 where t3.flowname = #value#)
+		 order by t2.wn_id 
+	</select>
+	
+</sqlMap>

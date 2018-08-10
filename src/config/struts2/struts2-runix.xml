@@ -1,0 +1,1959 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 车辆管理 -->
+	<package name="car" extends="base" namespace="/car">
+		<!-- 列表页-->
+		<action name="queryM" class="carAction" method="doQueryM">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/car/car_management.jsp</result>
+		</action>
+		<action name="query" class="carAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/car/carList.jsp</result>
+		</action>
+		<action name="insertInit" class="carAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/car/carAdd.jsp</result>
+		</action>
+		<action name="insert" class="carAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="carAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/car/carEdit.jsp</result>
+		</action>
+		<action name="update" class="carAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="carAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="carAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/car/carDetail.jsp</result>
+		</action>
+	</package>
+	<!-- 个人建议 -->
+	<package name="suggestion" extends="base" namespace="/suggestion">
+		<!-- 个人建议列表页面 -->
+		<action name="query" class="suggestionAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/suggestion/adviceList.jsp</result>
+		</action>
+		<!-- 添加页面 -->
+		<action name="addIndex" class="suggestionAction" method="doAddIndex">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/suggestion/adviceAdd.jsp</result>
+		</action>
+		<!-- 校验类型 -->
+		<action name="checkmesg" class="suggestionAction" method="doCheckmesg">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 添加类型 -->
+		<action name="persist" class="suggestionAction" method="persist">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/suggestion</param>
+			</result>
+		</action>
+		<!-- 修改页面 -->
+		<action name="modifyIndex" class="suggestionAction" method="doModifyIndex">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/suggestion/adviceEdit.jsp</result>
+		</action>
+		<!-- 修改 -->
+		<action name="update" class="suggestionAction" method="doModify">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/suggestion</param>
+			</result>
+		</action>
+		<!-- 查看页面 -->
+		<action name="detail" class="suggestionAction" method="detail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/suggestion/adviceDetail.jsp</result>
+		</action>
+		<!-- 删除 -->
+		<action name="del" class="suggestionAction" method="delete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/suggestion</param>
+			</result>
+		</action>
+	</package>
+	<!-- 信息中心 -->
+	<package name="messageCenter" extends="base" namespace="/messageCenter">
+		<!-- 信息中心 -->
+		<action name="query" class="messageCenterAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/msgCenter.jsp</result>
+		</action>
+		<!-- 新闻列表页面 -->
+		<action name="queryNews" class="messageCenterAction" method="doQueryByNews">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/newsList.jsp</result>
+		</action>
+		<!-- 新闻列表页面 -->
+		<action name="queryMainNews" class="messageCenterAction" method="doQueryByNews">
+			<interceptor-ref name="myStack" />
+			<result>/framework/main.jsp</result>
+		</action>
+		<!-- 通知列表页面 -->
+		<action name="queryNotice" class="messageCenterAction" method="doQueryByNotice">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/noticeList.jsp</result>
+		</action>
+		<!-- 通知列表页面 -->
+		<action name="queryMainNotice" class="messageCenterAction" method="doQueryByNotice">
+			<interceptor-ref name="myStack" />
+			<result>/framework/main.jsp</result>
+		</action>
+		<!-- 规章制度列表页面 -->
+		<action name="queryRules" class="messageCenterAction" method="doQueryByRules">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/rulesList.jsp</result>
+		</action>
+		<!-- 规章制度列表页面 -->
+		<action name="queryMainRules" class="messageCenterAction" method="doQueryByRules">
+			<interceptor-ref name="myStack" />
+			<result>/framework/main.jsp</result>
+		</action>
+		<!-- 新闻添加页面 -->
+		<action name="addNewsIndex" class="messageCenterAction" method="doPersistIndexByNews">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/newsAdd.jsp</result>
+		</action>
+		<!-- 校验信息类型 -->
+		<action name="checkmesg" class="messageCenterAction" method="doCheckmesg">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 校验发布范围 -->
+		<action name="checkdept" class="messageCenterAction" method="doCheckdept">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 通知添加页面 -->
+		<action name="addNoticeIndex" class="messageCenterAction"
+			method="doPersistIndexByNotice">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/noticeAdd.jsp</result>
+		</action>
+		<!-- 规章制度添加页面 -->
+		<action name="addRulesIndex" class="messageCenterAction"
+			method="doPersistIndexByRules">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/rulesAdd.jsp</result>
+		</action>
+		<!-- 添加新闻 -->
+		<action name="persistNews" class="messageCenterAction" method="doPersist">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNews</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 添加通知 -->
+		<action name="persistNotice" class="messageCenterAction"
+			method="doPersist">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNotice</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 添加规章制度 -->
+		<action name="persistRules" class="messageCenterAction" method="doPersist">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryRules</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 发布新闻 -->
+		<action name="releaseNews" class="messageCenterAction" method="doReleaseInAdd">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNews</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 发布通知 -->
+		<action name="releaseNotice" class="messageCenterAction"
+			method="doReleaseInAdd">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNotice</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 发布规章制度 -->
+		<action name="releaseRules" class="messageCenterAction" method="doReleaseInAdd">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryRules</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 新闻修改页面 -->
+		<action name="modifyNewsIndex" class="messageCenterAction"
+			method="doUpdateIndexByNews">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/newsEdit.jsp</result>
+		</action>
+		<!-- 通知修改页面 -->
+		<action name="modifyNoticeIndex" class="messageCenterAction"
+			method="doUpdateIndexByNotice">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/noticeEdit.jsp</result>
+		</action>
+		<!-- 规章制度修改页面 -->
+		<action name="modifyRulesIndex" class="messageCenterAction"
+			method="doUpdateIndexByRules">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/rulesEdit.jsp</result>
+		</action>
+		<!-- 修改新闻 -->
+		<action name="modifyNews" class="messageCenterAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNews</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 修改通知 -->
+		<action name="modifyNotice" class="messageCenterAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNotice</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 修改规章制度 -->
+		<action name="modifyRules" class="messageCenterAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryRules</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 发布新闻 -->
+		<action name="relNews" class="messageCenterAction" method="doReleaseInUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNews</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 发布通知 -->
+		<action name="relNotice" class="messageCenterAction" method="doReleaseInUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNotice</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 发布规章制度 -->
+		<action name="relRules" class="messageCenterAction" method="doReleaseInUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryRules</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 删除新闻 -->
+		<action name="delNews" class="messageCenterAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNews</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 删除通知 -->
+		<action name="delNotice" class="messageCenterAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryNotice</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 删除规章制度 -->
+		<action name="delRules" class="messageCenterAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryRules</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 查看 新闻 -->
+		<action name="newsDetail" class="messageCenterAction" method="doDetail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/newsDetail.jsp</result>
+		</action>
+		<!-- 查看 通知 -->
+		<action name="noticeDetail" class="messageCenterAction" method="doDetail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/noticeDetail.jsp</result>
+		</action>
+		<!-- 查看 规章制度 -->
+		<action name="rulesDetail" class="messageCenterAction" method="doDetail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/rulesDetail.jsp</result>
+		</action>
+	</package>
+
+	<!-- 用户管理 -->
+	<package name="baseUser" extends="base" namespace="/baseUser">
+		<!-- 列表页面 -->
+		<action name="query" class="baseUserAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_user/userList.jsp</result>
+		</action>
+		<!-- 搜索 -->
+		<action name="search" class="baseUserAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_user/userList.jsp</result>
+		</action>
+		<!-- 添加页面 -->
+		<action name="addIndex" class="baseUserAction" method="doAddIndex">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_user/userAdd.jsp</result>
+		</action>
+		<!-- 校验登陆账号是否已存在 -->
+		<action name="check" class="baseUserAction" method="doCheck">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 校验姓名是否已存在 -->
+		<action name="checkName" class="baseUserAction" method="doCheckName">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 添加逻辑 -->
+		<action name="addOperate" class="baseUserAction" method="doAddOperate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/baseUser</param>
+			</result>
+		</action>
+		<!-- 修改页面 -->
+		<action name="editIndex" class="baseUserAction" method="doEditIndex">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_user/userEdit.jsp</result>
+		</action>
+		<!-- 修改逻辑 -->
+		<action name="editOperate" class="baseUserAction" method="doEditOperate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/baseUser</param>
+			</result>
+		</action>
+		<!-- 查看页面 -->
+		<action name="detail" class="baseUserAction" method="doDetail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_user/userDetail.jsp</result>
+		</action>
+		<!-- 删除逻辑 -->
+		<action name="del" class="baseUserAction" method="doDel">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/baseUser</param>
+			</result>
+		</action>
+	</package>
+	<!-- 部门管理 -->
+	<package name="dept" extends="base" namespace="/dept">
+		<!-- 列表页面 -->
+		<action name="query" class="deptAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dept/deptList.jsp</result>
+		</action>
+		<!-- 添加页面 -->
+		<action name="addIndex" class="deptAction" method="doAddIndex">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dept/deptAdd.jsp</result>
+		</action>
+		<!-- 添加页面的重名校验逻辑 -->
+		<action name="check" class="deptAction" method="isSameName">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+		<!-- 部门的持久化 -->
+		<action name="addOperate" class="deptAction" method="doAddOperate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/dept</param>
+			</result>
+		</action>
+		<!-- 修改页面 -->
+		<action name="editIndex" class="deptAction" method="doEditIndex">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dept/deptEdit.jsp</result>
+		</action>
+		<!-- 部门的修改操作 -->
+		<action name="EditOperate" class="deptAction" method="doEditOperate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/dept</param>
+			</result>
+		</action>
+		<!-- 详细页面 -->
+		<action name="detail" class="deptAction" method="doDetail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dept/deptDetail.jsp</result>
+		</action>
+		<!-- 删除 -->
+		<action name="del" class="deptAction" method="doDel">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/dept</param>
+				<param name="result">${result}</param>
+			</result>
+		</action>
+	</package>
+	<package name="answer" extends="base" namespace="/answer">
+		<action name="query" class="answerAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/answer/answerList.jsp</result>
+		</action>
+		<action name="insertInit" class="answerAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/answer/answerEdit.jsp</result>
+		</action>
+		<action name="insert" class="answerAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="answerAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/answer/answerEdit.jsp</result>
+		</action>
+		<action name="update" class="answerAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="answerAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+	<!-- 2013-12-02 SY 值班信息 -->
+	<package name="dutyMessage" extends="base" namespace="/dutyMessage">
+		<!-- 查询值班信息 -->
+		<action name="query" class="dutyMessageAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/duty_message/dutyMessageList.jsp</result>
+		</action>
+		<!-- 初始化添加 -->
+		<action name="insertInit" class="dutyMessageAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/duty_message/dutyMessageAdd.jsp</result>
+		</action>
+		<!-- 添加值班信息 -->
+		<action name="insert" class="dutyMessageAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 初始化更新 -->
+		<action name="updateInit" class="dutyMessageAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/duty_message/dutyMessageEdit.jsp</result>
+		</action>
+		<!-- 修改值班信息 -->
+		<action name="update" class="dutyMessageAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 删除值班信息 -->
+		<action name="delete" class="dutyMessageAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/dutyMessage</param>
+				<param name="dutyperson">${dutyperson}</param>
+				<param name="starttime">${starttime}</param>
+				<param name="endtime">${endtime}</param>
+				<param name="currentPage">${currentPage}</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="email" extends="base" namespace="/email">
+		<action name="queryEmail" class="emailAction" method="doQueryEmail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/email/email_management.jsp</result>
+		</action>
+		<action name="query" class="emailAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/email/emailList.jsp</result>
+			<result name="receive">/WEB-INF/runix/email/receiveBoxList.jsp</result>
+			<result name="send">/WEB-INF/runix/email/sendBoxList.jsp</result>
+			<result name="draft">/WEB-INF/runix/email/draftBoxList.jsp</result>
+		</action>
+		<action name="insertInit" class="emailAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/email/emailAdd.jsp</result>
+		</action>
+		<action name="insert" class="emailAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">queryEmail.action</result>
+		</action>
+		<action name="updateInit" class="emailAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/email/emailEdit.jsp</result>
+		</action>
+		<action name="update" class="emailAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">queryEmail.action</result>
+		</action>
+		
+		<action name="deleteOld" class="emailAction" method="dodeleteOldFile">
+			<interceptor-ref name="myStack" />
+		</action>
+		
+		<action name="delete" class="emailAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/email</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		<action name="view" class="emailAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/email/emailDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="equipment" extends="base" namespace="/equipment">
+		<action name="query" class="equipmentAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/equipment/equipmentList.jsp</result>
+		</action>
+		<action name="insertInit" class="equipmentAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/equipment/equipmentAdd.jsp</result>
+		</action>
+		<action name="insert" class="equipmentAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="equipmentAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/equipment/equipmentEdit.jsp</result>
+		</action>
+		<action name="update" class="equipmentAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="equipmentAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="equipmentAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/equipment/equipmentDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="flowNode" extends="base" namespace="/flowNode">
+		<action name="query" class="flowNodeAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/flow_node/flowNodeList.jsp</result>
+		</action>
+		<action name="insertInit" class="flowNodeAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/flow_node/flowNodeAdd.jsp</result>
+		</action>
+		<action name="insert" class="flowNodeAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="flowNodeAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/flow_node/flowNodeEdit.jsp</result>
+		</action>
+		<action name="update" class="flowNodeAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="flowNodeAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+
+	<package name="folder" extends="base" namespace="/folder">
+		<action name="query" class="folderAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/folder/folderList.jsp</result>
+		</action>
+		<action name="insertInit" class="folderAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/folder/folderAdd.jsp</result>
+		</action>
+		<action name="insert" class="folderAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/netdisk</param>
+			</result>
+		</action>
+		<action name="updateInit" class="folderAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/folder/folderEdit.jsp</result>
+		</action>
+		<action name="checkID" class="folderAction" method="doCheckID">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/folder/folderAdd.jsp</result>
+		</action>
+		<action name="update" class="folderAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="folderAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/netdisk</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="matter" extends="base" namespace="/matter">
+		<action name="query" class="matterAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/matter/matterList.jsp</result>
+		</action>
+		<action name="insertInit" class="matterAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/matter/matterEdit.jsp</result>
+		</action>
+		<action name="insert" class="matterAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="matterAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/matter/matterEdit.jsp</result>
+		</action>
+		<action name="doCheck" class="matterAction" method="doCheck">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="matterAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="matterAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/matter/matterDetail.jsp</result>
+			<result name="fw" >/WEB-INF/runix/matter/sendFileCheckDetail.jsp</result>
+			<result name="shw">/WEB-INF/runix/matter/receiveFileCheckDetail.jsp</result>
+			<result name="qsh">/WEB-INF/runix/matter/applyCheckDetail.jsp</result>
+			<result name="zhp">/WEB-INF/runix/matter/recruitmentCheckDetail.jsp</result>
+			<result name="bx">/WEB-INF/runix/matter/reimbursementCheckDetail.jsp</result>
+			<result name="ly">/WEB-INF/runix/matter/usingEquipCheckDetail.jsp</result>
+			<result name="chch">/WEB-INF/runix/matter/biztripCheckDetail.jsp</result>
+			<result name="xj">/WEB-INF/runix/matter/vacationCheckDetail.jsp</result>
+			<result name="wch">/WEB-INF/runix/matter/gooutCheckDetail.jsp</result>
+			<result name="zhzh">/WEB-INF/runix/matter/conversionCheckDetail.jsp</result>
+			<result name="lzh">/WEB-INF/runix/matter/dimissionCheckDetail.jsp</result>
+			<result name="dd">/WEB-INF/runix/matter/transferCheckDetail.jsp</result>
+			<result name="ych">/WEB-INF/runix/matter/usingcarCheckDetail.jsp</result>
+		</action>
+	</package>
+	<!-- 会议室 -->
+	<package name="meetingRoom" extends="base" namespace="/meetingRoom">
+		<action name="query" class="meetingRoomAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/meeting_room/meetingRoomList.jsp</result>
+		</action>
+		<action name="insertInit" class="meetingRoomAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/meeting_room/meetingRoomEdit.jsp</result>
+		</action>
+		<action name="insert" class="meetingRoomAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="meetingRoomAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/meeting_room/meetingRoomEdit.jsp</result>
+		</action>
+		<action name="update" class="meetingRoomAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="meetingRoomAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+	<!-- SY 2013-11-29 我的便签 -->
+	<package name="memo" extends="base" namespace="/memo">
+		<!-- 便签列表 -->
+		<action name="query" class="memoAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/memo/memoList.jsp</result>
+		</action>
+		<!-- 初始化插入 -->
+		<action name="insertInit" class="memoAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/memo/memoAdd.jsp</result>
+		</action>
+		<!-- 添加便签 -->
+		<action name="insert" class="memoAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 初始化更新 -->
+		<action name="updateInit" class="memoAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/memo/memoEdit.jsp</result>
+		</action>
+		<!-- 修改便签 -->
+		<action name="update" class="memoAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 查看便签 返回实例、上报人和上报便签姓名的集合 -->
+		<action name="detail" class="memoAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/memo/memoDetail.jsp</result>
+		</action>
+		<!-- 删除便签 -->
+		<action name="delete" class="memoAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/memo</param>
+				<param name="starttime">${starttime}</param>
+				<param name="endtime">${endtime}</param>
+				<param name="title">${title}</param>
+				<param name="status">${status}</param>
+				<param name="currentPage">${currentPage}</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 网络硬盘 -->
+	<package name="netdisk" extends="base" namespace="/netdisk">
+		<!-- 添加页面 -->
+		<action name="insertInit" class="netdiskAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/file/fileAdd.jsp</result>
+		</action>
+		
+		<!-- 添加 -->
+		<action name="insert" class="netdiskAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		
+		<!-- 列表 -->
+		<action name="query" class="netdiskAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/file/fileList.jsp</result>
+		</action>
+		
+		<!-- 修改查询 -->
+		<action name="updateInit" class="netdiskAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/file/fileUpdate.jsp</result>
+		</action>
+		
+		<!-- 修改 -->
+		<action name="update" class="netdiskAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		
+		<!-- 删除 -->
+		<action name="delete" class="netdiskAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		
+		<!-- 上传时删除 -->
+		<action name="deleteFile" class="netdiskAction" method="doDeleteFile">
+			<interceptor-ref name="myStack" />
+		</action>
+	</package>
+<!-- 档案 -->
+	<package name="archive" extends="base" namespace="/archive">
+	   <action name="queryArchive" class="archiveAction" method="doQueryArchive">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/archive/archive_management.jsp</result>
+		</action>
+		<action name="query" class="archiveAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/archive/archiveList.jsp</result>
+		</action>
+		<action name="insertInit" class="archiveAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/archive/archiveAdd.jsp</result>
+		</action>
+		<action name="insert" class="archiveAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="archiveAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/archive/archiveEdit.jsp</result>
+		</action>
+		<action name="update" class="archiveAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="archiveAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="archiveAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/archive/archiveDetail.jsp</result>
+		</action>
+	</package>
+	<!-- 网络会议 -->
+	<package name="netmeeting" extends="base" namespace="/netmeeting">
+		<action name="query" class="netmeetingAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/netmeeting/netmeetingList.jsp</result>
+		</action>
+		<action name="insertInit" class="netmeetingAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/netmeeting/netmeetingAdd.jsp</result>
+		</action>
+		<action name="insert" class="netmeetingAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="netmeetingAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/netmeeting/netmeetingEdit.jsp</result>
+		</action>
+		<action name="update" class="netmeetingAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="netmeetingAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="meeting" class="netmeetingAction" method="doMeeting">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/netmeeting/meetingRoomEdit.jsp</result>
+		</action>
+		<action name="spoke" class="netmeetingAction" method="doSpoke">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/netmeeting/meetingRoomEdit.jsp</result>
+		</action>
+		<action name="view" class="netmeetingAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/netmeeting/meetingRoomDetail.jsp</result>
+		</action>
+	</package>
+<!-- 收文和发文 -->
+	<package name="officialDocument" extends="base" namespace="/officialDocument">
+		<action name="query" class="officialDocumentAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result name="receiveFile">/WEB-INF/runix/official_document/receiveFileList.jsp
+			</result>
+			<result name="sendFile">/WEB-INF/runix/official_document/sendFileList.jsp
+			</result>
+			<result >/WEB-INF/runix/official_document/officialDocumentList.jsp
+			</result>
+		</action>
+		<action name="insertInit" class="officialDocumentAction"
+			method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result name="receiveFile">/WEB-INF/runix/official_document/receiveFileAdd.jsp
+			</result>
+			<result name="sendFile">/WEB-INF/runix/official_document/sendFileAdd.jsp
+			</result>
+		</action>
+		<action name="insert" class="officialDocumentAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result name="receiveFile">/WEB-INF/runix/official_document/receiveFileAdd2.jsp</result>
+			<result name="sendFile">/WEB-INF/runix/official_document/sendFileAdd2.jsp
+			</result>
+		</action>
+		<action name="insertPerson" class="officialDocumentAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/officialDocument</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		<action name="updateInit" class="officialDocumentAction"
+			method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result name="receiveFile">/WEB-INF/runix/official_document/receiveFileEdit.jsp</result>
+			<result name="sendFile">/WEB-INF/runix/official_document/sendFileEdit.jsp</result>
+		</action>
+		<action name="update" class="officialDocumentAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result name="receiveFile">/WEB-INF/runix/official_document/receiveFileAdd2.jsp</result>
+			<result name="sendFile">/WEB-INF/runix/official_document/sendFileAdd2.jsp</result>
+		</action>
+		<action name="delete" class="officialDocumentAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/officialDocument</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		<action name="view" class="officialDocumentAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result name="receiveFile">/WEB-INF/runix/official_document/receiveFileDetail.jsp
+			</result>
+			<result name="sendFile">/WEB-INF/runix/official_document/sendFileDetail.jsp</result>
+		</action>
+	</package>
+
+	<!-- luqj 权限管理 -->
+	<package name="permission" extends="base" namespace="/permission">
+
+		<!-- 职位查询 -->
+		<action name="queryPosition" class="permissionAction" method="doQueryPosition">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/permission/roleManager.jsp</result>
+		</action>
+
+		<!-- 添加权限 -->
+		<action name="insert" class="permissionAction" method="doInsert">
+			<result type="redirectAction">
+				<param name="actionName">queryPosition</param>
+				<param name="nameSpace">/permission</param>
+			</result>
+		</action>
+
+		<!-- 权限查询 -->
+		<action name="query" class="permissionAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/permission/roleManager.jsp</result>
+		</action>
+
+		<!-- 查询是否已授权 -->
+		<action name="permission" class="permissionAction" method="doQueryPermission">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">readonly</param>
+			</result>
+		</action>
+
+		<action name="insertInit" class="permissionAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/permission/permissionEdit.jsp</result>
+		</action>
+
+		<action name="updateInit" class="permissionAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/permission/permissionEdit.jsp</result>
+		</action>
+		<action name="update" class="permissionAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="permissionAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+	
+	<!-- 人事管理 -->
+	<package name="personnel" extends="base" namespace="/personnel">
+		<action name="queryM" class="personnelAction" method="doQueryM">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/personnel/personnel_management.jsp</result>
+		</action>
+		
+		<action name="insertInit" class="personnelAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result name="zhzh">/WEB-INF/runix/personnel/conversionAdd.jsp</result><!-- 转正 -->
+			<result  name="lzh">/WEB-INF/runix/personnel/dimissionAdd.jsp</result><!-- 离职 -->
+			<result  name="dd">/WEB-INF/runix/personnel/transferAdd.jsp</result><!-- 调动 -->
+		</action>
+		
+		
+		<action name="insert" class="personnelAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result name="zhzh">/WEB-INF/runix/personnel/conversionAdd2.jsp</result><!-- 转正 -->
+			<result  name="lzh">/WEB-INF/runix/personnel/dimissionAdd2.jsp</result><!-- 离职 -->
+			<result  name="dd">/WEB-INF/runix/personnel/transferAdd2.jsp</result><!-- 调动 -->
+		</action>
+		
+		<!-- 提交 -->
+		<action name="insertPerson" class="personnelAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/personnel</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		
+		<!-- 列表页 -->
+		<action name="query" class="personnelAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result name="zhzh">/WEB-INF/runix/personnel/conversionList.jsp</result><!-- 转正 -->
+			<result  name="lzh">/WEB-INF/runix/personnel/dimissionList.jsp</result><!-- 离职 -->
+			<result  name="dd">/WEB-INF/runix/personnel/transferList.jsp</result><!-- 调动 -->
+		</action>
+		<action name="updateInit" class="personnelAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result name="zhzh">/WEB-INF/runix/personnel/conversionEdit.jsp</result><!-- 转正 -->
+			<result  name="lzh">/WEB-INF/runix/personnel/dimissionEdit.jsp</result><!-- 离职 -->
+			<result  name="dd">/WEB-INF/runix/personnel/transferEdit.jsp</result><!-- 调动 -->
+		</action>
+		<action name="update" class="personnelAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result name="zhzh">/WEB-INF/runix/personnel/conversionAdd2.jsp</result><!-- 转正 -->
+			<result  name="lzh">/WEB-INF/runix/personnel/dimissionAdd2.jsp</result><!-- 离职 -->
+			<result  name="dd">/WEB-INF/runix/personnel/transferAdd2.jsp</result><!-- 调动 -->
+		</action>
+		<action name="view" class="personnelAction" method="doView">
+			<interceptor-ref name="myStack"/>
+			<result name="zhzh">/WEB-INF/runix/personnel/conversionDetail.jsp</result><!-- 转正 -->
+			<result  name="lzh">/WEB-INF/runix/personnel/dimissionDetail.jsp</result><!-- 离职 -->
+			<result  name="dd">/WEB-INF/runix/personnel/transferDetail.jsp</result><!-- 调动 -->
+		</action>
+
+		<action name="delete" class="personnelAction" method="doDelete">
+			<interceptor-ref name="myStack"/>
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/personnel</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+	</package>
+
+	<!-- luqj 职位管理 -->
+	<package name="position" extends="base" namespace="/position">
+		<!-- 查询列表页 -->
+		<action name="query" class="positionAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/position/positionList.jsp</result>
+		</action>
+
+		<!-- 职位添加页面 -->
+		<action name="addPage" class="positionAction" method="doAddPage">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/position/positionAdd.jsp</result>
+		</action>
+
+		<!-- 职位添加 -->
+		<action name="addPosition" class="positionAction" method="doAddPosition">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/position</param>
+			</result>
+		</action>
+
+		<!-- 添加验证 -->
+		<action name="checkName" class="positionAction" method="doCheckName">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">readonly</param>
+			</result>
+		</action>
+
+		<!-- 修改查询 -->
+		<action name="updateInit" class="positionAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/position/positionUpdate.jsp</result>
+		</action>
+
+		<!-- 修改验证 -->
+		<action name="checkEdit" class="positionAction" method="doCheckEdit">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">readonly</param>
+			</result>
+		</action>
+
+		<!-- 修改 -->
+		<action name="update" class="positionAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/position</param>
+			</result>
+		</action>
+
+		<!-- 查询页面 -->
+		<action name="view" class="positionAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/position/position.jsp</result>
+		</action>
+
+		<!-- 删除 -->
+		<action name="delete" class="positionAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/position</param>
+			</result>
+		</action>
+
+	</package>
+
+	<package name="recruitment" extends="base" namespace="/recruitment">
+		<action name="queryRecruit" class="recruitmentAction" method="doQueryRecruit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruit_manegement.jsp</result>
+		</action>
+		<action name="query" class="recruitmentAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruitmentList.jsp</result>
+		</action>
+		<action name="insertInit" class="recruitmentAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruitmentAdd.jsp</result>
+		</action>
+		<action name="insert" class="recruitmentAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruitmentAdd2.jsp</result>
+		</action>
+		<action name="insertPerson" class="recruitmentAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="recruitmentAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruitmentEdit.jsp</result>
+		</action>
+		<action name="update" class="recruitmentAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruitmentAdd2.jsp</result>
+		</action>
+		<action name="delete" class="recruitmentAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="recruitmentAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/recruitmentDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="reimbursement" extends="base" namespace="/reimbursement">
+		<action name="queryReimb" class="reimbursementAction" method="doQueryReimb">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimb_management.jsp</result>
+		</action>
+		<action name="query" class="reimbursementAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimbursementList.jsp</result>
+		</action>
+		<action name="insertInit" class="reimbursementAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimbursementAdd.jsp</result>
+		</action>
+		<action name="insert" class="reimbursementAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimbursementAdd2.jsp</result>
+		</action>
+		<action name="updateInit" class="reimbursementAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimbursementEdit.jsp</result>
+		</action>
+		<action name="update" class="reimbursementAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimbursementAdd2.jsp</result>
+		</action>
+		<action name="delete" class="reimbursementAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="insertPerson" class="reimbursementAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="reimbursementAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/reimbursementDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="reimbursementItem" extends="base" namespace="/reimbursementItem">
+		<action name="query" class="reimbursementItemAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement_item/reimbursementItemList.jsp
+			</result>
+		</action>
+		<action name="insertInit" class="reimbursementItemAction"
+			method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement_item/reimbursementItemEdit.jsp
+			</result>
+		</action>
+		<action name="insert" class="reimbursementItemAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="reimbursementItemAction"
+			method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement_item/reimbursementItemEdit.jsp
+			</result>
+		</action>
+		<action name="update" class="reimbursementItemAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="reimbursementItemAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+
+	<package name="resume" extends="base" namespace="/resume">
+		<action name="query" class="resumeAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/resume/resumeList.jsp</result>
+		</action>
+		<action name="insertInit" class="resumeAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/resume/resumeAdd.jsp</result>
+		</action>
+		<action name="insert" class="resumeAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="resumeAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/resume/resumeEdit.jsp</result>
+		</action>
+		<action name="update" class="resumeAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="resumeAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/resume/resumeDetail.jsp</result>
+		</action>
+		<action name="delete" class="resumeAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="doInterviewInit" class="resumeAction" method="doInterviewInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/resume/interview.jsp</result>
+		</action>
+		<action name="doInterview" class="resumeAction" method="doInterview">
+			<interceptor-ref name="myStack" />
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+
+	<!-- luqj 日程安排 -->
+	<package name="schedule" extends="base" namespace="/schedule">
+		<!-- 日程添加页面 -->
+		<action name="addSchedule" class="scheduleAction" method="doAddSchedule">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/schedule/scheduleAdd.jsp</result>
+		</action>
+
+		<!-- 添加日程 -->
+		<action name="insert" class="scheduleAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/schedule</param>
+			</result>
+		</action>
+
+		<!-- 日程查询 -->
+		<action name="query" class="scheduleAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/schedule/scheduleList.jsp</result>
+		</action>
+		
+		<!-- 日程查询 -->
+		<action name="queryMain" class="scheduleAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/framework/main.jsp</result>
+		</action>
+
+		<!-- 修改查询 -->
+		<action name="updateInit" class="scheduleAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/schedule/scheduleEdit.jsp</result>
+		</action>
+
+		<!-- 修改日程 -->
+		<action name="update" class="scheduleAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/schedule</param>
+			</result>
+		</action>
+
+		<!-- 查询日程 -->
+		<action name="view" class="scheduleAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/schedule/schedule.jsp</result>
+		</action>
+
+		<!-- 删除日程 -->
+		<action name="delete" class="scheduleAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+
+	<package name="attendance" extends="base" namespace="/attendance">
+		<action name="query" class="attendanceAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result name="count">/WEB-INF/runix/attendance/attendanceCountList.jsp</result>
+			<result name="manage">/WEB-INF/runix/attendance/attendanceList.jsp</result>
+		</action>
+		<action name="queryM" class="attendanceAction" method="doQueryM">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/attendance/attendance_management.jsp</result>
+		</action>
+		<action name="doAttend" class="attendanceAction" method="doAttend">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/attendance/attendanceMsg.jsp</result>
+		</action>
+		<action name="doLeave" class="attendanceAction" method="doLeave">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/attendance/leaveMsg.jsp</result>
+		</action>
+		<action name="insertInit" class="attendanceAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/attendance/attendanceEdit.jsp</result>
+		</action>
+		<action name="insert" class="attendanceAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="attendanceAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/attendance/attendanceEdit.jsp</result>
+		</action>
+		<action name="update" class="attendanceAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/attendance</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		<action name="delete" class="attendanceAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+
+	<!-- 投票管理 -->
+	<package name="survey" extends="base" namespace="/survey">
+		<!-- 查询投票 -->
+		<action name="query" class="surveyAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/survey/surveyList.jsp</result>
+		</action>
+		<!-- 初始化添加 -->
+		<action name="insertInit" class="surveyAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/survey/surveyAdd.jsp</result>
+		</action>
+		<!-- 添加投票 -->
+		<action name="insert" class="surveyAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 初始化更新 -->
+		<action name="updateInit" class="surveyAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/survey/surveyEdit.jsp</result>
+		</action>
+		<!-- 修改投票 -->
+		<action name="update" class="surveyAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 删除投票 -->
+		<action name="delete" class="surveyAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="vote" class="surveyAction" method="doVoteInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/survey/surveyVote.jsp</result>
+		</action>
+		<action name="view" class="surveyAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/survey/surveyDetail.jsp</result>
+		</action>
+	</package>
+
+	<!-- luqj 任务管理 -->
+	<package name="task" extends="base" namespace="/task">
+		<!-- 下达任务添加页面 -->
+		<action name="insertInit" class="taskAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/task/taskAdd.jsp</result>
+		</action>
+
+		<!-- 下达任务 -->
+		<action name="insert" class="taskAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryM</param>
+				<param name="namespace">/task</param>
+			</result>
+		</action>
+
+		<action name="queryM" class="taskAction" method="doQueryM">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/task/task_management.jsp</result>
+		</action>
+
+		<!-- 任务列表页 -->
+		<action name="query" class="taskAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result name="exetask">/WEB-INF/runix/task/exetaskList.jsp</result>
+			<result name="arrtask">/WEB-INF/runix/task/arrtaskList.jsp</result>
+		</action>
+
+		<!-- 任务修改页面 -->
+		<action name="updateTask" class="taskAction" method="doUpdateTask">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/task/taskEdit.jsp</result>
+		</action>
+
+		<!-- 任务修改 -->
+		<action name="update" class="taskAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/task</param>
+				<param name="flag">2</param>
+			</result>
+		</action>
+
+		<!-- 执行任务页面 -->
+		<action name="exeTask" class="taskAction" method="doExeTask">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/task/taskExe.jsp</result>
+		</action>
+
+		<!-- 执行任务 -->
+		<action name="exe" class="taskAction" method="doExe">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">queryM.action</result>
+		</action>
+
+		<action name="delete" class="taskAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		
+		<action name="view" class="taskAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/task/taskDetail.jsp</result>
+		</action>
+		<action name="viewM" class="taskAction" method="doViewM">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/task/taskDetailM.jsp</result>
+		</action>
+	</package>
+
+	<package name="usingcar" extends="base" namespace="/usingcar">
+		<action name="query" class="usingcarAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/usingcar/usingcarList.jsp</result>
+		</action>
+		<action name="insertInit" class="usingcarAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/usingcar/usingcarAdd.jsp</result>
+		</action>
+		<action name="insert" class="usingcarAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/usingcar/usingcarAdd2.jsp</result>
+		</action>
+		<action name="insertPerson" class="usingcarAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="usingcarAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/usingcar/usingcarEdit.jsp</result>
+		</action>
+		<action name="update" class="usingcarAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/usingcar/usingcarAdd2.jsp</result>
+		</action>
+		<action name="delete" class="usingcarAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="usingcarAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/usingcar/usingcarDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="usingEquip" extends="base" namespace="/usingEquip">
+	    <action name="queryUsingE" class="usingEquipAction" method="doQueryUsingE">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingequip_management.jsp</result>
+		</action>
+		<action name="query" class="usingEquipAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingEquipList.jsp</result>
+		</action>
+		<action name="insertInit" class="usingEquipAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingEquipAdd.jsp</result>
+		</action>
+		<action name="insert" class="usingEquipAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingEquipAdd2.jsp</result>
+		</action>
+		<action name="insertPerson" class="usingEquipAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="usingEquipAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingEquipEdit.jsp</result>
+		</action>
+		<action name="update" class="usingEquipAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingEquipAdd2.jsp</result>
+		</action>
+		<action name="delete" class="usingEquipAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="usingEquipAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/using_equip/usingEquipDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="workflow" extends="base" namespace="/workflow">
+		<action name="query" class="workflowAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/workflow/workflowList.jsp</result>
+		</action>
+		<action name="insertInit" class="workflowAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/workflow/workflowEdit.jsp</result>
+		</action>
+		<action name="insert" class="workflowAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="workflowAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/workflow/workflowEdit.jsp</result>
+		</action>
+		<action name="update" class="workflowAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/workflow/workflowEdit.jsp</result>
+		</action>
+		<action name="delete" class="workflowAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="workflowPage" class="workflowAction" method="doWorkflowPage">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/workflow/workflow.jsp</result>
+		</action>
+		<action name="selectNode" class="workflowAction" method="doSelectNode">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/workflow/selectNode.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="workingCondition" extends="base" namespace="/workingCondition">
+		<action name="query" class="workingConditionAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/working_condition/workingConditionList.jsp
+			</result>
+			<result name="goout">/WEB-INF/runix/working_condition/gooutList.jsp
+			</result>
+			<result name="vacation">/WEB-INF/runix/working_condition/vacationList.jsp
+			</result>
+			<result name="biztrip">/WEB-INF/runix/working_condition/biztripList.jsp
+			</result>
+		</action>
+		<action name="insertInit" class="workingConditionAction"
+			method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result name="goout">/WEB-INF/runix/working_condition/gooutAdd.jsp
+			</result>
+			<result name="vacation">/WEB-INF/runix/working_condition/vacationAdd.jsp
+			</result>
+			<result name="biztrip">/WEB-INF/runix/working_condition/biztripAdd.jsp
+			</result>
+		</action>
+		<action name="insert" class="workingConditionAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result name="goout">/WEB-INF/runix/working_condition/gooutAdd2.jsp
+			</result>
+			<result name="vacation">/WEB-INF/runix/working_condition/vacationAdd2.jsp
+			</result>
+			<result name="biztrip">/WEB-INF/runix/working_condition/biztripAdd2.jsp
+			</result>
+		</action>
+				<!-- 提交 -->
+		<action name="insertPerson" class="workingConditionAction" method="doInsertPerson">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/workingCondition</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		<action name="updateInit" class="workingConditionAction"
+			method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result name="goout">/WEB-INF/runix/working_condition/gooutEdit.jsp
+			</result>
+			<result name="vacation">/WEB-INF/runix/working_condition/vacationEdit.jsp
+			</result>
+			<result name="biztrip">/WEB-INF/runix/working_condition/biztripEdit.jsp
+			</result>
+		</action>
+		<action name="update" class="workingConditionAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result name="goout">/WEB-INF/runix/working_condition/gooutAdd2.jsp
+			</result>
+			<result name="vacation">/WEB-INF/runix/working_condition/vacationAdd2.jsp
+			</result>
+			<result name="biztrip">/WEB-INF/runix/working_condition/biztripAdd2.jsp
+			</result>
+		</action>
+		<action name="delete" class="workingConditionAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/workingCondition</param>
+				<param name="flag">${flag}</param>
+			</result>
+		</action>
+		<action name="view" class="workingConditionAction"
+			method="doView">
+			<interceptor-ref name="myStack" />
+			<result name="goout">/WEB-INF/runix/working_condition/gooutDetail.jsp
+			</result>
+			<result name="vacation">/WEB-INF/runix/working_condition/vacationDetail.jsp
+			</result>
+			<result name="biztrip">/WEB-INF/runix/working_condition/biztripDetail.jsp
+			</result>
+		</action>
+	</package>
+	<!-- SY 2013-11-26 通讯录管理 -->
+	<package name="addressbook" extends="base" namespace="/addressbook">
+		<!-- 客户通讯录列表 -->
+		<action name="query" class="addressbookAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/addressbook/addressbookList.jsp</result>
+		</action>
+		<!-- 通讯录管理列表 -->
+		<action name="manage" class="addressbookAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/addressbook/addressbookManage.jsp</result>
+		</action>
+		<!-- 初始化插入 -->
+		<action name="insertInit" class="addressbookAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/addressbook/addressbookAdd.jsp</result>
+		</action>
+		<!-- 添加通讯录 -->
+		<action name="insert" class="addressbookAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">manage.action</result>
+		</action>
+		<!-- 初始化更新 -->
+		<action name="updateInit" class="addressbookAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/addressbook/addressbookEdit.jsp</result>
+		</action>
+		<!-- 更新通讯录 -->
+		<action name="update" class="addressbookAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">manage.action</result>
+		</action>
+		<!-- 删除通讯录 -->
+		<action name="delete" class="addressbookAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">manage</param>
+				<param name="namespace">/addressbook</param>
+				<param name="addrtype">${addrtype}</param>
+				<param name="grouptype">${grouptype}</param>
+				<param name="sex">${sex}</param>
+				<param name="currentPage">${currentPage}</param>
+			</result>
+		</action>
+		<!-- 查看通讯录 -->
+		<action name="detail" class="addressbookAction" method="doUpdateInit">
+			<result>/WEB-INF/runix/addressbook/addressbookDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="baseData" extends="base" namespace="/baseData">
+		<action name="queryData" class="baseDataAction" method="doQueryData">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_data/base_data.jsp</result>
+		</action>
+		<action name="query" class="baseDataAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_data/baseDataList.jsp</result>
+		</action>
+		<action name="insertInit" class="baseDataAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_data/baseDataAdd.jsp</result>
+		</action>
+		<action name="insert" class="baseDataAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="baseDataAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_data/baseDataEdit.jsp</result>
+		</action>
+		<action name="update" class="baseDataAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="baseDataAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="backupInit" class="baseDataAction" method="doBackupInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_data/backupDataBase.jsp</result>
+		</action>
+		<action name="backup" class="baseDataAction" method="doBackup">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/base_data/backupDataBase.jsp</result>
+		</action>
+	</package>
+	<!-- 2013-12-02 SY 合同管理 -->
+	<package name="contract" extends="base" namespace="/contract">
+		<!-- 查询合同 -->
+		<action name="query" class="contractAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/contract/contractList.jsp</result>
+		</action>
+		<!-- 初始化添加 -->
+		<action name="insertInit" class="contractAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/contract/contractAdd.jsp</result>
+		</action>
+		<!-- 添加合同 -->
+		<action name="insert" class="contractAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 初始化更新 -->
+		<action name="updateInit" class="contractAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/contract/contractEdit.jsp</result>
+		</action>
+		<!-- 修改合同 -->
+		<action name="update" class="contractAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 删除合同 -->
+		<action name="delete" class="contractAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/contract</param>
+				<param name="status">${status}</param>
+				<param name="contracttype">${contracttype}</param>
+				<param name="department">${department}</param>
+				<param name="currentPage">${currentPage}</param>
+			</result>
+		</action>
+		<!-- 查看合同 -->
+		<action name="detail" class="contractAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/contract/contractDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="dossier" extends="base" namespace="/dossier">
+		<action name="query" class="dossierAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dossier/dossierList.jsp</result>
+		</action>
+		<action name="insertInit" class="dossierAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dossier/dossierAdd.jsp</result>
+		</action>
+		<action name="insert" class="dossierAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="dossierAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dossier/dossierEdit.jsp</result>
+		</action>
+		<action name="update" class="dossierAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="delete" class="dossierAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="view" class="dossierAction" method="doView">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/dossier/dossierDetail.jsp</result>
+		</action>
+	</package>
+
+	<package name="setAttend" extends="base" namespace="/setAttend">
+		<action name="query" class="setAttendAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/setattend/setAttendList.jsp</result>
+		</action>
+		<action name="insertInit" class="setAttendAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/setattend/setAttendEdit.jsp</result>
+		</action>
+		<action name="insert" class="setAttendAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<action name="updateInit" class="setAttendAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/setattend/setAttendEdit.jsp</result>
+		</action>
+		<action name="update" class="setAttendAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/setattend/setAttendEdit.jsp</result>
+		</action>
+		<action name="delete" class="setAttendAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+	</package>
+	<!-- 2013-12-05 SY 请示管理 -->
+	<package name="apply" extends="base" namespace="/apply">
+		<!-- 查询请示 -->
+		<action name="query" class="applyAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/apply/applyList.jsp</result>
+		</action>
+		<!-- 初始化添加 -->
+		<action name="insertInit" class="applyAction" method="doInsertInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/apply/applyAdd.jsp</result>
+		</action>
+		<!-- 添加请示 -->
+		<action name="insert" class="applyAction" method="doInsert">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/apply/applyAdd2.jsp</result>
+		</action>
+
+		<!-- 添加审批领导和待办事项 -->
+		<action name="insertNext" class="applyAction" method="doInsertNext">
+			<interceptor-ref name="myStack" />
+			<result type="redirect">query.action</result>
+		</action>
+		<!-- 初始化修改请示 -->
+		<action name="updateInit" class="applyAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/apply/applyEdit.jsp</result>
+		</action>
+		<!-- 修改请示 -->
+		<action name="update" class="applyAction" method="doUpdate">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/apply/applyAdd2.jsp</result>
+		</action>
+		<action name="detail" class="applyAction" method="doUpdateInit">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/apply/applyDetail.jsp</result>
+		</action>
+		<!-- 删除请示 -->
+		<action name="delete" class="applyAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">query</param>
+				<param name="namespace">/apply</param>
+				<param name="type">${type}</param>
+				<param name="title">${title}</param>
+				<param name="secret">${secret}</param>
+				<param name="urgency">${urgency}</param>
+				<param name="currentPage">${currentPage}</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="selectPeople" extends="base" namespace="/selectPeople">
+		<action name="query" class="selectPeopleAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/peoples/peopleList.jsp</result>
+			<result name="radio">/WEB-INF/runix/peoples/peopleListForRadio.jsp
+			</result>
+		</action>
+		<action name="queryRadio" class="selectPeopleAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/peoples/peopleListRadio.jsp</result>
+		</action>
+	</package>
+	<package name="countReimbursement" extends="base"
+		namespace="/countReimbursement">
+		<action name="query" class="countReimbursementAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/reimbursement/countReimList.jsp</result>
+		</action>
+	</package>
+	<package name="countRecuit" extends="base" namespace="/countRecruit">
+		<action name="query" class="countRecruitmentAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/recruitment/countRecruitList.jsp</result>
+		</action>
+	</package>
+	<package name="mainFrame" extends="base" namespace="/mainFrame">
+		<action name="main" class="mainFrameAction" method="doQuery">
+			<interceptor-ref name="myStack" />
+			<result>/framework/main.jsp</result>
+		</action>
+	</package>
+</struts>

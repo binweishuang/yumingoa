@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="BaseData">
+	<typeAlias alias="baseData" type="runix.persistent.model.BaseData" />
+	<typeAlias alias="list" type="java.util.List" />
+	<typeAlias alias="string" type="java.lang.String" />
+	<typeAlias alias="map" type="java.util.Map" />
+	<typeAlias alias="hashmap" type="java.util.HashMap" />
+
+	<resultMap id="base_data" class="baseData">
+		<result property="dataId" column="DATA_ID" />
+		<result property="datatype" column="DATATYPE" />
+		<result property="dataname" column="DATANAME" />
+		<result property="datacode" column="DATACODE" />
+		<result property="sortnum" column="SORTNUM" />
+		<result property="remark" column="REMARK" />
+		<result property="flag" column="FLAG" />
+	</resultMap>
+	
+	<resultMap id="flow_people" class="flowPeople">
+		<result property="fpId" column="FP_ID" />
+		<result property="relateId" column="RELATE_ID" />
+		<result property="personId" column="PERSON_ID" />
+		<result property="sortnum" column="SORTNUM" />
+		<result property="handlestatus" column="HANDLESTATUS" />
+		<result property="readstatus" column="READSTATUS" />
+		<result property="opinion" column="OPINION" />
+	</resultMap>
+
+
+	<select id="queryBaseDatas" parameterClass="map" resultClass="hashmap">
+		select DATA_ID,DATANAME,DATACODE,REMARK,(select dataname from
+		base_data t2 where t.datatype=t2.datacode) as typename from base_data
+		t
+		where t.datatype!='TYPE_CODE'
+		<isNotEmpty prepend="and" property="dataId">
+			t.DATA_ID like #dataId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="datatype">
+			t.DATATYPE like #datatype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataname">
+			t.DATANAME like #dataname#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="datacode">
+			t.DATACODE like #datacode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sortnum">
+			t.SORTNUM like #sortnum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark">
+			t.REMARK like #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="flag">
+			t.FLAG like #flag#
+		</isNotEmpty>
+	</select>
+
+	<select id="queryCountBaseDatas" parameterClass="map"
+		resultClass="int">
+		select count(*) from (select DATA_ID,DATANAME,DATACODE,REMARK,(select
+		dataname from base_data t2 where t.datatype=t2.datacode) as typename
+		from base_data t
+		where t.datatype!='TYPE_CODE'
+		<isNotEmpty prepend="and" property="dataId">
+			t.DATA_ID like #dataId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="datatype">
+			t.DATATYPE like #datatype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="dataname">
+			t.DATANAME like #dataname#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="datacode">
+			t.DATACODE like #datacode#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="sortnum">
+			t.SORTNUM like #sortnum#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="remark">
+			t.REMARK like #remark#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="flag">
+			t.FLAG like #flag#
+		</isNotEmpty>
+		)
+
+	</select>
+
+	<select id="queryBaseDataById" parameterClass="string"
+		resultMap="base_data">
+		select * from base_data where DATA_ID = #value#
+	</select>
+
+	<select id="queryBaseDataTypes" resultClass="hashmap">
+		select
+		DATANAME,DATACODE from base_data where DATATYPE ='TYPE_CODE' order by
+		SORTNUM
+	</select>
+
+	<select id="queryBaseDataTypesById" parameterClass="string"
+		resultClass="hashmap">
+		select DATANAME,DATACODE from base_data where DATATYPE
+		='TYPE_CODE' and data_id=#value# order by SORTNUM
+	</select>
+
+	<select id="queryCheckDataCode" parameterClass="string"
+		resultClass="int">
+		select count(*) FROM base_data where DATACODE = #value#
+	</select>
+
+	<select id="querySequence" resultClass="string">
+		select SMM.NEXTVAL FROM DUAL
+	</select>
+
+	<select id="queryBaseByDatatype" parameterClass="string"
+		resultMap="base_data">
+		select * from base_data
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="value">
+				DATATYPE = #value#
+			</isNotEmpty>
+			<isEmpty prepend="and" property="value">
+				DATATYPE in ('NEWS', 'NOTICE', 'RULES')
+			</isEmpty>
+		</dynamic>
+	</select>
+
+	<delete id="execDeleteBaseDataById" parameterClass="string">
+		delete from base_data where DATA_ID = #dataId#
+	</delete>
+
+	<insert id="execInsertBaseData" parameterClass="baseData">
+		<selectKey resultClass="string" keyProperty="dataId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into
+		base_data(
+		DATA_ID,DATATYPE,
+		DATANAME,DATACODE,
+		SORTNUM,REMARK,
+		FLAG
+		) values(
+		#dataId#,#datatype#,
+		#dataname#,#datacode#,
+		#sortnum#,#remark#,
+		#flag#
+		)
+	</insert>
+
+	<update id="execUpdateBaseData" parameterClass="baseData">
+		update base_data
+		set
+		DATA_ID=#dataId#,
+		DATATYPE=#datatype#,
+		DATANAME=#dataname#,
+		DATACODE=#datacode#,
+		SORTNUM=#sortnum#,
+		REMARK=#remark#,
+		FLAG=#flag#
+		where DATA_ID = #dataId#
+	</update>
+
+	<select id="queryDataNameByCode" parameterClass="string"
+		resultClass="string">
+		select dataname from base_data where datacode = #datacode#
+	</select>
+	
+	<select id="queryNextPerson" parameterClass="hashmap"
+		resultClass="string">
+		select person_id from flow_people
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="relateId">
+				RELATE_ID = #relateId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sortnum">
+				sortnum = #sortnum#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryFlowPeople" parameterClass="hashmap"
+		resultMap="flow_people">
+		select * from flow_people
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="relateId">
+				RELATE_ID = #relateId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sortnum">
+				sortnum = #sortnum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="personId">
+				PERSON_ID = #personId#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryFlowPeopleOpinions" parameterClass="hashmap"
+		resultClass="string">
+		select opinion from flow_people where handlestatus='1'
+			<isNotEmpty prepend="and" property="relateId">
+				RELATE_ID = #relateId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sortnum">
+				sortnum = #sortnum#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="personId">
+				PERSON_ID = #personId#
+			</isNotEmpty>
+	</select>
+	
+	<update id="execUpdateFlowPeople" parameterClass="flowPeople">
+		update flow_people
+		set
+		FP_ID=#fpId#,
+		RELATE_ID=#relateId#,
+		PERSON_ID=#personId#,
+		SORTNUM=#sortnum#,
+		HANDLESTATUS=#handlestatus#,
+		READSTATUS=#readstatus#,
+		OPINION=#opinion#
+		where FP_ID = #fpId#
+	</update>
+</sqlMap>

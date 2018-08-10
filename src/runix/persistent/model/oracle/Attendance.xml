@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Attendance">
+	<typeAlias alias="attendance" type="runix.persistent.model.Attendance"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="attendance" class="attendance"> 
+		<result property="attendId" column="ATTEND_ID"/>
+		<result property="name" column="NAME"/>
+		<result property="dept" column="DEPT"/>
+		<result property="signinstatus" column="SIGNINSTATUS"/>
+		<result property="latestatus" column="LATESTATUS"/>
+		<result property="leavestatus" column="LEAVESTATUS"/>
+		<result property="vacationstatus" column="VACATIONSTATUS"/>
+		<result property="gooutstatus" column="GOOUTSTATUS"/>
+		<result property="biztripstatus" column="BIZTRIPSTATUS"/>
+		<result property="absentstatus" column="ABSENTSTATUS"/>
+		<result property="travelstatus" column="TRAVELSTATUS"/>
+		<result property="attenddate" column="ATTENDDATE"/>
+		<result property="signintime" column="SIGNINTIME"/>
+		<result property="signouttime" column="SIGNOUTTIME"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+
+	<select id="queryAttendances" parameterClass="map"  resultClass="hashmap">
+		select ATTEND_ID,(select name from base_user t1 where t1.user_id = t.name) name,
+       (select deptname from dept t2 where t2.dept_id = t.dept) dept,SIGNINSTATUS,LATESTATUS,LEAVESTATUS,
+       VACATIONSTATUS,GOOUTSTATUS,BIZTRIPSTATUS,ABSENTSTATUS,ATTENDDATE,SIGNINTIME,SIGNOUTTIME from attendance t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="attendId">
+					ATTEND_ID like #attendId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME in (select user_id from base_user t1 where t1.name like #name#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM') like #attenddate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="stime">
+					to_char(ATTENDDATE,'yyyy-MM-dd') <![CDATA[ >= ]]>  #stime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="etime">
+					 <![CDATA[ to_char(ATTENDDATE, 'yyyy-MM-dd') <= ]]>  #etime#
+				</isNotEmpty>
+			</dynamic> order by ATTENDDATE desc,name desc
+	</select>
+
+	<select id="queryCountAttendances" parameterClass="map"  resultClass="int">
+		select count(*) from attendance
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="attendId">
+					ATTEND_ID like #attendId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME in (select user_id from base_user t1 where t1.name like #name#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM') like #attenddate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="stime">
+					to_char(ATTENDDATE,'yyyy-MM-dd') <![CDATA[ >= ]]>  #stime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="etime">
+					 <![CDATA[ to_char(ATTENDDATE, 'yyyy-MM-dd') <= ]]>  #etime#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryAttendanceById" parameterClass="string"  resultMap="attendance">
+		select * from attendance where ATTEND_ID = #value#
+	</select>
+	
+	<select id="queryAttendancesByDate" parameterClass="hashmap"  resultMap="attendance">
+		select * from attendance 
+		<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM-dd') like #attenddate#
+				</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryAttendanceByUserIdandDate" parameterClass="hashmap"  resultMap="attendance">
+		select * from attendance 
+		<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM-dd') like #attenddate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="queryCheckSignin" parameterClass="hashmap"  resultClass="int">
+		select count(*) from attendance where SIGNINTIME is not null
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM-dd') like #attenddate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME like #name#
+				</isNotEmpty>
+	</select>
+	
+
+	<delete id="execDeleteAttendanceById" parameterClass="string">
+		 delete from attendance where ATTEND_ID = #attendId#
+	</delete>
+
+	<insert id="execInsertAttendance" parameterClass="attendance">
+		<selectKey resultClass="string" keyProperty="attendId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into attendance(
+			ATTEND_ID,NAME,
+			DEPT,SIGNINSTATUS,
+			LATESTATUS,LEAVESTATUS,
+			VACATIONSTATUS,GOOUTSTATUS,
+			BIZTRIPSTATUS,ABSENTSTATUS,
+			TRAVELSTATUS,ATTENDDATE,
+			SIGNINTIME,SIGNOUTTIME,
+			FLAG
+		) values(
+			#attendId#,#name#,
+			#dept#,#signinstatus#,
+			#latestatus#,#leavestatus#,
+			#vacationstatus#,#gooutstatus#,
+			#biztripstatus#,#absentstatus#,
+			#travelstatus#,#attenddate#,
+			#signintime#,#signouttime#,
+			#flag#
+		)
+	</insert>
+
+	<update id="execUpdateAttendance" parameterClass="attendance">
+		update attendance set
+			ATTEND_ID=#attendId#,
+			NAME=#name#,
+			DEPT=#dept#,
+			SIGNINSTATUS=#signinstatus#,
+			LATESTATUS=#latestatus#,
+			LEAVESTATUS=#leavestatus#,
+			VACATIONSTATUS=#vacationstatus#,
+			GOOUTSTATUS=#gooutstatus#,
+			BIZTRIPSTATUS=#biztripstatus#,
+			ABSENTSTATUS=#absentstatus#,
+			TRAVELSTATUS=#travelstatus#,
+			ATTENDDATE=#attenddate#,
+			SIGNINTIME=#signintime#,
+			SIGNOUTTIME=#signouttime#,
+			FLAG=#flag#
+		where ATTEND_ID = #attendId#
+	</update>
+	
+		<select id="queryAttendancesCount" parameterClass="map"  resultClass="hashmap">
+		select (select name from base_user t1 where t1.user_id = t.name) name,
+       (select deptname from dept t2 where t2.dept_id = t.dept) dept,
+       sum(to_number(t.latestatus)) latestatus,
+       sum(to_number(t.leavestatus)) leavestatus,
+       sum(to_number(t.vacationstatus)) vacationstatus,
+       sum(to_number(t.gooutstatus)) gooutstatus,
+       sum(to_number(t.biztripstatus)) biztripstatus,
+       sum(to_number(t.absentstatus)) absentstatus
+	  from attendance t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="attendId">
+					ATTEND_ID like #attendId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME in (select user_id from base_user t1 where t1.name like #name#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM') like #attenddate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="stime">
+					to_char(ATTENDDATE,'yyyy-MM-dd') <![CDATA[ >= ]]>  #stime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="etime">
+					 <![CDATA[ to_char(ATTENDDATE, 'yyyy-MM-dd') <= ]]>  #etime#
+				</isNotEmpty>
+			</dynamic>  group by dept, name 
+	</select>
+
+	<select id="queryCountAttendancesCount" parameterClass="map"  resultClass="int">
+		select count(*) from (select (select name from base_user t1 where t1.user_id = t.name) name,
+       (select deptname from dept t2 where t2.dept_id = t.dept) dept,
+       sum(to_number(t.latestatus)) latestatus,
+       sum(to_number(t.leavestatus)) leavestatus,
+       sum(to_number(t.vacationstatus)) vacationstatus,
+       sum(to_number(t.gooutstatus)) gooutstatus,
+       sum(to_number(t.biztripstatus)) biztripstatus,
+       sum(to_number(t.absentstatus)) absentstatus
+	  from attendance t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="attendId">
+					ATTEND_ID like #attendId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="name">
+					NAME in (select user_id from base_user t1 where t1.name like #name#) 
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="dept">
+					DEPT like #dept#
+				</isNotEmpty>
+				
+				<isNotEmpty prepend="and" property="attenddate">
+					to_char(ATTENDDATE,'yyyy-MM') like #attenddate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="stime">
+					to_char(ATTENDDATE,'yyyy-MM-dd') <![CDATA[ >= ]]>  #stime#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="etime">
+					 <![CDATA[ to_char(ATTENDDATE, 'yyyy-MM-dd') <= ]]>  #etime#
+				</isNotEmpty>
+
+			</dynamic>  group by dept, name )
+	</select>
+</sqlMap>

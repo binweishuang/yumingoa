@@ -1,0 +1,12 @@
+
+/*左右移动*/
+#switchpic {width: 7px;cursor:pointer;clear: both;vertical-align: bottom;	margin-top: 250px;}
+.min_bg{ background:url(../images/min_bg.gif) repeat-y}
+.treemin_bg{ background:url(../images/tree_midbg.gif) repeat-y}
+
+/*第二颗树的样式*/
+
+/*第二颗树的样式 按钮*/
+.tree_pad{ padding:5px}
+.tree_btn{width:71px; height:22px; color:#004485; background:url(../images/tree_btn.gif) no-repeat; border:0;cursor:pointer;}
+.tree_btn:hover{ width:71px; height:22px; color:#004485;  background:url(../images/tree_btn_h.gif) no-repeat; border:0;cursor:pointer;}

@@ -1,0 +1,35 @@
+html {background: url('../img/purty_wood.png'); font-family:"微软雅黑";}
+img{border:0px;}
+a:focus{-moz-outline:none; outline:none;}
+
+.loginform label {display: block;color: #999;}
+.cf:before, .cf:after {content: "";  display: table;}
+
+.cf:after { clear: both;}
+.cf {*zoom: 1;}
+:focus {outline: 0;}
+.loginform {
+	width: 410px; height:180px;
+	margin: 50px auto;
+	padding: 25px; 
+	background:url(../img/login-opacity.png) repeat;
+		 
+	border-radius: 5px; border:1px solid #9A9A9A;
+   
+}
+
+.loginform input:not([type=submit]) {
+	padding: 5px;
+	margin-right: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	
+	border-radius: 3px;
+	box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 
+				0px 1px 0px 0px rgba(250, 250, 250, 0.5) ;
+}
+
+
+.login-tit{ text-align:center; font-size:32px; letter-spacing:5px; color:#0097D2;}
+.login1{height:30px; width:275px; padding:5px 0px 5px 90px; float:left; font-size:16px;  color:#27A1CA}
+.login2{height:30px; width:275px;padding:25px 0px 5px 90px;  } 
+.login2 img{ margin:20px 10px 0px 30px;}

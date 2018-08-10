@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Usingcar">
+	<typeAlias alias="usingcar" type="runix.persistent.model.Usingcar"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="usingcar" class="usingcar"> 
+		<result property="usingcarId" column="USINGCAR_ID"/>
+		<result property="workflowId" column="WORKFLOW_ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="driver" column="DRIVER"/>
+		<result property="dept" column="DEPT"/>
+		<result property="tel" column="TEL"/>
+		<result property="usingtime" column="USINGTIME"/>
+		<result property="backtime" column="BACKTIME"/>
+		<result property="accomnum" column="ACCOMNUM"/>
+		<result property="usingproperty" column="USINGPROPERTY"/>
+		<result property="title" column="TITLE"/>
+		<result property="carId" column="CAR_ID"/>
+		<result property="usingreason" column="USINGREASON"/>
+		<result property="usingway" column="USINGWAY"/>
+		<result property="status" column="STATUS"/>
+		<result property="opinion" column="OPINION"/>
+		<result property="flag" column="FLAG"/>
+		<result property="checkstatus" column="CHECKSTATUS"/>
+	</resultMap>
+
+	<select id="queryUsingcars" parameterClass="map"  resultMap="usingcar">
+		select USINGCAR_ID,(select name from base_user t1 where t1.user_id = t.user_id) USER_ID,WORKFLOW_ID,DRIVER,
+(select deptname from dept t2 where t2.dept_id = t.dept) dept,TEL,USINGTIME,BACKTIME,ACCOMNUM,title,usingreason,usingway,flag,opinion,
+(select cartype||' '||license from car t3 where t3.car_id=t.car_id) CAR_ID,usingproperty,status,checkstatus from usingcar t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="usingcarId">
+					USINGCAR_ID like #usingcarId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="userId">
+					USER_ID like #userId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="carId">
+					CAR_ID in (select car_id from car t3 where t3.license like  #carId#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic> order by to_number(USINGCAR_ID) desc
+	</select>
+
+	<select id="queryCountUsingcars" parameterClass="map"  resultClass="int">
+		select count(*) from usingcar
+			<dynamic prepend="where">
+				 <isNotEmpty prepend="and" property="usingcarId">
+					USINGCAR_ID like #usingcarId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="userId">
+					USER_ID like #userId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="carId">
+					CAR_ID in (select car_id from car t3 where t3.license like  #carId#)
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status">
+					STATUS like #status#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="checkstatus">
+					CHECKSTATUS like #checkstatus#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryUsingcarById" parameterClass="string"  resultMap="usingcar">
+		select * from usingcar where USINGCAR_ID = #value#
+	</select>
+
+	<delete id="execDeleteUsingcarById" parameterClass="string">
+		 delete from usingcar where USINGCAR_ID = #usingcarId#
+	</delete>
+
+	<insert id="execInsertUsingcar" parameterClass="usingcar">
+	 	<selectKey resultClass="string" keyProperty="usingcarId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into usingcar(
+			USINGCAR_ID,WORKFLOW_ID,
+			USER_ID,DRIVER,
+			DEPT,TEL,
+			USINGTIME,BACKTIME,
+			ACCOMNUM,USINGPROPERTY,
+			TITLE,CAR_ID,
+			USINGREASON,USINGWAY,
+			STATUS,OPINION,
+			FLAG,CHECKSTATUS
+		) values(
+			#usingcarId#,#workflowId#,
+			#userId#,#driver#,
+			#dept#,#tel#,
+			#usingtime#,#backtime#,
+			#accomnum#,#usingproperty#,
+			#title#,#carId#,
+			#usingreason#,#usingway#,
+			#status#,#opinion#,
+			#flag#,#checkstatus#
+		)
+	</insert>
+
+	<update id="execUpdateUsingcar" parameterClass="usingcar">
+		update usingcar set
+			USINGCAR_ID=#usingcarId#,
+			WORKFLOW_ID=#workflowId#,
+			USER_ID=#userId#,
+			DRIVER=#driver#,
+			DEPT=#dept#,
+			TEL=#tel#,
+			USINGTIME=#usingtime#,
+			BACKTIME=#backtime#,
+			ACCOMNUM=#accomnum#,
+			USINGPROPERTY=#usingproperty#,
+			TITLE=#title#,
+			CAR_ID=#carId#,
+			USINGREASON=#usingreason#,
+			USINGWAY=#usingway#,
+			STATUS=#status#,
+			OPINION=#opinion#,
+			FLAG=#flag#,
+			CHECKSTATUS=#checkstatus#
+		where USINGCAR_ID = #usingcarId#
+	</update>
+	
+	<select id="queryUsingcarByIdForView" parameterClass="string"  resultMap="usingcar">
+		select USINGCAR_ID,(select name from base_user t1 where t1.user_id = t.user_id) USER_ID,WORKFLOW_ID,DRIVER,
+(select deptname from dept t2 where t2.dept_id = t.dept) dept,TEL,USINGTIME,BACKTIME,ACCOMNUM,title,usingreason,usingway,flag,opinion,
+(select cartype||' '||license from car t3 where t3.car_id=t.car_id) CAR_ID,usingproperty,status,checkstatus from usingcar t where USINGCAR_ID = #value#
+	</select>
+	
+</sqlMap>

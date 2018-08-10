@@ -1,0 +1,48 @@
+.headFunctionArea {
+	height:25px;
+	text-align:right;
+	padding-right:15px;
+	padding-top:3px;
+}
+
+.headFunctionArea span{
+	padding-left:18px;
+	margin-right:5px;
+	cursor:hand;
+	color:#FFF;
+	padding-top:4px;
+}
+
+.headWelcome {
+	background:url(../images/ico/user_16.gif) no-repeat left bottom;
+}
+
+.headCompany {
+	background:url(../images/ico/contacts_16.gif) no-repeat left bottom;
+}
+
+.headWall {
+	background:url(../images/ico/pictures_16.gif) no-repeat left bottom;
+}
+
+.headLanguage {
+	background:url(../images/ico/web_16.gif) no-repeat left bottom;
+}
+
+.headQa {
+	background:url(../images/ico/chat_16.gif) no-repeat left bottom;
+}
+
+.headLoginOut {
+	background:url(../images/ico/close_16.gif) no-repeat left bottom;
+}
+
+/* Menu Tabs G--------------------------- */
+
+    #tabsG {
+      float:right;
+      font-size:9pt;
+      line-height:normal;
+      margin-right:5px;
+	  margin-top:2px;
+      } 

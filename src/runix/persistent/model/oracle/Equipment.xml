@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Equipment">
+	<typeAlias alias="equipment" type="runix.persistent.model.Equipment"/>
+	<typeAlias alias="list" type="java.util.List"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	<typeAlias alias="map" type="java.util.Map"/>
+	<typeAlias alias="hashmap" type="java.util.HashMap"/>
+
+	<resultMap id="equipment" class="equipment"> 
+		<result property="equipmentId" column="EQUIPMENT_ID"/>
+		<result property="cateogory" column="CATEOGORY"/>
+		<result property="storage" column="STORAGE"/>
+		<result property="buier" column="BUIER"/>
+		<result property="goodsname" column="GOODSNAME"/>
+		<result property="goodsnum" column="GOODSNUM"/>
+		<result property="unitprice" column="UNITPRICE"/>
+		<result property="repairnum" column="REPAIRNUM"/>
+		<result property="scrapnum" column="SCRAPNUM"/>
+		<result property="measureunit" column="MEASUREUNIT"/>
+		<result property="remark" column="REMARK"/>
+		<result property="registrant" column="REGISTRANT"/>
+		<result property="registtime" column="REGISTTIME"/>
+		<result property="flag" column="FLAG"/>
+	</resultMap>
+
+	<select id="queryEquipments" parameterClass="map"  resultClass="hashmap">
+		select EQUIPMENT_ID,(select t1.dataname from base_data t1 where t1.data_id = t.CATEOGORY) CATEOGORY,
+		 (select t1.dataname from base_data t1 where t1.data_id = t.STORAGE) STORAGE,GOODSNAME,GOODSNUM,UNITPRICE,
+		 (to_number(GOODSNUM)*to_number(UNITPRICE)) totalprice,BUIER,(select name from base_user t2 where t2.user_id=t.REGISTRANT ) REGISTRANTNAME,REGISTRANT,REGISTTIME
+		  from equipment t
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="equipmentId">
+					EQUIPMENT_ID like #equipmentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="cateogory">
+					CATEOGORY like #cateogory#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="storage">
+					STORAGE like #storage#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="goodsname">
+					GOODSNAME like #goodsname#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+
+	<select id="queryCountEquipments" parameterClass="map"  resultClass="int">
+		select count(*) from equipment
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="equipmentId">
+					EQUIPMENT_ID like #equipmentId#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="cateogory">
+					CATEOGORY like #cateogory#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="storage">
+					STORAGE like #storage#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="goodsname">
+					GOODSNAME like #goodsname#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	<select  id="queryEquipmentById" parameterClass="string"  resultMap="equipment">
+		select * from equipment t where EQUIPMENT_ID = #value#
+	</select>
+
+	<select id="queryEquipmentByIdForView" parameterClass="string"  resultMap="equipment">
+		select EQUIPMENT_ID,(select dataname from base_data t2 where t2.data_id = t.CATEOGORY) CATEOGORY,
+		(select dataname from base_data t2 where t2.data_id = t.STORAGE) STORAGE,
+		BUIER,GOODSNAME,GOODSNUM,UNITPRICE,UNITPRICE,REPAIRNUM,SCRAPNUM,MEASUREUNIT,
+		REMARK,(select name from base_user t1 where t1.user_id = t.REGISTRANT) REGISTRANT,REGISTTIME,FLAG
+		 from equipment t where EQUIPMENT_ID = #value#
+	</select>
+
+	<delete id="execDeleteEquipmentById" parameterClass="string">
+		 delete from equipment where EQUIPMENT_ID = #equipmentId#
+	</delete>
+
+	<insert id="execInsertEquipment" parameterClass="equipment">
+		<selectKey resultClass="string" keyProperty="equipmentId" type="pre">    
+	      select SMM.NEXTVAL FROM DUAL 
+	    </selectKey> 
+		insert into equipment(
+			EQUIPMENT_ID,CATEOGORY,
+			STORAGE,BUIER,
+			GOODSNAME,GOODSNUM,
+			UNITPRICE,REPAIRNUM,
+			SCRAPNUM,MEASUREUNIT,
+			REMARK,REGISTRANT,
+			REGISTTIME,FLAG
+		) values(
+			#equipmentId#,#cateogory#,
+			#storage#,#buier#,
+			#goodsname#,#goodsnum#,
+			#unitprice#,#repairnum#,
+			#scrapnum#,#measureunit#,
+			#remark#,#registrant#,
+			#registtime#,#flag#
+		)
+	</insert>
+
+	<update id="execUpdateEquipment" parameterClass="equipment">
+		update equipment set
+			EQUIPMENT_ID=#equipmentId#,
+			CATEOGORY=#cateogory#,
+			STORAGE=#storage#,
+			BUIER=#buier#,
+			GOODSNAME=#goodsname#,
+			GOODSNUM=#goodsnum#,
+			UNITPRICE=#unitprice#,
+			REPAIRNUM=#repairnum#,
+			SCRAPNUM=#scrapnum#,
+			MEASUREUNIT=#measureunit#,
+			REMARK=#remark#,
+			REGISTRANT=#registrant#,
+			REGISTTIME=#registtime#,
+			FLAG=#flag#
+		where EQUIPMENT_ID = #equipmentId#
+	</update>
+	
+	<select id="queryEquipmentsByCategory" parameterClass="string"  resultClass="hashmap">
+		select EQUIPMENT_ID,GOODSNAME,(nvl(GOODSNUM,0)-nvl(REPAIRNUM,0)-nvl(SCRAPNUM,0)) storagenum from equipment where CATEOGORY = #value#
+	</select>
+	
+	<select id="queryStoragenumByEquip" parameterClass="string"  resultClass="hashmap">
+		select (nvl(GOODSNUM,0)-nvl(REPAIRNUM,0)-nvl(SCRAPNUM,0)) storagenum from equipment where equipment_id = #value#
+	</select>
+</sqlMap>
