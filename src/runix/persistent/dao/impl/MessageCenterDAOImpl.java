@@ -103,7 +103,7 @@ public class MessageCenterDAOImpl extends BaseDAO implements MessageCenterDAO {
 
 	/**
 	 * 获取规章制度列表
-	 * 
+	 *
 	 * @author wangfq
 	 * @param condition
 	 * @param offset
@@ -115,6 +115,22 @@ public class MessageCenterDAOImpl extends BaseDAO implements MessageCenterDAO {
 			throws Exception {
 		return getSqlMapClientTemplate().queryForList(
 				"MessageCenter.queryMessageByRules", condition, offset, limit);
+	}
+
+	/**
+	 * 获取用章制度列表
+	 *
+	 * @author gao
+	 * @param condition
+	 * @param offset
+	 * @param limit
+	 * @return
+	 * @throws Exception
+	 */
+	public List getMessageByChapter(Map condition, int offset, int limit)
+			throws Exception {
+		return getSqlMapClientTemplate().queryForList(
+				"MessageCenter.queryMessageByChapter", condition, offset, limit);
 	}
 
 	/**
@@ -154,6 +170,20 @@ public class MessageCenterDAOImpl extends BaseDAO implements MessageCenterDAO {
 	public int queryCountMessageByRules(Map condition) {
 		return (Integer) getSqlMapClientTemplate().queryForObject(
 				"MessageCenter.queryCountMessageByRules", condition);
+	}
+
+
+	/**
+	 * 获取所有的规章制度
+	 *
+	 * @author gao
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public int getCountMessageByChapter(Map condition) {
+		return (Integer) getSqlMapClientTemplate().queryForObject(
+				"MessageCenter.getCountMessageByChapter", condition);
 	}
 
 	/**

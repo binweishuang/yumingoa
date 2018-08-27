@@ -190,6 +190,32 @@
 		</dynamic>
 		order by to_number(MESSAGE_ID) desc
 	</select>
+
+	<!-- 获取用章制度列表信息 -->
+	<select id="queryMessageByChapter" parameterClass="map"
+			resultClass="hashmap">
+		select MESSAGE_ID, TITLE, KEYWORDS, PUBLISHTIME,(select DATANAME from BASE_DATA
+		where DATA_ID=m.TYPE)
+		TYPE, (select DEPTNAME from dept where
+		DEPT_ID=m.DEPT) DEPT,STATUS from
+		message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='CHAPTER')
+			</isNotEmpty>
+		</dynamic>
+		order by to_number(MESSAGE_ID) desc
+	</select>
 	<!-- 获取所有的新闻纪录 -->
 	<select id="queryCountMessageByNews" parameterClass="map"
 		resultClass="int">
@@ -254,6 +280,27 @@
 			<isNotEmpty prepend="and" property="init">
 				nvl(m.TYPE, 0) in
 				(select DATA_ID from BASE_DATA where DATATYPE='RULES')
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- 获取所有的用章制度纪录 -->
+	<select id="getCountMessageByChapter" parameterClass="map"
+			resultClass="int">
+		select count(*) from message_center m
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="title">
+				TITLE like '%$title$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				TYPE like #type#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="dept">
+				DEPT like #dept#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="init">
+				nvl(m.TYPE, 0) in
+				(select DATA_ID from BASE_DATA where DATATYPE='CHAPTER')
 			</isNotEmpty>
 		</dynamic>
 	</select>

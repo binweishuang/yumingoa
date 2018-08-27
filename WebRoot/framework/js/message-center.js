@@ -34,6 +34,12 @@ function doSearchByRules() {
 	$("#form").attr("action", "queryRules.action?info=rules").submit();
 }
 /**
+ * 查找-用章制度
+ */
+function doSearchByChapter() {
+	$("#form").attr("action", "queryChapter.action?info=chapter").submit();
+}
+/**
  * 校验新闻标题
  */
 function checkNewsTitle() {
@@ -135,6 +141,22 @@ function checkRulesTitle() {
 		return true;
 	}
 }
+
+/**
+ * 校验用章制度标题
+ */
+function checkChapterTitle() {
+	var title = $("#title").val();
+	title = trim(title);
+	if (title == null || title == "") {
+		Dialog.alert("请输入规章制度主题！");
+		return false;
+	} else if(!typeflag){
+		Dialog.alert("请选择规章制度类型！");
+	}else{
+		return true;
+	}
+}
 /**
  * 保存新闻
  */
@@ -169,6 +191,17 @@ function doRulesCheck() {
 	}
 }
 /**
+ * 保存用章制度
+ */
+function doChapterCheck() {
+	editer.sync();
+	checkDept();
+	checkMesg('用章制度类型', 'CHAPTER');
+	if (checkChapterTitle() && typeflag && deptflag) {
+		$("#form").attr("action", "persistChapter.action").submit();
+	}
+}
+/**
  * 发布新闻
  */
 function doNewsRelease() {
@@ -196,6 +229,16 @@ function doRulesRelease() {
 	editer.sync();
 	if (checkRulesTitle() && typeflag) {
 		$("#form").attr("action", "releaseRules.action").submit();
+	}
+}
+
+/**
+ * 发布用章制度
+ */
+function doChapterRelease() {
+	editer.sync();
+	if (checkChapterTitle() && typeflag) {
+		$("#form").attr("action", "releaseChapter.action").submit();
 	}
 }
 
@@ -232,6 +275,18 @@ function modifyRules() {
 		$("#form").attr("action", "modifyRules.action").submit();
 	}
 }
+
+/**
+ * 修改用章制度
+ */
+function modifyChapter() {
+	editer.sync();
+	checkDept();
+	checkMesg('用章制度类型', 'CHAPTER');
+	if (checkChapterTitle() && typeflag && deptflag) {
+		$("#form").attr("action", "modifyChapter.action").submit();
+	}
+}
 /**
  * 发布新闻
  */
@@ -265,6 +320,18 @@ function releaseRules() {
 		$("#form").attr("action", "relRules.action").submit();
 	}
 }
+
+/**
+ * 发布用章制度
+ */
+function releaseChapter() {
+	editer.sync();
+	checkDept();
+	checkMesg('用章制度类型', 'CHAPTER');
+	if (checkChapterTitle() && typeflag && deptflag) {
+		$("#form").attr("action", "relChapter.action").submit();
+	}
+}
 /**
  * 查询信息中心中的新闻、通知和规章制度等信息的详细信息
  * 
@@ -296,5 +363,14 @@ function delNotice(id) {
 function delRules(id) {
 	Dialog.confirm("确定删除吗？",function(){
 		location.href = "delRules.action?mage.messageId=" + id;
+	});
+}
+
+/**
+ * 删除用章制度
+ */
+function delChapter(id) {
+	Dialog.confirm("确定删除吗？",function(){
+		location.href = "delChapter.action?mage.messageId=" + id;
 	});
 }

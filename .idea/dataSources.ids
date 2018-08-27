@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="Oracle - orcl@192.168.1.97" uuid="245962d6-b106-4688-81f9-3eed1cb4bc85">
+    <database-info product="Oracle" version="Oracle Database 11g Release 11.1.0.0.0 - Production" jdbc-version="10.2" driver-name="Oracle JDBC driver" driver-version="10.2.0.1.0">
+      <extra-name-characters>$#</extra-name-characters>
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
+    <schema name="RUNIXOA" catalog=""/>
+    <table name="ADDRESSBOOK" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="ADDRBOOK_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ADDRTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="GROUPTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ENNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="BIRTHDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="SEX" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COMPANY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OFFICETEL" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="POSITION" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MOBILEPHONE" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="HOMEPHONE" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EMAIL" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FAX" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ADDRESS" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="POSTCODE" sqlType="VARCHAR2" precision="6" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OTHERCONTACT" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTACTRECORD" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_ADDRESSBOOK" columns="ADDRBOOK_ID"/>
+    </table>
+    <table name="ANSWER" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="ANSWER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SORTNUM" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USERVOTENUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SURVEY_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VOTEPEOPLES" sqlType="VARCHAR2" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_ANSWER" columns="ANSWER_ID"/>
+      <foreign-key name="FK_ANSWER_REFERENCE_SURVEY" columns="SURVEY_ID" ref-table="SURVEY" ref-schema="RUNIXOA" ref-catalog="" ref-columns="SURVEY_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="APPLY" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="APPLICATION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SECRET" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="URGENCY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MONEY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPLICANT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPARTMENT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ISSUEDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ATTACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <primary-key name="PK_APPLICATION" columns="APPLICATION_ID"/>
+    </table>
+    <table name="ARCHIVE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="ARCHIVE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="AUTHOR" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FILETYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CREATEDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="FILLINGDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="PARTNUM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ANNUAL" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FILESIZE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PAGENUM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ARCHIVEROOM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DOSSIER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ARCHIVETYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FILLINGSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SECRET" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_ARCHIVE" columns="ARCHIVE_ID"/>
+      <foreign-key name="FK_ARCHIVE_REFERENCE_DOSSIER" columns="DOSSIER_ID" ref-table="DOSSIER" ref-schema="RUNIXOA" ref-catalog="" ref-columns="DOSSIER_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="ATTENDANCE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="ATTEND_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SIGNINSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LATESTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LEAVESTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VACATIONSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="GOOUTSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="BIZTRIPSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ABSENTSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TRAVELSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTENDDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="SIGNINTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SIGNOUTTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_ATTENDANCE" columns="ATTEND_ID"/>
+    </table>
+    <table name="BASE_DATA" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="DATA_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="DATATYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DATANAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DATACODE" sqlType="VARCHAR2" precision="30" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SORTNUM" sqlType="VARCHAR2" precision="8" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_BASE_DATA" columns="DATA_ID"/>
+    </table>
+    <table name="BASE_USER" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="USER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="USERNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PASSWORD" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEX" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ORG" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="POSITION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATE" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="BIRTHDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="AGE" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EMAIL" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PHONE" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ADDRESS" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_BASE_USER" columns="USER_ID"/>
+      <foreign-key name="FK_BASE_USER_REFERENCE_DEPT" columns="DEPT_ID" ref-table="DEPT" ref-schema="RUNIXOA" ref-catalog="" ref-columns="DEPT_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="CAR" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="CAR_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="CARTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CAPACITY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LICENSE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PASSENGERNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="INSURETIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="BUYTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="DRIVENKM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DRIVER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USABLE" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DESCRIPTION" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PHOTONAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PHOTOPATH" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_CAR" columns="CAR_ID"/>
+      <exported-key name="FK_USINGCAR_REFERENCE_CAR" table="USINGCAR" schema="RUNIXOA" catalog="" columns="CAR_ID"/>
+    </table>
+    <table name="CONTRACT" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="CONTRACT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SIGNEDPERSON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPARTMENT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTRACTTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CUSTOMECOMPANY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTACT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTACTTEL" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SIGNEDDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="DETAILS" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_CONTRACT" columns="CONTRACT_ID"/>
+    </table>
+    <table name="DEPT" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="DEPT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="DEPTNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PHONE" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DESCRIPTION" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PARENTID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_DEPT" columns="DEPT_ID"/>
+      <exported-key name="FK_BASE_USER_REFERENCE_DEPT" table="BASE_USER" schema="RUNIXOA" catalog="" columns="DEPT_ID"/>
+    </table>
+    <table name="DOSSIER" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="DOSSIER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TITLLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="BOXNUM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ANNUAL" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RECGROUPNUM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="KEEPLIMIT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ARCHIVESNUM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DOCROOM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="AUTHOR" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CATEGORY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PAGENUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SECRET" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_DOSSIER" columns="DOSSIER_ID"/>
+      <exported-key name="FK_ARCHIVE_REFERENCE_DOSSIER" table="ARCHIVE" schema="RUNIXOA" catalog="" columns="DOSSIER_ID"/>
+    </table>
+    <table name="DUTY_MESSAGE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="DUTY_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="DUTYPERSON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CLASSES" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DUTYDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="STARTTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ENDTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DUTYADDRESS" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_DUTY_MESSAGE" columns="DUTY_ID"/>
+    </table>
+    <table name="EMAIL" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="EMAIL_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="RECEIVER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="SENDER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DRAFTSSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INBOXSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="READSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OUTBOXSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SENDSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="RECEIVEPEOPLES" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RECEIVEPEOPLESID" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_EMAIL" columns="EMAIL_ID"/>
+    </table>
+    <table name="EQUIPMENT" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="EQUIPMENT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="CATEOGORY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STORAGE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="BUIER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="GOODSNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="GOODSNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UNITPRICE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REPAIRNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SCRAPNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MEASUREUNIT" sqlType="VARCHAR2" precision="5" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REGISTRANT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REGISTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_EQUIPMENT" columns="EQUIPMENT_ID"/>
+      <exported-key name="FK_USING_EQ_REFERENCE_EQUIPMEN" table="USING_EQUIP" schema="RUNIXOA" catalog="" columns="EQUIPMENT_ID"/>
+    </table>
+    <table name="FLOW_NODE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="FLOWNODE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="NODENAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPRONUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPROLEADERS" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LEADERSID" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_FLOW_NODE" columns="FLOWNODE_ID"/>
+      <exported-key name="FK_WORKFLOW_REFERENCE_FLOW_NOD" table="WORKFLOW_NODE" schema="RUNIXOA" catalog="" columns="FLOWNODE_ID"/>
+    </table>
+    <table name="FLOW_PEOPLE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="FP_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="RELATE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PERSON_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SORTNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="HANDLESTATUS" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="READSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="1000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_FLOW_PEOPLE" columns="FP_ID"/>
+    </table>
+    <table name="FOLDER" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="FOLDER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="FOLDERNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_ID" sqlType="VARCHAR2" precision="11" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_FOLDER" columns="FOLDER_ID"/>
+      <exported-key name="FK_NETDISK_REFERENCE_FOLDER" table="NETDISK" schema="RUNIXOA" catalog="" columns="FOLDER_ID"/>
+    </table>
+    <table name="MATTER" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="MATTER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="MATTERNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SPONSOR" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EXECUTOR" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ISSUETIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="HANDLESTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="READSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RELATE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SORTNUM" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_MATTER" columns="MATTER_ID"/>
+    </table>
+    <table name="MEETING_ROOM" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="ROOM_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SPOKESMAN" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SPEAKTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="NETMEETING_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_MEETING_ROOM" columns="ROOM_ID"/>
+      <foreign-key name="FK_MEETING__REFERENCE_NETMEETI" columns="NETMEETING_ID" ref-table="NETMEETING" ref-schema="RUNIXOA" ref-catalog="" ref-columns="NETMEETING_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="MEMO" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="MEMO_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="SUBMITTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="REPORTPERSON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RECIEVEPERSON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <primary-key name="PK_MEMO" columns="MEMO_ID"/>
+    </table>
+    <table name="MESSAGE_CENTER" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="MESSAGE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="MESSAGESORT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PUBLISHTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="SCOPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PUBLISHER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="KEYWORDS" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_MESSAGE_CENTER" columns="MESSAGE_ID"/>
+      <exported-key name="FK_USER_MES_REFERENCE_MESSAGE_" table="USER_MESSAGE" schema="RUNIXOA" catalog="" columns="MESSAGE_ID"/>
+    </table>
+    <table name="NETDISK" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="FILE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="FILESIZE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPLOADTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="PUBLICITY" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FOLDER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPLOADER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FILENAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FILEPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_NETDISK" columns="FILE_ID"/>
+      <foreign-key name="FK_NETDISK_REFERENCE_FOLDER" columns="FOLDER_ID" ref-table="FOLDER" ref-schema="RUNIXOA" ref-catalog="" ref-columns="FOLDER_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="NETMEETING" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="NETMEETING_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MEETINGDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SPONSOR" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTENDEE" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ATTENDEENAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_NETMEETING" columns="NETMEETING_ID"/>
+      <exported-key name="FK_MEETING__REFERENCE_NETMEETI" table="MEETING_ROOM" schema="RUNIXOA" catalog="" columns="NETMEETING_ID"/>
+    </table>
+    <table name="OFFICIAL_DOCUMENT" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="DOCUMENT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="DOCPERSON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DOCSORT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COMPANY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SUBJECTTERM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DOCSIZE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DOCTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RECEIVENUM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COPIES" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RECEIVEDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TIMELIMIT" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MAINSENDER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COPYSENDER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="URGENCY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SECRET" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_OFFICIAL_DOCUMENT" columns="DOCUMENT_ID"/>
+    </table>
+    <table name="PERMISSION" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="PERMISSION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="URL" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SORTNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PARENTID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_PERMISSION" columns="PERMISSION_ID"/>
+      <exported-key name="FK_POSITION_REFERENCE_PERMISSI" table="POSITION_PERMISSION" schema="RUNIXOA" catalog="" columns="PERMISSION_ID"/>
+    </table>
+    <table name="PERSONNEL" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="PERSONNEL_ID" sqlType="VARCHAR2" precision="11" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PERSTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPLYTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="HANDLESTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COMMITSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="DIMSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OLDPOSITIOLN" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NEWPOSITION" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NEWDEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DIMTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_PERSONNEL" columns="PERSONNEL_ID"/>
+    </table>
+    <table name="POSITION" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="POSITION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="POSTNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CATEGORY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DESCRIPTION" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SCREEN" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ROLERANK" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_POSITION" columns="POSITION_ID"/>
+      <exported-key name="FK_POSITION_REFERENCE_POSITION" table="POSITION_PERMISSION" schema="RUNIXOA" catalog="" columns="POSITION_ID"/>
+    </table>
+    <table name="POSITION_PERMISSION" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="PP_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="POSITION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PERMISSION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_POSITION_PERMISSION" columns="PP_ID"/>
+      <foreign-key name="FK_POSITION_REFERENCE_PERMISSI" columns="PERMISSION_ID" ref-table="PERMISSION" ref-schema="RUNIXOA" ref-catalog="" ref-columns="PERMISSION_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+      <foreign-key name="FK_POSITION_REFERENCE_POSITION" columns="POSITION_ID" ref-table="POSITION" ref-schema="RUNIXOA" ref-catalog="" ref-columns="POSITION_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="RECRUITMENT" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="RECRUITMENT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPARTMENT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="POSITION" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SUBMITTER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LIMITTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PEOPLENUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DETAILS" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="1000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_RECRUITMENT" columns="RECRUITMENT_ID"/>
+      <exported-key name="FK_RESUME_REFERENCE_RECRUITM" table="RESUME" schema="RUNIXOA" catalog="" columns="RECRUITMENT_ID"/>
+    </table>
+    <table name="REIMBURSEMENT" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="REIM_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PERSON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="AFFILTYPE" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TOTALMONEY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TOTALDOC" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ITEM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REIMTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPLYTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_REIMBURSEMENT" columns="REIM_ID"/>
+      <exported-key name="FK_REIMBURS_REFERENCE_REIMBURS" table="REIMBURSEMENT_ITEM" schema="RUNIXOA" catalog="" columns="REIM_ID"/>
+    </table>
+    <table name="REIMBURSEMENT_ITEM" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="ITEM_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ITEMNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="REASON" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REIMDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="DOCPOLL" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REIMMONEY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OTHERITEM" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OTHERPOLL" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OTHERMONEY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REIM_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_REIMBURSEMENT_ITEM" columns="ITEM_ID"/>
+      <foreign-key name="FK_REIMBURS_REFERENCE_REIMBURS" columns="REIM_ID" ref-table="REIMBURSEMENT" ref-schema="RUNIXOA" ref-catalog="" ref-columns="REIM_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="RESUME" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="RESUME_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEX" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="AGE" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TEL" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPARTMENT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="POSITION" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="HIRE" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="RECRUITMENT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="INTERVIEW" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="1000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_RESUME" columns="RESUME_ID"/>
+      <foreign-key name="FK_RESUME_REFERENCE_RECRUITM" columns="RECRUITMENT_ID" ref-table="RECRUITMENT" ref-schema="RUNIXOA" ref-catalog="" ref-columns="RECRUITMENT_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="SCHEDULE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="SCHEDULE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="EXECUTER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="RANGETIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="CONTENT" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_SCHEDULE" columns="SCHEDULE_ID"/>
+    </table>
+    <table name="SET_ATTEND" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="SETATTEND_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ENDTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REST" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ABSENTLIMIT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_SET_ATTEND" columns="SETATTEND_ID"/>
+    </table>
+    <table name="SMM" schema="RUNIXOA" catalog="" type="SEQUENCE"/>
+    <table name="SUGGESTION" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="SUGGESTION_ID" sqlType="VARCHAR2" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SUGGESTTYPE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PUBLICITY" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TOPERSON" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SUGESTER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="CLOB" precision="4000" scale="0" nullable="true" jdbcType="2005"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_SUGGESTION" columns="SUGGESTION_ID"/>
+    </table>
+    <table name="SURVEY" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="SURVEY_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VOTER" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="PUBLICITY" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VOTINGWAY" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="QUESTIONTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="QUESTIONNAME" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SURVEYPERSON" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PEOPLESNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_SURVEY" columns="SURVEY_ID"/>
+      <exported-key name="FK_ANSWER_REFERENCE_SURVEY" table="ANSWER" schema="RUNIXOA" catalog="" columns="SURVEY_ID"/>
+    </table>
+    <table name="TASK" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="TASK_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STANDARD" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REPORT_TO" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="TIMELIMIT" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EXESTARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="EXEENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="CONTENT" sqlType="VARCHAR2" precision="1000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PROCESS" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COMPLETION" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHPATH" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTACHNAME" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TOTALPROCESS" sqlType="VARCHAR2" precision="11" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EXECUTER" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EXECUTERID" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ARRANGER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TASKCOMPLETE" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_TASK" columns="TASK_ID"/>
+    </table>
+    <table name="USER_MESSAGE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="UM_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="USER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MESSAGE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="READSTATUS" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_USER_MESSAGE" columns="UM_ID"/>
+      <foreign-key name="FK_USER_MES_REFERENCE_MESSAGE_" columns="MESSAGE_ID" ref-table="MESSAGE_CENTER" ref-schema="RUNIXOA" ref-catalog="" ref-columns="MESSAGE_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="USER_TASK" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="UT_ID" sqlType="VARCHAR2" precision="11" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TASK_ID" sqlType="VARCHAR2" precision="11" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_ID" sqlType="VARCHAR2" precision="11" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PROCESS" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COMLETETION" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TASKCOMPLETE" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="USINGCAR" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="USINGCAR_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DRIVER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TEL" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USINGTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="BACKTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ACCOMNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USINGPROPERTY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CAR_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USINGREASON" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USINGWAY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_USINGCAR" columns="USINGCAR_ID"/>
+      <foreign-key name="FK_USINGCAR_REFERENCE_CAR" columns="CAR_ID" ref-table="CAR" ref-schema="RUNIXOA" ref-catalog="" ref-columns="CAR_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="USING_EQUIP" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="USINGEQUIP_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USECONDITION" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STORAGE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CATEOGORY" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EQUIPMENT_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STORAGENUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPLYNUM" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPLYTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPLICANT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPARTMENT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ENDTIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_USING_EQUIP" columns="USINGEQUIP_ID"/>
+      <foreign-key name="FK_USING_EQ_REFERENCE_EQUIPMEN" columns="EQUIPMENT_ID" ref-table="EQUIPMENT" ref-schema="RUNIXOA" ref-catalog="" ref-columns="EQUIPMENT_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="WORKFLOW" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="FLOWNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_WORKFLOW" columns="WORKFLOW_ID"/>
+      <exported-key name="FK_WORKFLOW_REFERENCE_WORKFLOW" table="WORKFLOW_NODE" schema="RUNIXOA" catalog="" columns="WORKFLOW_ID"/>
+    </table>
+    <table name="WORKFLOW_NODE" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="WN_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLOWNODE_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_WORKFLOW_NODE" columns="WN_ID"/>
+      <foreign-key name="FK_WORKFLOW_REFERENCE_FLOW_NOD" columns="FLOWNODE_ID" ref-table="FLOW_NODE" ref-schema="RUNIXOA" ref-catalog="" ref-columns="FLOWNODE_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+      <foreign-key name="FK_WORKFLOW_REFERENCE_WORKFLOW" columns="WORKFLOW_ID" ref-table="WORKFLOW" ref-schema="RUNIXOA" ref-catalog="" ref-columns="WORKFLOW_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+    </table>
+    <table name="WORKING_CONDITION" schema="RUNIXOA" catalog="" type="TABLE">
+      <column name="CONDITION_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="WORKFLOW_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DEPT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="ENDTIME" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="DESTINATION" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TITLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REGISTDATE" sqlType="DATE" precision="7" scale="0" nullable="true" jdbcType="91"/>
+      <column name="STATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="COMMITSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OTHERPEOPLE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="BIZTRIPLIMIT" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EXPENSE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TRAFFIC" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FLAG" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONTENT" sqlType="VARCHAR2" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHECKSTATUS" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPINION" sqlType="VARCHAR2" precision="2000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONDITIONTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VACATIONTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PK_WORKING_CONDITION" columns="CONDITION_ID"/>
+    </table>
+  </data-source>
+</component>

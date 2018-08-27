@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Oracle - orcl@192.168.1.97" uuid="245962d6-b106-4688-81f9-3eed1cb4bc85">
+      <secret-storage>memory</secret-storage>
+      <user-name>runixoa</user-name>
+      <schema-pattern>*.RUNIXOA</schema-pattern>
+      <default-schemas>*.RUNIXOA *.SYS *.SYSTEM</default-schemas>
+    </data-source>
+  </component>
+</project>

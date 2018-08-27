@@ -80,7 +80,7 @@ public class FTPUnit {
  * 显示连接信息
  */
 	private void initFtp() {
-		System.out.println("正在连接" + hostname + "，请等待.....");
+		/*System.out.println("正在连接" + hostname + "，请等待.....");
 		String msg = null;
 		try {
 			aftp = new FtpClient(hostname, port);
@@ -100,7 +100,7 @@ public class FTPUnit {
 			msg = "无权限与主机:" + hostname + "连接!请检查是否有访问权限!" + e;
 			log.error(msg);
 			System.out.println(msg);
-		}
+		}*/
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class FTPUnit {
 	 */
 	public boolean uploadFile(String filepathname, String fileName) {
 		boolean result = true;
-		String message = "";
+		/*String message = "";
 		RandomAccessFile sendFile = null;
 		DataOutputStream outputs = null;
 		if (aftp != null) {
@@ -179,7 +179,7 @@ public class FTPUnit {
 			}
 		} else {
 			result = false;
-		}
+		}*/
 		return result;
 	}
 	
@@ -188,7 +188,7 @@ public class FTPUnit {
 	 * @return 返回文件列表
 	 */
 	public String viewDir() {
-		try {
+		/*try {
 			System.out.println("dir:"+aftp.pwd());
 			byte[] bt;
 			in = aftp.list(); 
@@ -200,8 +200,9 @@ public class FTPUnit {
 	        return str;
 		} catch(IOException e) {
 			e.printStackTrace();
+		}*/
 			return "";
-		}
+
 	}
 	/**
 	 * 作用：获取指定文件夹下的所有文件名称
@@ -211,16 +212,16 @@ public class FTPUnit {
 	 * @throws	Exception
 	 */
 	public ArrayList fileNames(String fullPath) throws Exception {
-		aftp.ascii(); // 注意，使用字符模式
-		TelnetInputStream list = aftp.nameList(fullPath);
+		/*aftp.ascii();*/ // 注意，使用字符模式
+		/*TelnetInputStream list = aftp.nameList(fullPath);
 		byte[] names = new byte[2048];
 		int bufsize = 0;
 		bufsize = list.read(names, 0, names.length); // 从流中读取
-		list.close();
+		list.close();*/
 		ArrayList namesList = new ArrayList();
-		int i = 0;
+		/*int i = 0;
 		int j = 0;
-		while (i < bufsize /**//* names.length */) {
+		while (i < bufsize *//**//**//* names.length *//*) {
 			// char bc = (char) names;
 			// System.out.println(i + " " + bc + " : " + (int) names);
 			// i = i + 1;
@@ -236,7 +237,7 @@ public class FTPUnit {
 				j = i + 1; // 上一次位置字符模式
 			}
 			i = i + 1;
-		}
+		}*/
 		return namesList;
 	} 
 
@@ -248,7 +249,7 @@ public class FTPUnit {
 	 * @return 返回目录
 	 */
 	public String cdDir(String dirName) {
-		try {
+		/*try {
 			byte[] bt;
 			aftp.cd(dirName);
 			System.out.println(aftp.getResponseString());
@@ -262,8 +263,9 @@ public class FTPUnit {
 	        return str;
 		} catch(IOException e) {
 			e.printStackTrace();
-			return "";
-		}
+
+		}*/
+		return "";
 	}
 	
 	/**
@@ -272,7 +274,7 @@ public class FTPUnit {
 	 * @param outFileName 下载后保存的文件名
 	 */
 	public void downloadText(String inFileName,String outFileName) {
-		InputStreamReader in = null;
+		/*InputStreamReader in = null;
         BufferedReader b = null;                        
         BufferedWriter writer = null;
 		try {
@@ -305,7 +307,7 @@ public class FTPUnit {
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -314,7 +316,7 @@ public class FTPUnit {
 	 * @param outFileName 下载后保存的文件名
 	 */
 	public void downloadBinary(String inFileName,String outFileName) {
-		FileOutputStream output = null;
+		/*FileOutputStream output = null;
 		try {
 			aftp.binary();            
 	        System.out.println(aftp.getResponseString()); 
@@ -339,7 +341,7 @@ public class FTPUnit {
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 
 	}
 
@@ -348,7 +350,7 @@ public class FTPUnit {
 	 * 
 	 */
 	public void stopFtp() {
-		String message = "";
+		/*String message = "";
 		try {
 			if (outs != null) {
 				outs.close();
@@ -362,6 +364,6 @@ public class FTPUnit {
 			message = "与主机" + hostname + "断开连接失败!" + e.getMessage();
 			log.error(message);
 			System.out.println(message);
-		}
+		}*/
 	}
 }

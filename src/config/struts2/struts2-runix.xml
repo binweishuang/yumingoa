@@ -117,6 +117,11 @@
 			<interceptor-ref name="myStack" />
 			<result>/framework/main.jsp</result>
 		</action>
+		<!-- 用章制度列表页面 -->
+		<action name="queryChapter" class="messageCenterAction" method="doQueryByChapter">
+			<interceptor-ref name="myStack"/>
+			<result>/WEB-INF/runix/message_center/chapterList.jsp</result>
+		</action>
 		<!-- 规章制度列表页面 -->
 		<action name="queryRules" class="messageCenterAction" method="doQueryByRules">
 			<interceptor-ref name="myStack" />
@@ -158,6 +163,13 @@
 			<interceptor-ref name="myStack" />
 			<result>/WEB-INF/runix/message_center/rulesAdd.jsp</result>
 		</action>
+
+		<!-- 用章制度添加页面 -->
+		<action name="addChapterIndex" class="messageCenterAction"
+				method="doPersistIndexByChapter">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/chapterAdd.jsp</result>
+		</action>
 		<!-- 添加新闻 -->
 		<action name="persistNews" class="messageCenterAction" method="doPersist">
 			<interceptor-ref name="myStack" />
@@ -180,6 +192,14 @@
 			<interceptor-ref name="myStack" />
 			<result type="redirectAction">
 				<param name="actionName">queryRules</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
+		<!-- 添加用章制度 -->
+		<action name="persistChapter" class="messageCenterAction" method="doPersist">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryChapter</param>
 				<param name="namespace">/messageCenter</param>
 			</result>
 		</action>
@@ -208,6 +228,15 @@
 				<param name="namespace">/messageCenter</param>
 			</result>
 		</action>
+
+		<!-- 发布用章制度 -->
+		<action name="releaseChapter" class="messageCenterAction" method="doReleaseInAdd">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryChapter</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
 		<!-- 新闻修改页面 -->
 		<action name="modifyNewsIndex" class="messageCenterAction"
 			method="doUpdateIndexByNews">
@@ -225,6 +254,13 @@
 			method="doUpdateIndexByRules">
 			<interceptor-ref name="myStack" />
 			<result>/WEB-INF/runix/message_center/rulesEdit.jsp</result>
+		</action>
+
+		<!-- 用章制度修改页面 -->
+		<action name="modifyChapterIndex" class="messageCenterAction"
+				method="doUpdateIndexByChapter">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/chapterEdit.jsp</result>
 		</action>
 		<!-- 修改新闻 -->
 		<action name="modifyNews" class="messageCenterAction" method="doUpdate">
@@ -274,6 +310,15 @@
 				<param name="namespace">/messageCenter</param>
 			</result>
 		</action>
+
+		<!-- 发布用章制度 -->
+		<action name="relChapter" class="messageCenterAction" method="doReleaseInUpdate">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryChapter</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
 		<!-- 删除新闻 -->
 		<action name="delNews" class="messageCenterAction" method="doDelete">
 			<interceptor-ref name="myStack" />
@@ -298,6 +343,15 @@
 				<param name="namespace">/messageCenter</param>
 			</result>
 		</action>
+
+		<!-- 删除用章制度 -->
+		<action name="delChapter" class="messageCenterAction" method="doDelete">
+			<interceptor-ref name="myStack" />
+			<result type="redirectAction">
+				<param name="actionName">queryChapter</param>
+				<param name="namespace">/messageCenter</param>
+			</result>
+		</action>
 		<!-- 查看 新闻 -->
 		<action name="newsDetail" class="messageCenterAction" method="doDetail">
 			<interceptor-ref name="myStack" />
@@ -312,6 +366,11 @@
 		<action name="rulesDetail" class="messageCenterAction" method="doDetail">
 			<interceptor-ref name="myStack" />
 			<result>/WEB-INF/runix/message_center/rulesDetail.jsp</result>
+		</action>
+		<!-- 查看 规章制度 -->
+		<action name="chapterDetail" class="messageCenterAction" method="doDetail">
+			<interceptor-ref name="myStack" />
+			<result>/WEB-INF/runix/message_center/chapterDetail.jsp</result>
 		</action>
 	</package>
 

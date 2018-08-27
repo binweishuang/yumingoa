@@ -52,6 +52,19 @@ public interface MessageCenterService {
 			throws Exception;
 
 	/**
+	 * 获取用章制度列表
+	 *
+	 * @author gao
+	 * @param condition
+	 * @param offset
+	 * @param limit
+	 * @return
+	 * @throws Exception
+	 */
+	public List getMessageByChapter(Map condition, int offset, int limit)
+			throws Exception;
+
+	/**
 	 * 获取所有的新闻
 	 * 
 	 * @author wangfq
@@ -89,6 +102,18 @@ public interface MessageCenterService {
 
 	public void modifyMessageCenter(MessageCenter messageCenter)
 			throws Exception;
+
+	/**
+	 * 获取所有的用章制度
+	 *
+	 * @author gao
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public int getCountMessageByChapter(Map condition) throws Exception;
+
+
 
 	/**
 	 * 获取信息类型

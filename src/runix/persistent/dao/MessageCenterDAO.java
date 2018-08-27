@@ -60,6 +60,21 @@ public interface MessageCenterDAO {
 			throws Exception;
 
 	/**
+	 * 获取用章制度列表
+	 *
+	 * @author gao
+	 * @param condition
+	 * @param offset
+	 * @param limit
+	 * @return
+	 * @throws Exception
+	 */
+	public List getMessageByChapter(Map condition, int offset, int limit)
+			throws Exception;
+
+
+
+	/**
 	 * 持久化MessageCenter
 	 * 
 	 * @author wangfq
@@ -113,6 +128,16 @@ public interface MessageCenterDAO {
 	 * @throws Exception
 	 */
 	public int queryCountMessageByRules(Map condition);
+
+	/**
+	 * 获取所有的规章制度
+	 *
+	 * @author gao
+	 * @param condition
+	 * @return
+	 * @throws Exception
+	 */
+	public int getCountMessageByChapter(Map condition);
 
 	/**
 	 * 获取信息中心中所有的纪录

@@ -103,6 +103,21 @@ html {
 			<a href="#">
 				<img src="img/pi2.jpg" class="captify" alt="Aspen Leaf"></img>
 			</a>
+			<%--测试用章制度--%>
+			<%
+				}
+				if (userRole.indexOf("b6") >= 0) {
+			%>
+			<a href="<%=request.getContextPath()%>/messageCenter/queryChapter.action">
+				<img src="img/pi2.jpg" class="captify" alt="Aspen Leaf"></img>
+			</a>
+			<%
+			} else {
+			%>
+			<a href="#">
+				<img src="img/pi2.jpg" class="captify" alt="Aspen Leaf"></img>
+
+			</a>
 			<%
 				}
 			%>

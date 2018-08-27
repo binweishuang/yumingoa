@@ -68,6 +68,11 @@ public class MessageCenterServiceImpl implements MessageCenterService {
 	 * @return
 	 * @throws Exception
 	 */
+
+	public int getCountMessageByChapter(Map condition) throws Exception {
+		return messageCenterDAO.getCountMessageByChapter(condition);
+	}
+
 	public int getCountMessageByRules(Map condition) throws Exception {
 		return messageCenterDAO.queryCountMessageByRules(condition);
 	}
@@ -247,6 +252,22 @@ public class MessageCenterServiceImpl implements MessageCenterService {
 	public List getMessageByRules(Map condition, int offset, int limit)
 			throws Exception {
 		return messageCenterDAO.queryMessageByRules(condition, offset, limit);
+	}
+
+
+	/**
+	 * 获取用章制度列表
+	 *
+	 * @author gao
+	 * @param condition
+	 * @param offset
+	 * @param limit
+	 * @return
+	 * @throws Exception
+	 */
+	public List getMessageByChapter(Map condition, int offset, int limit)
+			throws Exception {
+		return messageCenterDAO.getMessageByChapter(condition, offset, limit);
 	}
 
 	/**

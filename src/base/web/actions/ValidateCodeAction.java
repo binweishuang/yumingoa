@@ -20,7 +20,7 @@ import org.apache.struts2.interceptor.SessionAware;
 public class ValidateCodeAction extends BaseAction implements SessionAware {
 	private InputStream imageStream;    
     private Map session;  
-    
+
 	public String getCheckCodeImage(String str, int show, ByteArrayOutputStream output) {    
         Random random = new Random();    
         BufferedImage image = new BufferedImage(80, 20, BufferedImage.TYPE_3BYTE_BGR);    
@@ -51,7 +51,8 @@ public class ValidateCodeAction extends BaseAction implements SessionAware {
             ImageIO.write(image, "jpg", output);    
         } catch (IOException e) {    
             e.printStackTrace();
-        }    
+        }
+
         return checkCode;    
     }    
    

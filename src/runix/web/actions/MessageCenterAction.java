@@ -60,6 +60,7 @@ public class MessageCenterAction extends BaseAction {
 	private final String NEWS_TYPE = "NEWS";// 新闻类型
 	private final String NOTICE_TYPE = "NOTICE";// 通知类型
 	private final String RULES_TYPE = "RULES";// 规章制度类型
+	private final String CHAPTER_TYPE = "CHAPTER";// 用章制度类型
 	private boolean result;// 校验结果
 	
 	private String userRole;
@@ -430,6 +431,26 @@ public class MessageCenterAction extends BaseAction {
 	}
 
 	/**
+	 * 用章制度---添加页面
+	 *
+	 * @author gao
+	 * @return
+	 */
+	public String doPersistIndexByChapter() {
+		depts = messageCenterService.findAllDepts();
+		try {
+			BaseUser user = (BaseUser)ServletActionContext.getRequest().getSession().getAttribute("user");
+			if(user!=null){
+				dept=user.getDeptId();
+			}
+			types = messageCenterService.findTypes(CHAPTER_TYPE);
+		} catch (Exception e) {
+			System.out.println("Exception===============>" + e.getMessage());
+		}
+		return SUCCESS;
+	}
+
+	/**
 	 * 新闻、通知、规章制度---添加操作
 	 * 
 	 * @author wangfq
@@ -564,6 +585,24 @@ public class MessageCenterAction extends BaseAction {
 	}
 
 	/**
+	 * 用章制度---修改页面
+	 *
+	 * @author wangfq
+	 * @return
+	 */
+	public String doUpdateIndexByChapter() {
+		depts = messageCenterService.findAllDepts();
+		try {
+			mage = messageCenterService.getMessageCenterById(messageId);
+			types = messageCenterService.findTypes(CHAPTER_TYPE);
+		} catch (Exception e) {
+			System.out.println("Exception=====================>"
+					+ e.getMessage());
+		}
+		return SUCCESS;
+	}
+
+	/**
 	 * 新闻、通知、规章制度---修改操作
 	 * 
 	 * @author wangfq
@@ -683,6 +722,68 @@ public class MessageCenterAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	/**
+	 * 用章制度列表页面
+	 *
+	 * @author gao
+	 * @return
+	 */
+	public String doQueryByChapter() {
+		try {
+			types = messageCenterService.findTypes(CHAPTER_TYPE);
+		} catch (Exception e) {
+			System.out.println("Exception===============>" + e.getMessage());
+		}
+		depts = messageCenterService.findAllDepts();
+
+		try {
+			int currentPageInt = 1;
+			String strCurrentPage = currentPage;
+			if (strCurrentPage != null && !"".equals(strCurrentPage)) {
+				try {
+					currentPageInt = Integer.parseInt(strCurrentPage);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+					this.addActionError("please check! there is Exception");
+				}
+			}
+			int offset = (currentPageInt - 1) * pages;
+			int limit = pages;
+
+			Map<String, String> condition = new HashMap<String, String>();
+			condition.put("title", title);
+			condition.put("type", "-1".equals(type) ? "" : type);
+			condition.put("dept", "-1".equals(dept) ? "" : dept);
+			condition.put("init", "1");
+			readonly = false;
+			BaseUser user = (BaseUser)ServletActionContext.getRequest().getSession().getAttribute("user");
+			if(user!=null){
+				userRole = user.getTitle();
+				if(userRole.indexOf("bm3") < 0){
+					readonly = true;
+				}
+			}
+			int record = messageCenterService.getCountMessageByChapter(condition);
+			List lst =  messageCenterService
+					.getMessageByChapter(condition, offset, limit);
+
+			Pageable pg = null;
+			try {
+				pg = new IbatisPage(lst, record, currentPageInt, pages);
+			} catch (PageException e) {
+				pg = null;
+			}
+			ServletActionContext.getRequest().setAttribute("pages", pg);
+			ServletActionContext.getRequest().setAttribute("readonly", readonly);
+			mgs = pg.getResult();
+			this.getRequest().setAttribute("chapter", mgs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.addActionError("please check! there is Exception");
+		}
+		System.out.println("XXXXXXXXXX");
+		return SUCCESS;
+	}
 	/**
 	 * all getter & setter method
 	 * 
